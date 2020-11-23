@@ -1,0 +1,46 @@
+{
+  "resources": [
+    {
+      "uri": "https://aussda.at/",
+      "title": "AUSSDA - The Austrian Social Science Data Archive",
+      "language": "de"
+    },
+    {
+      "uri": "https://aussda.at/en/",
+      "title": "AUSSDA - The Austrian Social Science Data Archive",
+      "language": "en"
+    },
+    {
+      "uri": "https://aussda.at/userguide/",
+      "language": "de"
+    },
+    {
+      "uri": "https://aussda.at/en/aussda-dataverse-user-guide/",
+      "language": "en"
+    },
+    {
+      "uri": "https://aussda.at/impressum/",
+      "language": "de"
+    },
+    {
+      "uri": "https://aussda.at/en/imprint/",
+      "language": "en"
+    },
+    {
+      "uri": "https://aussda.at/datenschutzerklaerung/",
+      "language": "de"
+    },
+    {
+      "uri": "https://aussda.at/en/privacy-policy/",
+      "language": "en"
+    },
+    {
+      "uri": "https://aussda.at/ueber-aussda/",
+      "language": "de"
+    },
+    {
+      "uri": "https://aussda.at/en/about-aussda/",
+      "language": "en"
+    }
+  ]
+}

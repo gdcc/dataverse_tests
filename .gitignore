@@ -1,0 +1,10 @@
+venv/
+notes*.md
+__pycache__/
+
+.env
+internal/
+*.log
+*.code-workspace
+settings.json
+browserengines/
