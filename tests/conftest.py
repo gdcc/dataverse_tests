@@ -40,9 +40,8 @@ def chrome():
 
 
 @pytest.fixture
-def browser(firefox, chrome):
-    for browser in [firefox, chrome]:
-        return browser
+def browsers(firefox, chrome):
+    return [firefox, chrome]
 
 
 def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:

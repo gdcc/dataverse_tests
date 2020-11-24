@@ -4,15 +4,15 @@ from pydantic import BaseSettings
 
 
 class Config(BaseSettings):
-    pass
+    HEADLESS: bool = True
 
 
 class DevelopmentConfig(Config):
-    HEADLESS = False
+    pass
 
 
 class JenkinsConfig(Config):
-    HEADLESS = True
+    pass
 
 
 def get_config_name():
