@@ -17,6 +17,7 @@ def firefox():
     driver = webdriver.Firefox(options=options)
     vars = {}
     yield driver
+    driver.close()
     driver.quit()
 
 
@@ -34,12 +35,14 @@ def chrome():
     driver = webdriver.Chrome(options=options)
     vars = {}
     yield driver
+    driver.close()
     driver.quit()
 
 
 @pytest.fixture
-def browsers(firefox, chrome):
-    return firefox, chrome
+def browser(firefox, chrome):
+    for browser in [firefox, chrome]:
+        return browser
 
 
 def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
