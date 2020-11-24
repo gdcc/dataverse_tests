@@ -1,3 +1,6 @@
 [submodule "jenkins_private"]
 	path = jenkins_private
 	url = git@github.com:AUSSDA/jenkins_private.git
+[submodule "aussda_test-data"]
+	path = aussda_test-data
+	url = git@github.com:AUSSDA/aussda_test-data.git
