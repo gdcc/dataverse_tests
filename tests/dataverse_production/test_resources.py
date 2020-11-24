@@ -6,8 +6,8 @@ from ..conftest import read_json
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
-class TestUris:
-    def test_uris(self, browsers):
+class TestResources:
+    def test_urls(self, browsers):
         data = read_json(os.path.join(dir_path, "data.json"))
 
         for driver in browsers:

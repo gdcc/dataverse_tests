@@ -77,6 +77,30 @@
       "language": "en"
     },
     {
+      "url": "https://aussda.at/nutzungsbedingungen/",
+      "language": "de"
+    },
+    {
+      "url": "https://aussda.at/en/terms-of-service/",
+      "language": "en"
+    },
+    {
+      "url": "https://aussda.at/ueber-aussda/downloads/",
+      "language": "de"
+    },
+    {
+      "url": "https://aussda.at/en/about-aussda/downloads/",
+      "language": "en"
+    },
+    {
+      "url": "https://aussda.at/impressum/",
+      "language": "de"
+    },
+    {
+      "url": "https://aussda.at/en/imprint/",
+      "language": "en"
+    },
+    {
       "url": "https://aussda.at/ueber-aussda/",
       "language": "de"
     },
@@ -84,5 +108,16 @@
       "url": "https://aussda.at/en/about-aussda/",
       "language": "en"
     }
-  ]
+  ],
+  "website": {
+    "email_text": "Email",
+    "email_link": "mailto:info@aussda.at"
+  },
+  "external-resources": {
+    "twitter": "https://twitter.com/theaussda",
+    "cessda": "https://www.cessda.eu/",
+    "university_vienna": "https://univie.ac.at/",
+    "university_graz": "https://uni-graz.at/",
+    "university_linz": "https://www.jku.at/"
+  }
 }

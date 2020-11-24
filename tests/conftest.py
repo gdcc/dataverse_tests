@@ -15,7 +15,6 @@ def firefox():
     else:
         options.headless = False
     driver = webdriver.Firefox(options=options)
-    vars = {}
     yield driver
     driver.close()
     driver.quit()
@@ -33,7 +32,6 @@ def chrome():
     options.add_argument("--no-first-run")
     options.add_argument("--disable-default-apps")
     driver = webdriver.Chrome(options=options)
-    vars = {}
     yield driver
     driver.close()
     driver.quit()

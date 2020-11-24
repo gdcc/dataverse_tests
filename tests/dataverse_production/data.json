@@ -38,6 +38,12 @@
       "final-url": "https://dataverse.at/"
     }
   ],
+  "search": [
+    {
+      "query": "elections",
+      "result-url": "https://data.aussda.at/dataverse/AUSSDA?q=elections"
+    }
+  ],
   "metadata-server": {
     "resources": [
       {
@@ -58,6 +64,23 @@
     ]
   },
   "website": {
-    "url": "https://aussda.at/"
+    "url": "https://aussda.at/",
+    "privacy-policy": {
+      "de": {
+        "url": "https://aussda.at/datenschutzerklaerung/",
+        "title": "Datenschutzerkl\u00e4rung"
+      },
+      "en": {
+        "url": "https://aussda.at/en/privacy-policy/",
+        "title": "Privacy Policy"
+      }
+    }
+  },
+  "external-resources": {
+    "twitter": "https://twitter.com/theaussda",
+    "cessda": "https://www.cessda.eu/",
+    "university_vienna": "https://univie.ac.at/",
+    "university_graz": "https://uni-graz.at/",
+    "university_linz": "https://www.jku.at/"
   }
 }
