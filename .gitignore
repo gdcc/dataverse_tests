@@ -8,3 +8,12 @@ internal/
 *.code-workspace
 settings.json
 browserengines/
+tests/data/datafiles.json
+utils/datafiles.json
+tests/data/dataverses.json
+utils/dataverses.json
+tests/data/datasets.json
+utils/datasets.json
+tests/data/metadata.json
+utils/metadata.json
+utils/tree.json
