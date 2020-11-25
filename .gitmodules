@@ -4,3 +4,6 @@
 [submodule "aussda_test-data"]
 	path = aussda_test-data
 	url = git@github.com:AUSSDA/aussda_test-data.git
+[submodule "terms"]
+	path = terms
+	url = git@github.com:AUSSDA/terms.git
