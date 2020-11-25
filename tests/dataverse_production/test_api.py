@@ -12,7 +12,7 @@ class TestApi:
 
         for dv in data["dataverses"]:
 
-            url = os.getenv("BASE_URL") + "/api/dataverses/" + dv
+            url = f"{os.getenv('BASE_URL')}/api/dataverses/{dv}"
             resp = requests.get(url)
 
             assert resp.status_code == 200
