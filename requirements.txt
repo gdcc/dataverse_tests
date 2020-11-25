@@ -1,5 +1,1 @@
-git+git://github.com/AUSSDA/pyDataverse.git@3b040ff23b665ec2650bebcf4bd5478de6881af0
-pytest==6.1.2
-selenium==3.141.0
-requests==2.25.0
-pydantic==1.7.2
+-r requirements/common.txt
