@@ -1,0 +1,82 @@
+[
+  {
+    "dataverse_id": 167,
+    "title": "MedienJournal",
+    "dataverse_alias": "medienjournal"
+  },
+  {
+    "dataverse_id": 196,
+    "title": "SWS-Rundschau",
+    "dataverse_alias": "SWS-Rundschau"
+  },
+  {
+    "dataverse_id": 490,
+    "title": "ZSI",
+    "dataverse_alias": "zsi"
+  },
+  {
+    "dataverse_id": 585,
+    "title": "SORA",
+    "dataverse_alias": "sora"
+  },
+  {
+    "dataverse_id": 92,
+    "title": "PUMA",
+    "dataverse_alias": "puma"
+  },
+  {
+    "dataverse_id": 86,
+    "title": "Survey Methods: Insights from the Field",
+    "dataverse_alias": "smif"
+  },
+  {
+    "dataverse_id": 190,
+    "title": "New Music Festivals as Agorai",
+    "dataverse_alias": "newmusicfestivals"
+  },
+  {
+    "dataverse_id": 207,
+    "title": "Sozialwissenschaftliche Studiengesellschaft (SWS)",
+    "dataverse_alias": "SWS"
+  },
+  {
+    "dataverse_id": 206,
+    "title": "REMINDER",
+    "dataverse_alias": "reminder"
+  },
+  {
+    "dataverse_id": 696,
+    "title": "RECONNECT",
+    "dataverse_alias": "reconnect"
+  },
+  {
+    "dataverse_id": 541,
+    "title": "GfK Austria",
+    "dataverse_alias": "gfk"
+  },
+  {
+    "dataverse_id": 1158,
+    "title": "COVID-19 Pandemic",
+    "dataverse_alias": "covid19"
+  },
+  {
+    "dataverse_id": 85,
+    "title": "SS\u00d6-ISSP",
+    "dataverse_alias": "ssoe-issp"
+  },
+  {
+    "dataverse_id": 83,
+    "title": "Public",
+    "dataverse_alias": "public"
+  },
+  {
+    "dataverse_id": 96,
+    "title": "Statistik Austria",
+    "dataverse_alias": "statistikaustria"
+  },
+  {
+    "dataverse_id": 84,
+    "title": "AUTNES",
+    "dataverse_alias": "autnes"
+  }
+]

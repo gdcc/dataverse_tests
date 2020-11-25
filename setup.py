@@ -22,6 +22,7 @@ INSTALL_REQUIREMENTS = [
     "selenium==3.141.0",
     "requests==2.25.0",
     "pydantic==1.7.2",
+    "typer==0.3.2",
 ]
 
 SETUP_REQUIREMENTS = []
