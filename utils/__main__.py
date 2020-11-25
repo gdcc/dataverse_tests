@@ -11,7 +11,7 @@ base_url = os.getenv("BASE_URL")
 api_token = os.getenv("API_TOKEN")
 
 
-def read_json(filename, mode="r", encoding="utf-8"):
+def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
     """Read in a json file.
 
     See more about the json module at
@@ -44,7 +44,7 @@ def read_json(filename, mode="r", encoding="utf-8"):
     return data
 
 
-def write_json(filename, data, mode="w", encoding="utf-8"):
+def write_json(filename: str, data: dict, mode: str = "w", encoding: str = "utf-8"):
     """Write data to a json file.
 
     Parameters
@@ -70,24 +70,24 @@ def write_json(filename, data, mode="w", encoding="utf-8"):
 
 
 @app.command("collect")
-def collect_command():
+def collect_command() -> None:
     collect_data()
     typer.echo(f"Data collected")
 
 
 @app.command("generate")
-def generate_command():
+def generate_command() -> None:
     generate_data()
     typer.echo(f"Data generated")
 
 
-def collect_data():
+def collect_data() -> None:
     api = NativeApi(base_url, api_token)
     resp = api.get_children(children_types=["dataverses", "datasets", "datafiles"])
     write_json(os.path.join(dir_path, "tree.json"), resp)
 
 
-def generate_data():
+def generate_data() -> None:
     data = read_json(os.path.join(dir_path, "tree.json"))
     dataverses, datasets, datafiles = tree_walker(data)
     write_json(os.path.join(dir_path, "dataverses.json"), dataverses)
