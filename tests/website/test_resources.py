@@ -4,11 +4,12 @@ from ..conftest import read_json
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
+data_path = os.path.join(os.path.dirname(dir_path), "data")
 
 
 class TestResources:
     def test_urls(self, browsers):
-        data = read_json(os.path.join(dir_path, "data.json"))
+        data = read_json(os.path.join(data_path, "instances/website.json"))
 
         for driver in browsers:
             for res in data["resources"]:

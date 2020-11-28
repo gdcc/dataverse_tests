@@ -5,6 +5,8 @@ from pydantic import BaseSettings
 
 class Config(BaseSettings):
     HEADLESS: bool = True
+    WINDOW_HEIGHT: int = 1440
+    WINDOW_WIDTH: int = 1440
 
 
 class DevelopmentConfig(Config):

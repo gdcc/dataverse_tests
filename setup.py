@@ -14,6 +14,12 @@ ROOT_DIR = os.path.abspath(os.path.dirname(__file__))
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 
+def read_file(*file_paths):
+    """Read text file."""
+    with codecs.open(os.path.join(ROOT_DIR, *file_paths), "r") as fp:
+        return fp.read()
+
+
 INSTALL_REQUIREMENTS = [
     # A string or list of strings specifying what other distributions need to
     # be installed when this one is.

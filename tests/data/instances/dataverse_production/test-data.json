@@ -1,4 +1,26 @@
 {
+  "instance": {
+    "version": "4.18.1",
+    "base-url": "https://data.aussda.at",
+    "doi_prefix": "",
+    "about-url": "https://aussda.at/",
+    "title": "Root",
+    "robots.txt": {
+      "encoding": "UTF-8"
+    },
+    "footer": {
+      "privacy-policy": {
+        "name": "Privacy Policy",
+        "url": "https://aussda.at/en/privacy-policy/"
+      }
+    }
+  },
+  "tests": {
+    "all-dataverses": true,
+    "all-datasets": true,
+    "all-datafiles": true,
+    "footer-privacy-policy-click": true
+  },
   "dataverses": {
     "aussda": {
       "name": "AUSSDA",
