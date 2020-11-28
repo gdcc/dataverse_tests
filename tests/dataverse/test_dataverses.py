@@ -3,22 +3,11 @@ from time import sleep
 from ..conftest import read_json
 
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-data_path = os.path.join(os.path.dirname(dir_path), "data")
-
-
 class TestDataverses:
-    def test_all_dataverses(self, firefox):
-        INSTANCE = os.getenv("INSTANCE")
-        data = read_json(
-            os.path.join(data_path, f"instances/{INSTANCE}/test-data.json")
-        )
-        base_url = data["instance"]["base-url"]
-
-        if data["tests"]["all-dataverses"]:
-            dataverses = read_json(
-                os.path.join(data_path, f"instances/{INSTANCE}/dataverses.json")
-            )
+    def test_all_dataverses(self, config, test_data, firefox):
+        if test_data["tests"]["all-dataverses"]["test"]:
+            base_url = test_data["instance"]["base-url"]
+            dataverses = read_json(os.path.join(config.DATA_DIR, "dataverses.json"))
 
             for dv in dataverses:
                 url = f"{base_url}/dataverse.xhtml?alias={dv['dataverse_alias']}"

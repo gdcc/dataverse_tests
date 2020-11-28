@@ -1,4 +1,15 @@
 {
+  "instance": {
+    "email_text": "Email",
+    "email_link": "mailto:info@aussda.at"
+  },
+  "external-resources": {
+    "twitter": "https://twitter.com/theaussda",
+    "cessda": "https://www.cessda.eu/",
+    "university_vienna": "https://univie.ac.at/",
+    "university_graz": "https://uni-graz.at/",
+    "university_linz": "https://www.jku.at/"
+  },
   "resources": [
     {
       "url": "http://aussda.at/",
@@ -9,7 +20,8 @@
     {
       "url": "https://aussda.at/",
       "title": "AUSSDA - The Austrian Social Science Data Archive",
-      "language": "de"
+      "language": "de",
+      "final-url": "https://aussda.at/"
     },
     {
       "url": "http://aussda.eu/",
@@ -108,16 +120,5 @@
       "url": "https://aussda.at/en/about-aussda/",
       "language": "en"
     }
-  ],
-  "website": {
-    "email_text": "Email",
-    "email_link": "mailto:info@aussda.at"
-  },
-  "external-resources": {
-    "twitter": "https://twitter.com/theaussda",
-    "cessda": "https://www.cessda.eu/",
-    "university_vienna": "https://univie.ac.at/",
-    "university_graz": "https://uni-graz.at/",
-    "university_linz": "https://www.jku.at/"
-  }
+  ]
 }

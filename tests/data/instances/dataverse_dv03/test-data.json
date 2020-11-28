@@ -1,14 +1,83 @@
 {
   "instance": {
     "version": "4.18.1",
-    "base-url": "http://localhost:8085",
-    "doi_prefix": ""
+    "base-url": "https://dv03.aussda.at",
+    "doi_prefix": "doi:10.11587",
+    "title": "Root",
+    "test-data-imported": true,
+    "has-cookie-rollbar": false
   },
-  "metadata-server": {
-    "resources": [
-      {
-        "url": "http://localhost:8085/oai"
+  "tests": {
+    "dataverses": {
+      "test": false
+    },
+    "search": {
+      "test": false
+    },
+    "resources": {
+      "test": false
+    },
+    "metadata-server": {
+      "test": false
+    },
+    "all-dataverses": {
+      "test": false
+    },
+    "all-datasets": {
+      "test": false
+    },
+    "all-datafiles": {
+      "test": false
+    },
+    "login": {
+      "login-page": "normal-user-only",
+      "login-page-title": "Log In - Root",
+      "shibboleth": {
+        "test": false
+      },
+      "shibboleth-endpoint": {
+        "test": false
+      },
+      "normal-user": {
+        "test": true
       }
-    ]
+    },
+    "homepage": {
+      "header-about": {
+        "test": false
+      },
+      "footer-privacy-policy": {
+        "test": false
+      },
+      "header-contact-link": {
+        "test": true
+      },
+      "header-branding": {
+        "test": true,
+        "url": "https://dv03.aussda.at/"
+      },
+      "sidebar-metrics": {
+        "test": false
+      }
+    },
+    "user-profile-navigate": {
+      "test": true,
+      "title": "Account - Root"
+    },
+    "robots.txt": {
+      "test": true,
+      "encoding": "ISO-8859-1"
+    },
+    "sitemap": {
+      "test": false
+    },
+    "api": {
+      "dataverses": {
+        "test": false
+      },
+      "dataverse-version": {
+        "test": true
+      }
+    }
   }
 }
