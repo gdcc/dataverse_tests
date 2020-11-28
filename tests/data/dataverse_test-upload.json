@@ -1,0 +1,13 @@
+{
+  "dataverses": {
+    "science": {
+      "name": "Scientific Research",
+      "alias": "science",
+      "affiliation": "Scientific Research University",
+      "emails": [
+        "pi@example.edu",
+        "student@example.edu"
+      ]
+    }
+  }
+}
