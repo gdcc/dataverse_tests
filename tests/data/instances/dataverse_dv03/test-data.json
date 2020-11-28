@@ -1,0 +1,14 @@
+{
+  "instance": {
+    "version": "4.18.1",
+    "base-url": "http://localhost:8085",
+    "doi_prefix": ""
+  },
+  "metadata-server": {
+    "resources": [
+      {
+        "url": "http://localhost:8085/oai"
+      }
+    ]
+  }
+}

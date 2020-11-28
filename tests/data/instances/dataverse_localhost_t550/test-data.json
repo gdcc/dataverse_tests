@@ -1,0 +1,29 @@
+{
+  "instance": {
+    "version": "4.15.1",
+    "base-url": "http://localhost:8085",
+    "doi_prefix": "",
+    "about-url": "https://aussda.at/",
+    "title": "Root",
+    "robots.txt": {
+      "encoding": "ISO-8859-1"
+    },
+    "footer": {
+      "privacy-policy": {
+        "name": "Privacy Policy",
+        "url": "https://aussda.at/en/privacy-policy/"
+      }
+    },
+    "shibboleth": {
+      "configured": false
+    }
+  },
+  "tests": {
+    "all-dataverses": false,
+    "all-datasets": false,
+    "all-datafiles": false,
+    "footer-privacy-policy-click": false,
+    "shibboleth": false,
+    "login-user": false
+  }
+}
