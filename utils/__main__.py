@@ -1,16 +1,14 @@
 import os
 import typer
-from utils import collect_data, generate_data
+from utils import collect_data, generate_data, create_testdata, remove_testdata
 
 
 app = typer.Typer()
-base_url = os.getenv("BASE_URL")
-api_token = os.getenv("API_TOKEN")
 
 
 @app.command("collect")
 def collect_command() -> None:
-    collect_data(base_url, api_token)
+    collect_data()
     typer.echo(f"Data collected")
 
 
@@ -18,6 +16,18 @@ def collect_command() -> None:
 def generate_command() -> None:
     generate_data()
     typer.echo(f"Data generated")
+
+
+@app.command("create-testdata")
+def create_testdata_command() -> None:
+    create_testdata()
+    typer.echo(f"Testdata created")
+
+
+@app.command("remove-testdata")
+def remove_testdata_command() -> None:
+    remove_testdata()
+    typer.echo(f"Testdata removed")
 
 
 if __name__ == "__main__":
