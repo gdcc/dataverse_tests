@@ -38,7 +38,9 @@ class TestHomepage:
     def test_sidebar_metrics(self, test_data, config, browsers):
         if test_data["tests"]["homepage"]["sidebar-metrics"]["test"]:
             base_url = test_data["instance"]["base-url"]
-            metadata = read_json(os.path.join(config.DATA_DIR, "metadata.json"))
+            metadata = read_json(
+                os.path.join(config.INSTANCE_DATA_DIR, "metadata.json")
+            )
 
             for name, driver in browsers.items():
                 driver.get(base_url)

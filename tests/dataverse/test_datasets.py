@@ -8,7 +8,9 @@ class TestDatasets:
     def test_all_datasets(self, config, test_data):
         if test_data["tests"]["all-datasets"]["test"]:
             base_url = test_data["instance"]["base-url"]
-            datasets = read_json(os.path.join(config.DATA_DIR, "datasets.json"))
+            datasets = read_json(
+                os.path.join(config.INSTANCE_DATA_DIR, "datasets.json")
+            )
 
             for ds in datasets[:2]:
                 url = f"{base_url}/dataset.xhtml?persistentId={ds['pid']}"

@@ -11,3 +11,4 @@ browserengines/
 tests/data/instances/
 metadata.json
 utils/data/
+*.env.*
