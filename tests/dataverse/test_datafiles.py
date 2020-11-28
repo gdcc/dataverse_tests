@@ -7,7 +7,9 @@ class TestDatafiles:
     def test_all_datafiles(self, config, test_data, firefox):
         if test_data["tests"]["all-datafiles"]["test"]:
             base_url = test_data["instance"]["base-url"]
-            datafiles = read_json(os.path.join(config.DATA_DIR, "datafiles.json"))
+            datafiles = read_json(
+                os.path.join(config.INSTANCE_DATA_DIR, "datafiles.json")
+            )
 
             for df in datafiles:
                 url = (

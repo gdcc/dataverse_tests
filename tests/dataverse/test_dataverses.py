@@ -7,7 +7,9 @@ class TestDataverses:
     def test_all_dataverses(self, config, test_data, firefox):
         if test_data["tests"]["all-dataverses"]["test"]:
             base_url = test_data["instance"]["base-url"]
-            dataverses = read_json(os.path.join(config.DATA_DIR, "dataverses.json"))
+            dataverses = read_json(
+                os.path.join(config.INSTANCE_DATA_DIR, "dataverses.json")
+            )
 
             for dv in dataverses:
                 url = f"{base_url}/dataverse.xhtml?alias={dv['dataverse_alias']}"
