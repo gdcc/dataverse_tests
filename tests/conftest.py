@@ -1,15 +1,19 @@
 from json import load
 import os
+from time import sleep
 import pytest
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from .config import get_config_name, get_config
 
 
-config = get_config(get_config_name())
+@pytest.fixture
+def config():
+    return get_config(get_config_name())
 
 
 @pytest.fixture
-def firefox():
+def firefox(config):
     options = webdriver.firefox.options.Options()
     if config.HEADLESS:
         options.headless = True
@@ -22,7 +26,7 @@ def firefox():
 
 
 @pytest.fixture
-def chrome():
+def chrome(config):
     options = webdriver.ChromeOptions()
     if config.HEADLESS:
         options.headless = True
@@ -39,8 +43,52 @@ def chrome():
 
 
 @pytest.fixture
-def browsers(firefox, chrome):
-    return [firefox, chrome]
+def browsers(config, firefox, chrome):
+    browsers = {}
+    for browser in config.BROWSERS:
+        if browser == "firefox":
+            browsers["firefox"] = firefox
+        elif browser == "chrome":
+            browsers["chrome"] = chrome
+    return browsers
+
+
+@pytest.fixture
+def instance(config):
+    return config.INSTANCE
+
+
+@pytest.fixture
+def test_data(config):
+    return read_json(os.path.join(config.DATA_DIR, "test-data.json"))
+
+
+def login_normal_user(driver, test_data, config, user, password):
+    base_url = test_data["instance"]["base-url"]
+    driver.get(f"{base_url}/loginpage.xhtml")
+    driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
+    sleep(5)
+    driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
+    sleep(10)
+    if test_data["tests"]["login"]["login-page"] == "normal-user-and-shibboleth":
+        driver.find_element(By.LINK_TEXT, "Username/Email").click()
+        sleep(3)
+    driver.find_element(By.ID, "loginForm:credentialsContainer:0:credValue").send_keys(
+        config.TEST_USER_NORMAL
+    )
+    driver.find_element(By.ID, "loginForm:credentialsContainer:1:sCredValue").send_keys(
+        config.TEST_USER_NORMAL_PWD
+    )
+    driver.find_element(By.ID, "loginForm:login").click()
+    sleep(5)
+    return driver
+
+
+def click_cookie_rollbar(driver):
+    driver.find_element(
+        By.ID, "CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection"
+    ).click()
+    sleep(3)
 
 
 def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:

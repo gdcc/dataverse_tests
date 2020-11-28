@@ -2,31 +2,95 @@
   "instance": {
     "version": "4.18.1",
     "base-url": "https://data.aussda.at",
-    "doi_prefix": "",
-    "about-url": "https://aussda.at/",
-    "title": "Root",
-    "robots.txt": {
-      "encoding": "UTF-8"
-    },
-    "footer": {
-      "privacy-policy": {
-        "name": "Privacy Policy",
-        "url": "https://aussda.at/en/privacy-policy/"
-      }
-    }
+    "doi_prefix": "doi:10.11587",
+    "title": "AUSSDA",
+    "test-data-imported": false,
+    "has-cookie-rollbar": true
   },
   "tests": {
-    "all-dataverses": true,
-    "all-datasets": true,
-    "all-datafiles": true,
-    "footer-privacy-policy-click": true
+    "dataverses": {
+      "test": true
+    },
+    "search": {
+      "test": true
+    },
+    "resources": {
+      "test": true
+    },
+    "metadata-server": {
+      "test": true
+    },
+    "all-dataverses": {
+      "test": true
+    },
+    "all-datasets": {
+      "test": true
+    },
+    "all-datafiles": {
+      "test": true
+    },
+    "login": {
+      "login-page": "normal-user-and-shibboleth",
+      "login-page-title": "Log In - AUSSDA",
+      "shibboleth": {
+        "test": true
+      },
+      "shibboleth-endpoint": {
+        "test": true
+      },
+      "normal-user": {
+        "test": true
+      }
+    },
+    "homepage": {
+      "header-about": {
+        "test": true,
+        "url": "https://aussda.at/"
+      },
+      "footer-privacy-policy": {
+        "test": true,
+        "name": "Privacy Policy",
+        "url": "https://aussda.at/en/privacy-policy/"
+      },
+      "header-contact-link": {
+        "test": true
+      },
+      "header-branding": {
+        "test": true,
+        "url": "https://data.aussda.at/"
+      },
+      "sidebar-metrics": {
+        "test": false
+      }
+    },
+    "user-profile-navigate": {
+      "test": true,
+      "title": "Account - AUSSDA"
+    },
+    "robots.txt": {
+      "test": true,
+      "encoding": "UTF-8"
+    },
+    "sitemap": {
+      "test": true
+    },
+    "api": {
+      "dataverses": {
+        "test": true
+      },
+      "dataverse-version": {
+        "test": true
+      }
+    }
   },
   "dataverses": {
     "aussda": {
       "name": "AUSSDA",
       "alias": "AUSSDA",
       "affiliation": "AUSSDA",
-      "email": "info@aussda.at",
+      "emails": [
+        "info@aussda.at"
+      ],
       "tagline": "We make social science data accessible, creating opportunities for research and data reuse, benefitting science and society.",
       "url": "https://aussda.at"
     },
@@ -34,36 +98,20 @@
       "name": "AUSSDA",
       "alias": "AUSSDA",
       "affiliation": "AUSSDA",
-      "email": "info@aussda.at",
+      "emails": [
+        "info@aussda.at"
+      ],
       "tagline": "We make social science data accessible, creating opportunities for research and data reuse, benefitting science and society.",
       "url": "https://aussda.at"
     }
   },
-  "resources": [
-    {
-      "url": "http://data.aussda.at/",
-      "title": "AUSSDA",
-      "final-url": "https://data.aussda.at/"
-    },
-    {
-      "url": "https://data.aussda.at/",
-      "title": "AUSSDA"
-    },
-    {
-      "url": "http://dataverse.at/",
-      "title": "AUSSDA",
-      "final-url": "https://data.aussda.at/"
-    },
-    {
-      "url": "https://dataverse.at/",
-      "title": "AUSSDA",
-      "final-url": "https://dataverse.at/"
-    }
-  ],
   "search": [
     {
       "query": "elections",
-      "result-url": "https://data.aussda.at/dataverse/AUSSDA?q=elections"
+      "result-url": "https://data.aussda.at/dataverse/AUSSDA?q=elections",
+      "found-dataverses": 2,
+      "found-datasets": 114,
+      "found-datafiles": 19
     }
   ],
   "metadata-server": {
@@ -85,24 +133,32 @@
       }
     ]
   },
-  "website": {
-    "url": "https://aussda.at/",
-    "privacy-policy": {
-      "de": {
-        "url": "https://aussda.at/datenschutzerklaerung/",
-        "title": "Datenschutzerkl\u00e4rung"
-      },
-      "en": {
-        "url": "https://aussda.at/en/privacy-policy/",
-        "title": "Privacy Policy"
-      }
-    }
-  },
   "external-resources": {
     "twitter": "https://twitter.com/theaussda",
     "cessda": "https://www.cessda.eu/",
     "university_vienna": "https://univie.ac.at/",
     "university_graz": "https://uni-graz.at/",
     "university_linz": "https://www.jku.at/"
-  }
+  },
+  "resources": [
+    {
+      "url": "http://data.aussda.at/",
+      "title": "AUSSDA",
+      "final-url": "https://data.aussda.at/"
+    },
+    {
+      "url": "https://data.aussda.at/",
+      "title": "AUSSDA"
+    },
+    {
+      "url": "http://dataverse.at/",
+      "title": "AUSSDA",
+      "final-url": "https://data.aussda.at/"
+    },
+    {
+      "url": "https://dataverse.at/",
+      "title": "AUSSDA",
+      "final-url": "https://dataverse.at/"
+    }
+  ]
 }
