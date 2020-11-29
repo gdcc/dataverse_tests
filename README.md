@@ -63,7 +63,8 @@ pytest -v
 
 * `INSTANCE`: Dataverse instance to be tested. There are three AUSSDA instances used and configured so far: `dataverse_production`, `dataverse_dv03` and `dataverse_localhost_t550`.
 
-Set via `.env` files (so far placed in the repo root directory, will move later to private submodule):
+Set via `.env` files (so far placed in the repo root directory, will move later to private submodule.):
+* You can use `.env.sample` as a template
 * `HEADLESS`: Executes Selenium tests with or without browser window opening (by default `true` -> without browser window).
 * `TEST_USER_NORMAL`: User for normal login.
 * `TEST_USER_NORMAL_NAME`: Real name of user normal login.
@@ -103,6 +104,7 @@ To use the tests for your own Dataverse instance, you have to:
 * `INSTANCE`: Dataverse instance to which the calls should be executed. There are three AUSSDA instances configured so far: `dataverse_production`, `dataverse_dv03` and `dataverse_localhost_t550`.
 
 Set via `.env` files (so far placed in the repo root directory - will move later to private submodule):
+* You can use `.env.sample` as a template
 * `BASE_URL`: Base URL of the instance without trailing slash (e. g. `https://data.aussda.at`).
 * `API_TOKEN`: API Token of a Dataverse user with proper rights.
 
