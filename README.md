@@ -1,16 +1,16 @@
 # AUSSDA Tests
 
-Python Tests for Jenkins to test our different Dataverse instances and our website. Tests are written with pytest and Selenium, easy to adapt and extend and Open Source.
+Python Tests for Jenkins to test different Dataverse instances, plus our website. Tests are written with pytest and Selenium - easy to adapt and extend, and Open Source.
 
 **Features**
 
-* flexible and easy, so can use it as fast as possible for your own Dataverse instance.
-* easy to extend: add new tests (please create a PR!), add your own instance
+* Basic tests for Dataverse (mostly Selenium)
 * `utils` functions to help you with creating needed data for the tests
-  * create and remove testdata
-  * collect all Dataverse, Datasets and Datafiels store data in JSON files for completeness tests
+  * create and remove testdata via API
+  * collect all Dataverses, Datasets and Datafiles via API and store the response in JSON files to test the completeness of your data
   * CLI integration
-* `tests` to execute basic tests for Dataverse (mostly Selenium)
+* flexible and easy to use for your own Dataverse instance
+* easy to add new tests
 * Open Source (MIT)
 
 ## Install
@@ -20,17 +20,16 @@ Python Tests for Jenkins to test our different Dataverse instances and our websi
 Python >= 3.6
 
 Python modules (see `requirements.txt`):
+
 * [pyDataverse](https://github.com/AUSSDA/pyDataverse) ([#3b040ff23b665ec2650bebcf4bd5478de6881af0](https://github.com/AUSSDA/pyDataverse/commit/3b040ff23b665ec2650bebcf4bd5478de6881af0))
 * [pytest](https://docs.pytest.org/en/stable/)
 * [selenium](https://selenium-python.readthedocs.io/)
 * [pydantic](https://pydantic-docs.helpmanual.io/)
 
-Repositories (included as submodules). These must be substituted/adapted for usage outside of AUSSDA.
-* private (AUSSDA only)
-  * [jenkins_private](https://github.com/AUSSDA/jenkins_private): stores secret Dataverse credentials needed for some tests.
-  * [aussda_test-data](https://github.com/AUSSDA/aussda_test-data): AUSSDA specific test data. Real world and artifical data for the Social Sciences.
-* public
-  * [terms](https://github.com/AUSSDA/terms): Terms of Use, Terms of Access and licenses used by AUSSDA.
+Additional data:
+
+Some modules use data, which are and/or can not be provided by this repository. To see how to adapt the repository to your own Dataverse instance, see below.
+
 
 **Clone repository**
 
@@ -39,7 +38,7 @@ git clone https://github.com/AUSSDA/aussda_tests.git
 cd aussda_tests/
 ```
 
-**Install packages**
+**Install requirements**
 
 ```bash
 python3 -m venv venv
@@ -51,7 +50,9 @@ pip install -r requirements.txt
 
 ### Tests
 
-The folder `tests/` contains all tests. They are seperated into `dataverse/`, `website/` and `external-resources/`.
+The tests focus on requirements for DevOps activitites on running instances. This includes customizuations (header, homepage, footer), user activitites (login, register, logout), datacreation via Frontend and API, data integrity (all Dataverses, Datasets and Datafiles accessible), SEO (sitemap, robots.txt) and legal issues (Privacy Policy, Cookie Rollbar). They are not planned to contain classic frontend or backend testing, which is done by the developers, and we rely upon.
+
+The folder `tests/` contains all the tests. They are seperated into `dataverse/` and `website/`.
 
 Tests are executed with pytest:
 
@@ -61,52 +62,33 @@ pytest -v
 
 **Environment variables**
 
+Set via Bash:
 * `INSTANCE`: Dataverse instance to be tested. There are three AUSSDA instances used and configured so far: `dataverse_production`, `dataverse_dv03` and `dataverse_localhost_t550`.
+* `PATH`: You have to add the directories of your browserengines used (e. g. firefox gecko, chrome) to your path.
+  * e. g. `export PATH=$PATH:/folder/to/your/browser/engine/`
+  * Hint: the browserengine file must be executable!
 
-Set via `.env` files (so far placed in the repo root directory, will move later to private submodule.):
-* You can use `.env.sample` as a template
-* `HEADLESS`: Executes Selenium tests with or without browser window opening (by default `true` -> without browser window).
-* `TEST_USER_NORMAL`: User for normal login.
+Set via `.env`-files inside `env-config/`:
+* `HEADLESS`: Executes Selenium tests with or without browser window opening ( default = `true` -> without browser window).
+* `TEST_USER_NORMAL`: Username for normal login.
 * `TEST_USER_NORMAL_NAME`: Real name of user normal login.
 * `TEST_USER_NORMAL_PWD`: Password of user normal login.
 
-**Adapt tests to your own Dataverse instance**
-
-To use the tests for your own Dataverse instance, you have to:
-* Add for each instance an `.env` file with the needed environment variables inside (see above).
-* Add another subclass of `Config` in `tests/config.py`, where you call your `.env` file. Add the Class to the `get_config()` function.
-* Create for each instance a folder with a `dataverse_` prefix inside `tests/data/instances/`, in which you then can add all needed files for your tests.
-  * `test-data.json` (required):
-    * Needed data for test execution of one Dataverse instance.
-    * We recommend using an existing one from AUSSDA and adapt it to your needs (e. g. `tests/data/instances/dataverse_production/test-data.json`), as the schema is so far not documented and not stable. 
-    * `instance`: instance specific data
-    * `tests`: This steers the test behaviour. Only tests with `test` = `true` will be executed.
-    * `dataverses`: Number of Dataverses, which will be tested in `test_dataverses.py`
-    * `search`: List of search queries to be tested in `test_search.py`
-    * `metadata-server`: List of metadata server resources to be tested
-    * `external-resources`: External resources for test purposes.
-    * `resources`: Collection of resources (URL's) to be tested in `test_resources.py`
-  * `dataverses.json` (optional): 
-    * List of Dataverses created via `utils` to test the completeness of the Dataverses.
-  * `datasets.json` (optional): 
-    * List of Datasets created via `utils` to test the completeness of the Datasets.
-  * `datafiles.json` (optional): 
-    * List of Datafiles created via `utils` to test the completeness of the Datafiles.
-  * `metadata.json` (optional): 
-    * Aggregated data from `dataverses.json`, `datasets.json` and `datafiles.json`.
-
 ### Utils
 
-`utils/` contain helper scripts to create the needed data for the tests and use test data. CLI integration is done with [typer](https://typer.tiangolo.com/).
+The utils intend to offer helpful functions to prepare tests - like creating needed data and uploading/removing test data. The functions can be called via command line. CLI integration is done with [typer](https://typer.tiangolo.com/).
 
 **Environment variables**
 
+Set via Bash:
 * `INSTANCE`: Dataverse instance to which the calls should be executed. There are three AUSSDA instances configured so far: `dataverse_production`, `dataverse_dv03` and `dataverse_localhost_t550`.
 
 Set via `.env` files (so far placed in the repo root directory - will move later to private submodule):
 * You can use `.env.sample` as a template
 * `BASE_URL`: Base URL of the instance without trailing slash (e. g. `https://data.aussda.at`).
 * `API_TOKEN`: API Token of a Dataverse user with proper rights.
+
+#### Commands
 
 **Collect**
 
@@ -144,13 +126,57 @@ python utils remove-testdata
 
 To get all information for the CLI integration, use `python utils --help`. It lists all commands.
 
-**Adapt utils to your own Dataverse instance**
+## Adapt to your own Dataverse instance
+
+Some requirements to use all the functionality available need additional resources. Here is a short guide, how to adapt the repository, so you can use it for your own Dataverse instance(s).
+
+**Environment Variables**
+
+Both, the tests and the utils functions need environment variables to be run. We use `.env`-files for this, which are loaded by the `config.py` modules inside `utils/` and `tests/`.
+
+To adapt the `.env`-files:
+
+* copy the `.env.sample` file, name it after your instance (e. g. `.env.dataverse_production`) and place it inside `env-config/` (create it in the root directory if not already done).
+* add your own credentials
+* add an own config class in the respective `config.py` to load the `.env`-file
+* add the class to `get_config()`
+* load the settings in your modules. :)
+
+**Utils**
+
+* Add for each instance an `.env`-file (see above).
+* test data:
+  * to use `python utils create-testdata`, you have to provide metadata and/or data for the upload of Dataverses, Datasets and Datafiles via the API.
+  * So far the AUSSDA test data repository, used by default in the scripts, are not public.
+  * to setup your own test data directory:
+    * define your own test data needed (files and metadata for Dataverses, Datasets and Datafiles)
+    * adapt `create_testdata()` to your own test data setup
+    * adapt `remove_testdata()` to your own test data setup
+
+**Tests**
 
 To use the tests for your own Dataverse instance, you have to:
-* Add for each instance an `.env` file with the needed environment variables inside (see above).
-* Add another subclass of `Config` in `utils/config.py`, where you call your `.env` file. Add the Class to the `get_config()` function.
-* Create for each instance a folder with prefix `dataverse_` inside `utils/data/instances/`, in which you then can add all needed files for your tests.
-* Adapt `create-testdata.py` to use your own test data.
+* Add for each instance an `.env`-file (see above).
+* Create for each instance a folder inside `tests/data/instances/` with `dataverse_` as prefix. In there should all the needed data be stored:
+  * `test-data.json` (required):
+    * Needed data for test execution of one Dataverse instance.
+    * We recommend copying an existing one from AUSSDA and adapt it to your needs (e. g. `tests/data/instances/dataverse_production/test-data.json`). Beware: The schema for `test-data.json` is under development and so far not documented and not stable.
+    * `instance`: instance specific data
+    * `tests`: This steers the test behaviour. Only tests with `test` = `true` will be executed.
+    * `dataverses`: Number of Dataverses, which will be tested in `test_dataverses.py`
+    * `search`: List of search queries to be tested in `test_search.py`
+    * `metadata-server`: List of metadata server resources to be tested
+    * `external-resources`: External resources for test purposes.
+    * `resources`: Collection of resources (URL's) to be tested in `test_resources.py`
+  * `dataverses.json` (optional):
+    * List of Dataverses created via `python utils generate` to test the completeness of the Dataverses.
+  * `datasets.json` (optional):
+    * List of Datasets created via `python utils generate` to test the completeness of the Datasets.
+  * `datafiles.json` (optional):
+    * List of Datafiles created via `python utils generate` to test the completeness of the Datafiles.
+  * `metadata.json` (optional):
+    * Aggregated data from `dataverses.json`, `datasets.json` and `datafiles.json`, created by `python utils generate`.
+* Execute the tests as shown above.
 
 ## Development
 
@@ -167,17 +193,12 @@ pip install -e .
 pre-commit install
 ```
 
-**Add browser engines**
-
-To use selenium tests locally, you have to add the browserengines to `PATH`. Hint: the browserengine file must be executable!
-
-```shell
-export PATH=$PATH:/path/to/the/browserengine/
-```
-
 **Extend**
 
-If you have added a test, fixed a bug or contributed in any other way to this, please don't forget to create a Pull Request, so we can collectively 
+If you have added a test, fixed a bug, improved the documentation or contributed in any other way to this, please don't forget to create a Pull Request, so the work can be shared with the rest of the Dataverse community. Thank you!
+
+* Add tests: simply add a pytest function, class or module to the existing structure inside `tests/`.
+* Add test data: tell us, if you have publicly available test data!
 
 ## Resources
 
