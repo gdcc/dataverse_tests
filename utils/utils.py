@@ -39,7 +39,7 @@ def generate_data() -> None:
     print(f"- Datafiles: {len(datafiles)}")
 
 
-def tree_walker(data):
+def tree_walker(data) -> tuple:
     dataverses = []
     datasets = []
     datafiles = []
@@ -210,7 +210,9 @@ def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
     return data
 
 
-def write_json(filename, data, mode="w", encoding="utf-8"):
+def write_json(
+    filename: str, data: dict, mode: str = "w", encoding: str = "utf-8"
+) -> None:
     """Write data to a json file.
 
     Parameters
