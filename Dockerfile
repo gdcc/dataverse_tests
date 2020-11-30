@@ -6,5 +6,7 @@ WORKDIR /usr/src/local
 COPY . .
 
 RUN apk update \
-    && apk add --no-cache --virtual git \
-    && pip install -e .
+    && apk add --no-cache --virtual build-dependencies git gcc\
+    && pip install -r /tmp/requirements.txt \
+    && apk del build-dependencies
+
