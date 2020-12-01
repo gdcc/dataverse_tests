@@ -1,4 +1,4 @@
-FROM python:3.6-slim-stretch
+FROM debian:buster-slim
 
 ENV PYTHONUNBUFFERED 1
 
@@ -22,9 +22,14 @@ RUN apt-get update && \
                 gcc \
                 musl-dev \
                 google-chrome-stable \
-                chromedriver \
+                chromium-driver \
+                python3 \
+                python3-pip \
+                python3-setuptools \
+                #firefox \
+                #geckodriver \
                 libffi-dev && \
-    python -m pip install -r requirements-dev.txt
+    python3 -m pip install -r requirements-dev.txt
 
 
 RUN rm -r /root/.cache/pip && \
