@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        docker { image 'python:3.6.12-slim-buster' }
-    }
+    agent any
 
     stages {
         stage('Setup') {
@@ -13,7 +11,7 @@ pipeline {
 
         stage('Test') {
             steps {
-
+                sh 'pytest -v'
             }
         }
 
