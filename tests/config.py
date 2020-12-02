@@ -4,6 +4,7 @@ from pydantic import BaseSettings
 
 class Config(BaseSettings):
     INSTANCE: str
+    USER_AGENT: str = None
     HEADLESS: bool = True
     BROWSER: str = None
     WINDOW_HEIGHT: int = 1400

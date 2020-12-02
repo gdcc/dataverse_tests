@@ -22,7 +22,10 @@ def firefox(config):
         options.headless = True
     else:
         options.headless = False
-    driver = webdriver.Firefox(options=options)
+    profile = webdriver.FirefoxProfile()
+    if config.USER_AGENT:
+        profile.set_preference("general.useragent.override", "SELENIUM-TEST")
+    driver = webdriver.Firefox(firefox_profile=profile, options=options)
     yield driver
     driver.close()
     driver.quit()
@@ -35,8 +38,10 @@ def chrome(config):
         options.headless = True
     else:
         options.headless = False
-    options.add_argument("--no-sandbox")  # This make Chromium reachable
-    options.add_argument("--no-default-browser-check")  # Overrides default choices
+    if config.USER_AGENT:
+        options.add_argument(f"user-agent={config.USER_AGENT}")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--no-default-browser-check")
     options.add_argument("--no-first-run")
     options.add_argument("--disable-default-apps")
     driver = webdriver.Chrome(options=options)

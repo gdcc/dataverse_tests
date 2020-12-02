@@ -31,9 +31,18 @@ def collect_data() -> None:
 def generate_data() -> None:
     data = read_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_TREE))
     dataverses, datasets, datafiles = tree_walker(data)
-    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAVERSES), dataverses)
-    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATASETS), datasets)
-    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAFILES), datafiles)
+    filename_dv = os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAVERSES)
+    if os.path.isfile(filename_dv):
+        os.remove(filename_dv)
+    filename_ds = os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATASETS)
+    if os.path.isfile(filename_ds):
+        os.remove(filename_ds)
+    filename_df = os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAFILES)
+    if os.path.isfile(filename_df):
+        os.remove(filename_df)
+    write_json(filename_dv, dataverses)
+    write_json(filename_ds, datasets)
+    write_json(filename_df, datafiles)
     metadata = {
         "dataverses": len(dataverses),
         "datasets": len(datasets),

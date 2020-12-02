@@ -69,6 +69,8 @@ Tests are executed with pytest:
 pytest -v tests/dataverse/test_api.py
 ```
 
+Tests will always be collected, but depending on your `test-config.json` settings, the ones where `test` = `false` will be skipped and marked as this in the pytest results.
+
 **Environment variables**
 
 Set via command line:
@@ -79,11 +81,12 @@ Set via command line:
 
 Set via `.env`-file:
 * `INSTANCE`: Descriptive name for your instance to be tested. This must be also the folder name, where your test data is stored in (e. g. `dataverse_production`). There are three AUSSDA instances used and configured so far, as you can see in `tests/data/instances/`: `dataverse_production`, `dataverse_dv03` and `dataverse_localhost_t550` for Dataverse, and `website` as our website.
+* `USER_AGENT`: Sets a user-agent. This allows to exclude http requests done by the tests tracked by your web-analytics tool (e. g. Matomo, Google Analytics). To work, you have to tell your web-analytics tool to exlude all visits with the defined user-agent string (e. g. `SELENIUM-TEST`).
 * `HEADLESS`: Executes Selenium tests with or without browser window opening ( default = `true` -> without browser window).
 * `TEST_USER_NORMAL`: Username for normal login.
 * `TEST_USER_NORMAL_NAME`: Real name of user normal login.
 * `TEST_USER_NORMAL_PWD`: Password of user normal login.
-* `BROWSER`: valid JSON str of list of browser. Available: `firefox` and `chrome`.
+* `BROWSER`: valid JSON str of a list of browser engine names. Available: `firefox` and `chrome`.
 
 ### Utils
 
