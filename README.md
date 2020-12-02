@@ -161,7 +161,7 @@ Some requirements to use all the functionality available need additional resourc
 
 To use the tests for your own Dataverse instance, you have to:
 * Create for each instance an `.env`-file (see above).
-* Create for each instance a folder inside `tests/data/instances/` with `dataverse_` as prefix. The folder name must later be used for `INSTANCE`. 
+* Create for each instance a folder inside `tests/data/instances/` with `dataverse_` as prefix. The folder name must later be used for `INSTANCE`.
 * Store all the needed data in it:
   * `test-config.json` (required):
     * Consist of test configuration for one Dataverse instance.
