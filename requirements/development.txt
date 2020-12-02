@@ -1,4 +1,0 @@
--r common.txt
-wheel
-pre-commit
-twine
