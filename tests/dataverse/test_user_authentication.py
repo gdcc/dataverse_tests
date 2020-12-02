@@ -6,9 +6,9 @@ from ..conftest import login_normal_user
 
 
 class TestUserAuthentication:
-    def test_shibboleth_interfaces(self, test_data):
-        if test_data["tests"]["login"]["shibboleth-endpoint"]["test"]:
-            base_url = test_data["instance"]["base-url"]
+    def test_shibboleth_interfaces(self, test_config):
+        if test_config["tests"]["login"]["shibboleth-endpoint"]["test"]:
+            base_url = test_config["instance"]["base-url"]
             url = f"{base_url}/Shibboleth.sso/DiscoFeed"
             resp = requests.get(url)
             sleep(3)
@@ -23,17 +23,17 @@ class TestUserAuthentication:
             assert resp.status_code == 200
             assert resp.url == url
 
-    def test_login_normal_user(self, test_data, config, browsers):
-        if test_data["tests"]["login"]["normal-user"]["test"]:
-            for name, driver in browsers.items():
+    def test_login_normal_user(self, test_config, config, browser):
+        if test_config["tests"]["login"]["normal-user"]["test"]:
+            for name, driver in browser.items():
                 driver = login_normal_user(
                     driver,
-                    test_data,
+                    test_config,
                     config,
                     config.TEST_USER_NORMAL,
                     config.TEST_USER_NORMAL_PWD,
                 )
-                assert test_data["instance"]["title"] == driver.title
+                assert test_config["instance"]["title"] == driver.title
                 assert (
                     driver.find_element(By.ID, "userDisplayInfoTitle").text
                     == config.TEST_USER_NORMAL_NAME

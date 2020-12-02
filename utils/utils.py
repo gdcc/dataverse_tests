@@ -6,34 +6,40 @@ from time import sleep
 from pyDataverse.api import NativeApi
 from pyDataverse.utils import read_file
 from pyDataverse.models import Dataverse, Dataset, Datafile
-from config import get_config, get_config_name
+from config import Config
 
 
-config = get_config(get_config_name())
+if os.getenv("ENV_FILE"):
+    config = Config(_env_file=os.getenv("ENV_FILE"))
+else:
+    config = Config()
+
+INSTANCE_DATA_DIR = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), "data/instances", config.INSTANCE,
+)
+if not os.path.isdir(INSTANCE_DATA_DIR):
+    os.makedirs(INSTANCE_DATA_DIR)
+ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 
 def collect_data() -> None:
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
     resp = api.get_children(children_types=["dataverses", "datasets", "datafiles"])
-    write_json(os.path.join(config.UTILS_DATA_DIR, config.FILENAME_TREE), resp)
+    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_TREE), resp)
 
 
 def generate_data() -> None:
-    data = read_json(os.path.join(config.UTILS_DATA_DIR, config.FILENAME_TREE))
+    data = read_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_TREE))
     dataverses, datasets, datafiles = tree_walker(data)
-    write_json(
-        os.path.join(config.UTILS_DATA_DIR, config.FILENAME_DATAVERSES), dataverses
-    )
-    write_json(os.path.join(config.UTILS_DATA_DIR, config.FILENAME_DATASETS), datasets)
-    write_json(
-        os.path.join(config.UTILS_DATA_DIR, config.FILENAME_DATAFILES), datafiles
-    )
+    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAVERSES), dataverses)
+    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATASETS), datasets)
+    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAFILES), datafiles)
     metadata = {
         "dataverses": len(dataverses),
         "datasets": len(datasets),
         "datafiles": len(datafiles),
     }
-    write_json(os.path.join(config.UTILS_DATA_DIR, config.FILENAME_METADATA), metadata)
+    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_METADATA), metadata)
     print(f"- Dataverses: {len(dataverses)}")
     print(f"- Datasets: {len(datasets)}")
     print(f"- Datafiles: {len(datafiles)}")
@@ -80,8 +86,11 @@ def tree_walker(data) -> tuple:
     return dataverses, datasets, datafiles
 
 
-def create_testdata() -> None:
-    if config.INSTANCE_TYPE == "production":
+def create_testdata(force: bool) -> None:
+    if config.PRODUCTION and not force:
+        print(
+            "Create test data on production instance not allowed. Use --force to force it."
+        )
         sys.exit()
     lst_pids = []
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
@@ -99,7 +108,7 @@ def create_testdata() -> None:
     dv = Dataverse()
     dv_alias = "science"
     dv_filename = os.path.join(
-        config.ROOT_DIR, "aussda_test-data/data/json/dataverse_1_testing_science.json"
+        ROOT_DIR, "aussda_test-data/data/json/dataverse_1_testing_science.json"
     )
     dv.from_json(read_file(dv_filename), validate=False)
     resp = api.create_dataverse(dv_alias, dv.to_json(validate=False))
@@ -113,7 +122,7 @@ def create_testdata() -> None:
     dv_alias = "science"
     ds = Dataset()
     ds_filename = os.path.join(
-        config.ROOT_DIR, "aussda_test-data/data/json/dataset_1_science.json"
+        ROOT_DIR, "aussda_test-data/data/json/dataset_1_science.json"
     )
     ds.from_json(read_file(ds_filename), validate=False)
     resp = api.create_dataset(dv_alias, ds.to_json(validate=False))
@@ -132,7 +141,7 @@ def create_testdata() -> None:
     json_filenames = []
 
     for filepath in glob.glob(
-        os.path.join(config.ROOT_DIR, "aussda_test-data/data/json/", "*.json")
+        os.path.join(ROOT_DIR, "aussda_test-data/data/json/", "*.json")
     ):
         filename = os.path.basename(filepath)
         file_split = filename.split("_")
@@ -161,8 +170,11 @@ def create_testdata() -> None:
     # print(resp.json())
 
 
-def remove_testdata() -> None:
-    if config.INSTANCE_TYPE == "production":
+def remove_testdata(force: bool) -> None:
+    if config.PRODUCTION and not force:
+        print(
+            "Remote test data on production instance not allowed. Use --force to force it."
+        )
         sys.exit()
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
 

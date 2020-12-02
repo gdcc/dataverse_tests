@@ -6,12 +6,12 @@ from selenium.webdriver.common.keys import Keys
 
 
 class TestSearch:
-    def test_search_header(self, test_data, browsers):
-        if test_data["tests"]["search"]["test"]:
-            base_url = test_data["instance"]["base-url"]
+    def test_search_header(self, test_config, browser):
+        if test_config["tests"]["search"]["test"]:
+            base_url = test_config["instance"]["base-url"]
 
-            for name, driver in browsers.items():
-                for search in test_data["search"]:
+            for name, driver in browser.items():
+                for search in test_config["search"]:
                     driver.get(base_url)
                     sleep(3)
                     driver.set_window_size(1346, 1197)

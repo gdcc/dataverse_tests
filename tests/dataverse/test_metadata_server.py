@@ -3,9 +3,9 @@ import requests
 
 
 class TestMetadataServer:
-    def test_metadata_server(self, test_data):
-        if test_data["tests"]["metadata-server"]["test"]:
-            for res in test_data["metadata-server"]["resources"]:
+    def test_metadata_server(self, test_config):
+        if test_config["tests"]["metadata-server"]["test"]:
+            for res in test_config["metadata-server"]["resources"]:
                 resp = requests.get(res["url"], allow_redirects=True)
                 assert resp.status_code == 200
                 assert resp.encoding == "UTF-8"

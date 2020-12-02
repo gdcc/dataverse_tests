@@ -3,10 +3,10 @@ import requests
 
 
 class TestResources:
-    def test_urls(self, test_data, browsers):
-        if test_data["tests"]["homepage"]["header-about"]["test"]:
-            for name, driver in browsers.items():
-                for res in test_data["resources"]:
+    def test_urls(self, test_config, browser):
+        if test_config["tests"]["homepage"]["header-about"]["test"]:
+            for name, driver in browser.items():
+                for res in test_config["resources"]:
                     resp = requests.get(res["url"], allow_redirects=True)
                     assert resp.status_code == 200
                     assert resp.encoding == "UTF-8"

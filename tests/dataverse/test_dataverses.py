@@ -1,14 +1,15 @@
 import os
 from time import sleep
-from ..conftest import read_json
+from ..conftest import read_json, get_instance_dir
 
 
 class TestDataverses:
-    def test_all_dataverses(self, config, test_data, firefox):
-        if test_data["tests"]["all-dataverses"]["test"]:
-            base_url = test_data["instance"]["base-url"]
+    def test_all_dataverses(self, config, test_config, firefox):
+        if test_config["tests"]["all-dataverses"]["test"]:
+            instance_dir = get_instance_dir(config)
+            base_url = test_config["instance"]["base-url"]
             dataverses = read_json(
-                os.path.join(config.INSTANCE_DATA_DIR, "dataverses.json")
+                os.path.join(instance_dir, config.FILENAME_DATAVERSES)
             )
 
             for dv in dataverses:

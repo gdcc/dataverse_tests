@@ -3,6 +3,7 @@ notes*.md
 __pycache__/
 
 .env
+*.env.*
 internal/
 *.log
 *.code-workspace
@@ -11,4 +12,3 @@ browserengines/
 tests/data/instances/
 metadata.json
 utils/data/
-*.env.*
