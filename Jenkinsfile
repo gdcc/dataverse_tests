@@ -5,7 +5,8 @@ pipeline {
         stage('Setup') {
             steps {
                 sh 'python -V'
-                sh 'pip install -r requirements/development.txt'
+                sh 'pip install -r requirements-dev.txt'
+		sh 'source /opt/env/dataverse_dv03.env'
             }
         }
 
@@ -14,9 +15,5 @@ pipeline {
                 sh 'pytest -v'
             }
         }
-
-        stage('Cleanup') {
-            deleteDir()
-        }
-    }
+    }	
 }
