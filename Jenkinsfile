@@ -19,7 +19,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --html=report.html
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml
                 '''
 
                 publishHTML target : [
