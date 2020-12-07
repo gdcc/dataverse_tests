@@ -44,6 +44,7 @@ def chrome(config):
     options.add_argument("--no-default-browser-check")
     options.add_argument("--no-first-run")
     options.add_argument("--disable-default-apps")
+    options.add_argument("--disable-dev-shm-usage")
     driver = webdriver.Chrome(options=options)
     yield driver
     driver.close()
