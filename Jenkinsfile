@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        ENV_FILE = '/opt/env/dataverse_dv03.env'
+    }
+
     stages {
         stage('Setup') {
             steps {
