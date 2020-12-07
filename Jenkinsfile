@@ -4,16 +4,20 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                sh 'python -V'
-                sh 'pip install -r requirements-dev.txt'
-		sh 'source /opt/env/dataverse_dv03.env'
+                sh '''
+                    python3 -V
+                    pip3 install -r requirements-dev.txt
+                '''
             }
         }
 
         stage('Test') {
             steps {
-                sh 'pytest -v'
+                sh '''
+                    source /opt/env/dataverse_dv03.env
+                    pytest -v
+                '''
             }
         }
-    }	
+    }
 }
