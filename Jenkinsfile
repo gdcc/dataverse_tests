@@ -14,7 +14,6 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    source /opt/env/dataverse_dv03.env
                     pytest -v
                 '''
             }
