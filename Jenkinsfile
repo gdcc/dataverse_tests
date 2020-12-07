@@ -23,12 +23,13 @@ pipeline {
                 '''
             }
 
-            publishHTML (target : [
+            publishHTML target : [
                 allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
                 reportFiles: 'report.html',
-                reportName: 'Test Report')
+                reportName: 'Test Report'
+            ]
         }
 
         stage('Cleanup') {
