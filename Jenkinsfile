@@ -19,7 +19,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    ./venv/bin/python -m pytest -v --junit-xml=report.xml
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx
                 '''
 
                 publishHTML target : [
