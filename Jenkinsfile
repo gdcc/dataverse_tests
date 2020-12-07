@@ -19,9 +19,16 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    ./venv/bin/python -m pytest -v
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --html=report.html
                 '''
             }
+
+            publishHTML (target : [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportFiles: 'report.html',
+                reportName: 'Test Report')
         }
 
         stage('Cleanup') {
