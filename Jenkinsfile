@@ -6,7 +6,8 @@ pipeline {
             steps {
                 sh '''
                     python3 -V
-                    pip3 install -r requirements-dev.txt
+                    python3 -m venv venv
+                    ./venv/bin/pip install -r requirements-dev.txt
                 '''
             }
         }
@@ -14,8 +15,14 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    pytest -v
+                    ./venv/bin/python -m pytest -v
                 '''
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                sh 'rm -rf venv'
             }
         }
     }
