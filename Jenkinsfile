@@ -21,14 +21,6 @@ pipeline {
                 sh '''
                     ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx
                 '''
-
-                publishHTML target : [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportFiles: 'report.html',
-                    reportName: 'Test Report'
-                ]
             }
         }
 
@@ -37,5 +29,11 @@ pipeline {
                 sh 'rm -rf venv'
             }
         }
+
+	post {
+		always {
+			junit 'report.xml'
+		}
+	}
     }
 }
