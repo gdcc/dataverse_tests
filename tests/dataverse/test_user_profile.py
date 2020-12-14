@@ -1,7 +1,8 @@
-import os
-import pytest
 from time import sleep
+
+import pytest
 from selenium.webdriver.common.by import By
+
 from ..conftest import login_normal_user
 
 
@@ -12,11 +13,7 @@ class TestUserProfile:
 
         for name, driver in browser.items():
             driver = login_normal_user(
-                driver,
-                test_config,
-                config,
-                config.TEST_USER_NORMAL,
-                config.TEST_USER_NORMAL_PWD,
+                driver, test_config, config, config.USER_NORMAL, config.USER_NORMAL_PWD,
             )
 
             assert test_config["instance"]["title"] == driver.title

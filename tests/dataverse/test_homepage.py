@@ -1,8 +1,10 @@
 import os
+from time import sleep
+
 import pytest
 import requests
-from time import sleep
 from selenium.webdriver.common.by import By
+
 from ..conftest import click_cookie_rollbar, read_json
 
 

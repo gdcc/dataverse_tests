@@ -1,7 +1,8 @@
 import os
-import requests
-from ..conftest import read_json
 
+import requests
+
+from ..conftest import read_json
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 data_path = os.path.join(os.path.dirname(dir_path), "data")

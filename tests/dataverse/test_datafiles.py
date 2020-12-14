@@ -1,8 +1,10 @@
 import os
+from time import sleep
+
 import pytest
 import requests
-from time import sleep
-from ..conftest import read_json, get_instance_dir
+
+from ..conftest import get_instance_dir, read_json
 
 
 class TestDatafiles:

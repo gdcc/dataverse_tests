@@ -12,3 +12,4 @@ utils/data/
 test_dev.py
 terms/
 aussda_test-data/
+env-config/

@@ -1,7 +1,7 @@
-import requests
-import pytest
-import os
 from time import sleep
+
+import pytest
+import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 

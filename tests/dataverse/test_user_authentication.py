@@ -1,8 +1,9 @@
-import os
+from time import sleep
+
 import pytest
 import requests
-from time import sleep
 from selenium.webdriver.common.by import By
+
 from ..conftest import login_normal_user, login_shibboleth_user
 
 
@@ -32,16 +33,12 @@ class TestUserAuthentication:
 
         for name, driver in browser.items():
             driver = login_normal_user(
-                driver,
-                test_config,
-                config,
-                config.TEST_USER_NORMAL,
-                config.TEST_USER_NORMAL_PWD,
+                driver, test_config, config, config.USER_NORMAL, config.USER_NORMAL_PWD,
             )
             assert test_config["instance"]["title"] == driver.title
             assert (
                 driver.find_element(By.ID, "userDisplayInfoTitle").text
-                == config.TEST_USER_NORMAL_NAME
+                == config.USER_NORMAL_NAME
             )
 
     def test_login_shibboleth_user(self, test_config, config, browser):

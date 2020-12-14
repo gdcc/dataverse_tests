@@ -1,7 +1,9 @@
 import os
-import pytest
 from time import sleep
-from ..conftest import read_json, get_instance_dir
+
+import pytest
+
+from ..conftest import get_instance_dir, read_json
 
 
 class TestDataverses:
