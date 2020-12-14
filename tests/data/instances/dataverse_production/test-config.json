@@ -40,6 +40,9 @@
       },
       "normal-user": {
         "test": true
+      },
+      "shibboleth-user": {
+        "test": true
       }
     },
     "homepage": {

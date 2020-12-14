@@ -3,7 +3,7 @@ import pytest
 import requests
 from time import sleep
 from selenium.webdriver.common.by import By
-from ..conftest import login_normal_user
+from ..conftest import login_normal_user, login_shibboleth_user
 
 
 class TestUserAuthentication:
@@ -43,3 +43,22 @@ class TestUserAuthentication:
                 driver.find_element(By.ID, "userDisplayInfoTitle").text
                 == config.TEST_USER_NORMAL_NAME
             )
+
+    def test_login_shibboleth_user(self, test_config, config, browser):
+        if not test_config["tests"]["login"]["shibboleth-user"]["test"]:
+            pytest.skip("Test not configured to be executed.")
+
+        for name, driver in browser.items():
+            driver = login_shibboleth_user(
+                driver,
+                test_config,
+                config,
+                config.USER_SHIBBOLETH,
+                config.USER_SHIBBOLETH_PWD,
+            )
+            assert test_config["instance"]["title"] == driver.title
+            assert (
+                driver.find_element(By.ID, "userDisplayInfoTitle").text
+                == config.USER_SHIBBOLETH_NAME
+            )
+        assert 0

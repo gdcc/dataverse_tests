@@ -80,8 +80,6 @@ def login_normal_user(driver, test_config, config, user, password):
     driver.get(f"{base_url}/loginpage.xhtml")
     driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
     sleep(5)
-    driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
-    sleep(10)
     if test_config["tests"]["login"]["login-page"] == "normal-user-and-shibboleth":
         driver.find_element(By.LINK_TEXT, "Username/Email").click()
         sleep(3)
@@ -93,6 +91,27 @@ def login_normal_user(driver, test_config, config, user, password):
     )
     driver.find_element(By.ID, "loginForm:login").click()
     sleep(5)
+    return driver
+
+
+def login_shibboleth_user(driver, test_config, config, user, password):
+    base_url = test_config["instance"]["base-url"]
+    driver.get(f"{base_url}/loginpage.xhtml")
+    sleep(5)
+    driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
+    sleep(5)
+    driver.find_element(By.ID, "idpSelectSelector").click()
+    sleep(1)
+    dropdown = driver.find_element(By.ID, "idpSelectSelector")
+    dropdown.find_element(By.XPATH, "//option[. = 'University of Vienna']").click()
+    sleep(1)
+    driver.find_element(By.ID, "idpSelectListButton").click()
+    sleep(1)
+    driver.find_element(By.ID, "userid").click()
+    driver.find_element(By.ID, "userid").send_keys(user)
+    driver.find_element(By.ID, "password").click()
+    driver.find_element(By.ID, "password").send_keys(password)
+    driver.find_element(By.NAME, "_eventId_proceed").click()
     return driver
 
 
