@@ -42,8 +42,8 @@ cd aussda_tests/
 **Install requirements**
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
@@ -193,10 +193,10 @@ To use the tests for your own Dataverse instance, you have to:
 Setup the virtual environment, install packages, install this package and install pre-commit.
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-pip install -r requirements/development.txt
+pip install -r requirements-dev.txt
 pre-commit install
 ```
 
