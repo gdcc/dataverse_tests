@@ -8,12 +8,12 @@ data_path = os.path.join(os.path.dirname(dir_path), "data")
 
 
 class TestResources:
-    def test_urls(self, browsers):
+    def test_urls(self, browser):
         test_data = read_json(
             os.path.join(data_path, "instances/website/test-data.json")
         )
 
-        for name, driver in browsers.items():
+        for name, driver in browser.items():
             for res in test_data["resources"]:
                 resp = requests.get(res["url"], allow_redirects=True)
                 assert resp.status_code == 200

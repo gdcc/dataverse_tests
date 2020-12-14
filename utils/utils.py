@@ -4,7 +4,7 @@ import os
 import sys
 from time import sleep
 from pyDataverse.api import NativeApi
-from pyDataverse.utils import read_file
+from pyDataverse.utils import read_file, dataverse_tree_walker, read_json, write_json
 from pyDataverse.models import Dataverse, Dataset, Datafile
 from config import Config
 
@@ -30,7 +30,7 @@ def collect_data() -> None:
 
 def generate_data() -> None:
     data = read_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_TREE))
-    dataverses, datasets, datafiles = tree_walker(data)
+    dataverses, datasets, datafiles = dataverse_tree_walker(data)
     filename_dv = os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAVERSES)
     if os.path.isfile(filename_dv):
         os.remove(filename_dv)
@@ -54,48 +54,7 @@ def generate_data() -> None:
     print(f"- Datafiles: {len(datafiles)}")
 
 
-def tree_walker(data) -> tuple:
-    dataverses = []
-    datasets = []
-    datafiles = []
-
-    if type(data) == list:
-        for elem in data:
-            dv, ds, df = tree_walker(elem)
-            dataverses += dv
-            datasets += ds
-            datafiles += df
-    elif type(data) == dict:
-        if data["type"] == "dataverse":
-            dataverses.append(
-                {
-                    "dataverse_id": data["dataverse_id"],
-                    "title": data["title"],
-                    "dataverse_alias": data["dataverse_alias"],
-                }
-            )
-        elif data["type"] == "dataset":
-            datasets.append(
-                {"dataset_id": data["dataset_id"], "pid": data["pid"],}
-            )
-        elif data["type"] == "datafile":
-            datafiles.append(
-                {
-                    "datafile_id": data["datafile_id"],
-                    "filename": data["filename"],
-                    "pid": data["pid"],
-                }
-            )
-        if "children" in data:
-            if len(data["children"]) > 0:
-                dv, ds, df = tree_walker(data["children"])
-                dataverses += dv
-                datasets += ds
-                datafiles += df
-    return dataverses, datasets, datafiles
-
-
-def create_testdata(force: bool) -> None:
+def create_testdata(force: bool, publish_datasets=False, publish_root=False) -> None:
     if config.PRODUCTION and not force:
         print(
             "Create test data on production instance not allowed. Use --force to force it."
@@ -105,22 +64,19 @@ def create_testdata(force: bool) -> None:
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
 
     # Publish :root Dataverse
-    if False:
+    if publish_root:
         # TODO: Check via API request, if :root is published or not
-        resp = api.get_dataverse(":root")
+        resp = api.publish_dataverse(":root")
         print(resp.json())
-        # resp = api.publish_dataverse(":root")
-        # sleep(3)
-        # print(resp.json())
+        sleep(3)
 
     # Create Dataverse
+    dv_parent_alias = ":root"
     dv = Dataverse()
-    dv_alias = "science"
-    dv_filename = os.path.join(
-        ROOT_DIR, "aussda_test-data/data/json/dataverse_1_testing_science.json"
-    )
-    dv.from_json(read_file(dv_filename), validate=False)
-    resp = api.create_dataverse(dv_alias, dv.to_json(validate=False))
+    dv_filename = os.path.join(ROOT_DIR, "aussda_test-data/data/json/dataverse_1.json")
+    dv.from_json(read_file(dv_filename))
+    dv_alias = dv.get()["alias"]
+    resp = api.create_dataverse(dv_parent_alias, dv.json())
     sleep(3)
     # print(resp.json())
     resp = api.publish_dataverse(dv_alias)
@@ -128,23 +84,21 @@ def create_testdata(force: bool) -> None:
     # print(resp.json())
 
     # Create Dataset
-    dv_alias = "science"
     ds = Dataset()
-    ds_filename = os.path.join(
-        ROOT_DIR, "aussda_test-data/data/json/dataset_1_science.json"
-    )
-    ds.from_json(read_file(ds_filename), validate=False)
-    resp = api.create_dataset(dv_alias, ds.to_json(validate=False))
+    ds_filename = os.path.join(ROOT_DIR, "aussda_test-data/data/json/dataset_1.json")
+    ds.from_json(read_file(ds_filename))
+    resp = api.create_dataset(dv_alias, ds.json())
     sleep(3)
     # print(resp.json())
     pid = resp.json()["data"]["persistentId"]
     lst_pids.append(pid)
 
     # Publish Dataset
-    for pid in lst_pids:
-        resp = api.publish_dataset(pid, release_type="major")
-        sleep(3)
-        print(resp.json())
+    if publish_datasets:
+        for pid in lst_pids:
+            resp = api.publish_dataset(pid, release_type="major")
+            sleep(3)
+            print(resp.json())
 
     # Upload Datafiles
     json_filenames = []
@@ -167,19 +121,20 @@ def create_testdata(force: bool) -> None:
         df = Datafile()
         df.set(df_dict)
         df.set({"pid": pid})
-        resp = api.upload_datafile(pid, filename, df.to_json(validate=False))
+        resp = api.upload_datafile(pid, filename, df.json())
         if filename[-4:] == ".sav" or filename[-4:] == ".dta":
             sleep(30)
         else:
             sleep(10)
         print(resp.json())
 
-    resp = api.publish_dataset(pid, release_type="major")
-    sleep(3)
-    # print(resp.json())
+    if publish_datasets:
+        resp = api.publish_dataset(pid, release_type="major")
+        sleep(3)
+        # print(resp.json())
 
 
-def remove_testdata(force: bool) -> None:
+def remove_testdata(force: bool, publish_datasets=False) -> None:
     if config.PRODUCTION and not force:
         print(
             "Remote test data on production instance not allowed. Use --force to force it."
@@ -188,67 +143,19 @@ def remove_testdata(force: bool) -> None:
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
 
     # Clean up
-    data = api.get_children("science", children_types=["dataverses", "datasets"])
-    dataverses, datasets, datafiles = tree_walker(data)
-    dataverses.append({"alias": "science"})
+    dv_alias = "pyDataverse_testing"
+    data = api.get_children(dv_alias, children_types=["dataverses", "datasets"])
+    dataverses, datasets, datafiles = dataverse_tree_walker(data)
+    dataverses.append({"alias": dv_alias})
 
     # first the datasets
-    for ds in datasets:
-        resp = api.destroy_dataset(ds["pid"])
-        print(resp.json())
+    if publish_datasets:
+        for ds in datasets:
+            resp = api.destroy_dataset(ds["pid"])
+    else:
+        for ds in datasets:
+            resp = api.delete_dataset(ds["pid"])
 
     # last the dataverses
     for dv in dataverses:
         resp = api.delete_dataverse(dv["alias"])
-        print(resp.json())
-
-
-def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
-    """Read in a json file.
-
-    See more about the json module at
-    https://docs.python.org/3.5/library/json.html
-
-    Parameters
-    ----------
-    filename : str
-        Filename with full path.
-    mode : str
-        Read mode of file. Defaults to `w`. See more at
-        https://docs.python.org/3.5/library/functions.html#open
-    encoding : str
-        Character encoding of file. Defaults to 'utf-8'.
-
-    Returns
-    -------
-    dict
-        Data as a json-formatted string.
-
-    """
-    with open(filename, mode, encoding=encoding) as f:
-        data = load(f)
-
-    return data
-
-
-def write_json(
-    filename: str, data: dict, mode: str = "w", encoding: str = "utf-8"
-) -> None:
-    """Write data to a json file.
-
-    Parameters
-    ----------
-    filename : str
-        Filename with full path.
-    data : dict
-        Data to be written in the JSON file.
-    mode : str
-        Write mode of file. Defaults to `w`. See more at
-        https://docs.python.org/3/library/functions.html#open
-    encoding : str
-        Character encoding of file. Defaults to 'utf-8'.
-
-    """
-
-    with open(filename, mode, encoding=encoding) as f:
-        dump(data, f, indent=2)
