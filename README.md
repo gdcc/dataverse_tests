@@ -1,13 +1,13 @@
 # AUSSDA Tests
 
-Python Tests for Jenkins to test different Dataverse instances, plus our website. Tests are written with pytest and Selenium - easy to adapt and extend, and Open Source.
+Python Tests for Jenkins to test different Dataverse instances, plus a website. Tests are written with Pytest, Requests and Selenium - easy to adapt and extend, and Open Source. Utils help you with your testing, as simple as that.
 
 **Features**
 
-* Basic tests for Dataverse (mostly Selenium)
+* Basic tests for Dataverse (Selenium, Requests)
   * Supports Firefox and Chrome
   * easy to add new tests
-* `utils` functions to help you with creating needed data for the tests
+* `utils` functions to help you with testing
   * create and remove testdata via API
   * collect all Dataverses, Datasets and Datafiles via API and store the response in JSON files to test the completeness of your data
   * CLI integration
@@ -83,9 +83,12 @@ Set via `.env`-file:
 * `INSTANCE`: Descriptive name for your instance to be tested. This must be also the folder name, where your test data is stored in (e. g. `dataverse_production`). There are three AUSSDA instances used and configured so far, as you can see in `tests/data/instances/`: `dataverse_production`, `dataverse_dv03` and `dataverse_localhost_t550` for Dataverse, and `website` as our website.
 * `USER_AGENT`: Sets a user-agent. This allows to exclude http requests done by the tests tracked by your web-analytics tool (e. g. Matomo, Google Analytics). To work, you have to tell your web-analytics tool to exlude all visits with the defined user-agent string (e. g. `SELENIUM-TEST`).
 * `HEADLESS`: Executes Selenium tests with or without browser window opening ( default = `true` -> without browser window).
-* `TEST_USER_NORMAL`: Username for normal login.
-* `TEST_USER_NORMAL_NAME`: Real name of user normal login.
-* `TEST_USER_NORMAL_PWD`: Password of user normal login.
+* `USER_NORMAL`: Username for normal user.
+* `USER_NORMAL_NAME`: Real name of normal user.
+* `USER_NORMAL_PWD`: Password of normal user.
+* `USER_SHIBBOLETH`: Username for Shibboleth user.
+* `USER_SHIBBOLETH_NAME`: Real name of Shibboleth user.
+* `USER_SHIBBOLETH_PWD`: Password of Shibboleth user.
 * `BROWSER`: valid JSON str of a list of browser engine names. Available: `firefox` and `chrome`.
 
 ### Utils
