@@ -19,7 +19,7 @@ class TestDatafiles:
         for df in datafiles:
             url = f"{base_url}/file.xhtml?fileId={df['datafile_id']}&version=:latest"
             resp = requests.get(url, allow_redirects=True)
-            sleep(3)
+            # sleep(3)
             assert resp.status_code == 200
             assert resp.encoding == "UTF-8"
             assert resp.url == url

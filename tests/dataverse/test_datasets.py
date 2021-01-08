@@ -19,7 +19,7 @@ class TestDatasets:
         for ds in datasets:
             url = f"{base_url}/dataset.xhtml?persistentId={ds['pid']}"
             resp = requests.get(url, allow_redirects=True)
-            sleep(3)
+            # sleep(3)
             print(url)
             assert resp.status_code == 200
             assert resp.encoding == "UTF-8"
@@ -28,6 +28,6 @@ class TestDatasets:
             # Resolve doi.org URL
             url = f"https://doi.org/{ds['pid'][4:]}"
             resp = requests.get(url, allow_redirects=True)
-            sleep(3)
+            # sleep(3)
             assert resp.status_code == 200
             assert resp.encoding == "UTF-8"
