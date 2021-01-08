@@ -103,11 +103,11 @@ class TestCustomizedHomepage:
             driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
             if test_config["instance"]["has-cookie-rollbar"]:
                 driver = click_cookie_rollbar(driver)
-                driver.find_element(
-                    By.LINK_TEXT,
-                    test_config["tests"]["homepage"]["footer-privacy-policy"]["name"],
-                ).click()
-                sleep(3)
+            driver.find_element(
+                By.LINK_TEXT,
+                test_config["tests"]["homepage"]["footer-privacy-policy"]["name"],
+            ).click()
+            sleep(3)
             assert (
                 test_config["tests"]["homepage"]["footer-privacy-policy"]["url"]
                 == driver.current_url
