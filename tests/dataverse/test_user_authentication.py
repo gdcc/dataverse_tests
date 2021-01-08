@@ -58,4 +58,3 @@ class TestUserAuthentication:
                 driver.find_element(By.ID, "userDisplayInfoTitle").text
                 == config.USER_SHIBBOLETH_NAME
             )
-        assert 0

@@ -113,6 +113,11 @@ def login_shibboleth_user(driver, test_config, config, user, password):
     driver.find_element(By.ID, "password").click()
     driver.find_element(By.ID, "password").send_keys(password)
     driver.find_element(By.NAME, "_eventId_proceed").click()
+    sleep(3)
+    if driver.title == "Weblogin | Universität Wien":
+        driver.find_element(By.ID, "_shib_idp_accept_TOU").click()
+        driver.find_element(By.NAME, "_eventId_proceed").click()
+        sleep(5)
     return driver
 
 
