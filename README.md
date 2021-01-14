@@ -104,7 +104,7 @@ Set via `.env`-file:
 * `INSTANCE`: Descriptive name for your instance to be tested. This must be also a valid folder name, as your generated data will be stored in a sub-directory called as it inside `utils/data/instances/` (e. g. `utils/data/instances/dataverse_production`).
 * `BASE_URL`: Base URL of the instance without trailing slash (e. g. `https://data.aussda.at`).
 * `API_TOKEN`: API Token of a Dataverse user with proper rights.
-* `PRODUCTION`: If `true`, the creation and removal of test-data is not activated. This is important to set to `true`, if this represents a production instance, as you don't want to create or delete data on production. If you are To allow creation or removal on a production instance, you have to pass `--force` to the function call.
+* `PRODUCTION`: If `true`, the creation and removal of test-data is not activated. This is important to set to `true`, if this represents a production instance, as you don't want to create or delete data on production. To allow creation or removal on a production instance, you have to pass `--force` to the function call.
 
 #### Commands
 
@@ -203,7 +203,7 @@ pip install -r requirements-dev.txt
 pre-commit install
 ```
 
-**Extend**
+## Contribute
 
 If you have added a test, fixed a bug, improved the documentation or contributed in any other way to this, please don't forget to create a Pull Request, so the work can be shared with the rest of the Dataverse community. Thank you!
 

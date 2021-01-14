@@ -24,8 +24,8 @@ def generate_command() -> None:
 
 
 @app.command("create-testdata")
-def create_testdata_command(force: bool = False) -> None:
-    create_testdata(force)
+def create_testdata_command(force: bool = False, publish: bool = False) -> None:
+    create_testdata(force, publish)
     typer.echo(f"Testdata created")
 
 

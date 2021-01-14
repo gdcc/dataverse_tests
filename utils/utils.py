@@ -24,8 +24,8 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 def collect_data() -> None:
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
-    resp = api.get_children(children_types=["dataverses", "datasets", "datafiles"])
-    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_TREE), resp)
+    tree = api.get_children(children_types=["dataverses", "datasets", "datafiles"])
+    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_TREE), tree)
 
 
 def generate_data() -> None:
@@ -54,7 +54,7 @@ def generate_data() -> None:
     print(f"- Datafiles: {len(datafiles)}")
 
 
-def create_testdata(force: bool, publish_datasets=False, publish_root=False) -> None:
+def create_testdata(force: bool, publish=False) -> None:
     if config.PRODUCTION and not force:
         print(
             "Create test data on production instance not allowed. Use --force to force it."
@@ -64,7 +64,7 @@ def create_testdata(force: bool, publish_datasets=False, publish_root=False) -> 
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
 
     # Publish :root Dataverse
-    if publish_root:
+    if publish:
         # TODO: Check via API request, if :root is published or not
         resp = api.publish_dataverse(":root")
         print(resp.json())
@@ -94,7 +94,7 @@ def create_testdata(force: bool, publish_datasets=False, publish_root=False) -> 
     lst_pids.append(pid)
 
     # Publish Dataset
-    if publish_datasets:
+    if publish:
         for pid in lst_pids:
             resp = api.publish_dataset(pid, release_type="major")
             sleep(3)

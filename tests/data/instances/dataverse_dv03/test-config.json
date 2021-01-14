@@ -121,6 +121,12 @@
     "resources": [
       {
         "url": "https://dv03.aussda.at/oai"
+      },
+      {
+        "url": "https://dv03.aussda.at/oai?verb=GetRecord&metadataPrefix=oai_ddi&identifier=doi:10.11587/BQVSOW"
+      },
+      {
+        "url": "https://dv03.aussda.at/oai?verb=ListIdentifiers&metadataPrefix=oai_ddi&set=all_published"
       }
     ]
   },

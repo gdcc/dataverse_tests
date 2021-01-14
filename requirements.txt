@@ -1,4 +1,4 @@
-git+git://github.com/AUSSDA/pyDataverse.git@95991c6c4201d564cafa136b777086c4601eec0d
+git+git://github.com/gdcc/pyDataverse.git@develop
 pytest==6.1.2
 selenium==3.141.0
 requests==2.25.0

@@ -63,7 +63,7 @@
         "url": "https://data.aussda.at/"
       },
       "sidebar-metrics": {
-        "test": false
+        "test": true
       }
     },
     "user-profile-navigate": {
@@ -72,7 +72,7 @@
     },
     "robots.txt": {
       "test": true,
-      "encoding": "UTF-8"
+      "encoding": "ISO-8859-1"
     },
     "sitemap": {
       "test": true
@@ -113,7 +113,7 @@
       "query": "elections",
       "result-url": "https://data.aussda.at/dataverse/AUSSDA?q=elections",
       "found-dataverses": 2,
-      "found-datasets": 114,
+      "found-datasets": 116,
       "found-datafiles": 19
     }
   ],
