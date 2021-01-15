@@ -12,6 +12,14 @@ pipeline {
             }
         }
 
+        stage('Create data') {
+            when { expression {env.SUITE == "data"} }
+            steps {
+                sh './venv/bin/python utils collect'
+                sh './venv/bin/python utils generate'
+            }
+        }
+
         stage('Test') {
             steps {
                 sh '''
