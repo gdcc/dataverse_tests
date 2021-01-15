@@ -23,7 +23,6 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    cp /opt/env/dataverse_dv05.env .env
                     ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/suite_$SUITE.py
                 '''
             }
