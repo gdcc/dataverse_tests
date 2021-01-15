@@ -5,7 +5,7 @@ import pytest
 import requests
 from selenium.webdriver.common.by import By
 
-from ..conftest import click_cookie_rollbar, read_json
+from ..conftest import click_cookie_rollbar, get_instance_dir, read_json
 
 
 class TestHomepage:
@@ -44,8 +44,9 @@ class TestHomepage:
         if not test_config["tests"]["homepage"]["sidebar-metrics"]["test"]:
             pytest.skip("Test not configured to be executed.")
 
+        instance_dir = get_instance_dir(config)
         base_url = test_config["instance"]["base-url"]
-        metadata = read_json(os.path.join(config.INSTANCE_DATA_DIR, "metadata.json"))
+        metadata = read_json(os.path.join(instance_dir, "metadata.json"))
 
         for name, driver in browser.items():
             driver.get(base_url)
