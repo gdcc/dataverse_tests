@@ -15,7 +15,15 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_api.py
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_homepage.py
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_metadata_server.py
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_resources.py
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_robots_txt.py
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_search.py
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_sitemap.py
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_user_authentication.py
+                    ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx tests/dataverse/test_user_profile.py
                 '''
             }
         }
