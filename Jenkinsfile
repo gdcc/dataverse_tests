@@ -15,8 +15,7 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                    source /opt/env/dataverse_dv05.env
-                    env
+                    . /opt/env/dataverse_dv05.env
                     ./venv/bin/python -m pytest -v --junit-xml=report.xml --cache-clear -rsx    tests/dataverse/test_api.py \
                                                                                                 tests/dataverse/test_homepage.py \
                                                                                                 tests/dataverse/test_metadata_server.py \
