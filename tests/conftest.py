@@ -85,10 +85,10 @@ def login_normal_user(driver, test_config, config, user, password):
         driver.find_element(By.LINK_TEXT, "Username/Email").click()
         sleep(3)
     driver.find_element(By.ID, "loginForm:credentialsContainer:0:credValue").send_keys(
-        config.USER_NORMAL
+        user
     )
     driver.find_element(By.ID, "loginForm:credentialsContainer:1:sCredValue").send_keys(
-        config.USER_NORMAL_PWD
+        password
     )
     driver.find_element(By.ID, "loginForm:login").click()
     sleep(5)

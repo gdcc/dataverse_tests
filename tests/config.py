@@ -9,6 +9,8 @@ class Config(BaseSettings):
     BROWSER: list = None
     WINDOW_HEIGHT: int = 1400
     WINDOW_WIDTH: int = 1400
+    USER_SUPERUSER: str = None
+    USER_SUPERUSER_PWD: str = None
     USER_NORMAL: str = None
     USER_NORMAL_NAME: str = None
     USER_NORMAL_PWD: str = None

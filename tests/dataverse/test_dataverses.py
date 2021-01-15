@@ -3,7 +3,7 @@ from time import sleep
 
 import pytest
 
-from ..conftest import get_instance_dir, read_json
+from ..conftest import get_instance_dir, read_json, login_normal_user
 
 
 class TestDataverses:
@@ -14,16 +14,21 @@ class TestDataverses:
         instance_dir = get_instance_dir(config)
         base_url = test_config["instance"]["base-url"]
         dataverses = read_json(os.path.join(instance_dir, config.FILENAME_DATAVERSES))
+        firefox = login_normal_user(
+            firefox,
+            test_config,
+            config,
+            config.USER_SUPERUSER,
+            config.USER_SUPERUSER_PWD,
+        )
 
         for dv in dataverses:
             url = f"{base_url}/dataverse.xhtml?alias={dv['dataverse_alias']}"
             firefox.get(url)
             sleep(1)
-            assert dv["title"] in firefox.title
             assert url == firefox.current_url
 
             url = f"{base_url}/dataverse/{dv['dataverse_alias']}"
             firefox.get(url)
             sleep(1)
-            assert dv["title"] in firefox.title
             assert url == firefox.current_url

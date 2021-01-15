@@ -4,22 +4,27 @@ from time import sleep
 import pytest
 import requests
 
-from ..conftest import get_instance_dir, read_json
+from ..conftest import get_instance_dir, read_json, login_normal_user
 
 
 class TestDatafiles:
-    def test_all_datafiles(self, config, test_config):
+    def test_all_datafiles(self, config, test_config, firefox):
         if not test_config["tests"]["all-datafiles"]["test"]:
             pytest.skip("Test not configured to be executed.")
 
         instance_dir = get_instance_dir(config)
         base_url = test_config["instance"]["base-url"]
         datafiles = read_json(os.path.join(instance_dir, config.FILENAME_DATAFILES))
+        firefox = login_normal_user(
+            firefox,
+            test_config,
+            config,
+            config.USER_SUPERUSER,
+            config.USER_SUPERUSER_PWD,
+        )
 
         for df in datafiles:
             url = f"{base_url}/file.xhtml?fileId={df['datafile_id']}&version=:latest"
-            resp = requests.get(url, allow_redirects=True)
-            # sleep(3)
-            assert resp.status_code == 200
-            assert resp.encoding == "UTF-8"
-            assert resp.url == url
+            firefox.get(url)
+            sleep(1)
+            assert url == firefox.current_url
