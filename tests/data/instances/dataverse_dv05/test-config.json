@@ -1,0 +1,161 @@
+{
+  "instance": {
+    "version": "4.18.1",
+    "base-url": "https://dv05.aussda.at",
+    "doi_prefix": "doi:10.11587",
+    "title": "AUSSDA",
+    "test-data-imported": false,
+    "has-cookie-rollbar": false
+  },
+  "tests": {
+    "dataverses": {
+      "test": true
+    },
+    "search": {
+      "test": true
+    },
+    "resources": {
+      "test": true
+    },
+    "metadata-server": {
+      "test": true
+    },
+    "all-dataverses": {
+      "test": true
+    },
+    "all-datasets": {
+      "test": true
+    },
+    "all-datafiles": {
+      "test": true
+    },
+    "login": {
+      "login-page": "normal-user-and-shibboleth",
+      "login-page-title": "Log In - AUSSDA",
+      "shibboleth": {
+        "test": true
+      },
+      "shibboleth-endpoint": {
+        "test": true
+      },
+      "normal-user": {
+        "test": true
+      },
+      "shibboleth-user": {
+        "test": true
+      }
+    },
+    "homepage": {
+      "header-about": {
+        "test": true,
+        "url": "https://aussda.at/"
+      },
+      "footer-privacy-policy": {
+        "test": true,
+        "name": "Privacy Policy",
+        "url": "https://aussda.at/en/privacy-policy/"
+      },
+      "header-contact-link": {
+        "test": true
+      },
+      "header-branding": {
+        "test": true,
+        "url": "https://dv05.aussda.at/"
+      },
+      "sidebar-metrics": {
+        "test": true
+      }
+    },
+    "user-profile-navigate": {
+      "test": true,
+      "title": "Account - AUSSDA"
+    },
+    "robots.txt": {
+      "test": true,
+      "encoding": "ISO-8859-1"
+    },
+    "sitemap": {
+      "test": true
+    },
+    "api": {
+      "dataverses": {
+        "test": true
+      },
+      "dataverse-version": {
+        "test": true
+      }
+    }
+  },
+  "dataverses": {
+    "aussda": {
+      "name": "AUSSDA",
+      "alias": "AUSSDA",
+      "affiliation": "AUSSDA",
+      "emails": [
+        "info@aussda.at"
+      ],
+      "tagline": "We make social science data accessible, creating opportunities for research and data reuse, benefitting science and society.",
+      "url": "https://aussda.at"
+    },
+    ":root": {
+      "name": "AUSSDA",
+      "alias": "AUSSDA",
+      "affiliation": "AUSSDA",
+      "emails": [
+        "info@aussda.at"
+      ],
+      "tagline": "We make social science data accessible, creating opportunities for research and data reuse, benefitting science and society.",
+      "url": "https://aussda.at"
+    }
+  },
+  "search": [
+    {
+      "query": "elections",
+      "result-url": "https://dv05.aussda.at/dataverse/AUSSDA?q=elections",
+      "found-dataverses": 2,
+      "found-datasets": 116,
+      "found-datafiles": 19
+    }
+  ],
+  "metadata-server": {
+    "resources": [
+      {
+        "url": "https://dv05.aussda.at/oai"
+      },
+      {
+        "url": "https://dv05.aussda.at/oai?verb=GetRecord&metadataPrefix=oai_ddi&identifier=doi:10.11587/BQVSOW"
+      },
+      {
+        "url": "https://dv05.aussda.at/oai?verb=ListIdentifiers&metadataPrefix=oai_ddi&set=all_published"
+      }
+    ]
+  },
+  "external-resources": {
+    "twitter": "https://twitter.com/theaussda",
+    "cessda": "https://www.cessda.eu/",
+    "university_vienna": "https://univie.ac.at/",
+    "university_graz": "https://uni-graz.at/",
+    "university_linz": "https://www.jku.at/"
+  },
+  "resources": [
+    {
+      "url": "http://data.aussda.at/",
+      "title": "AUSSDA",
+      "final-url": "https://data.aussda.at/"
+    },
+    {
+      "url": "https://data.aussda.at/",
+      "title": "AUSSDA"
+    },
+    {
+      "url": "http://dataverse.at/",
+      "title": "AUSSDA",
+      "final-url": "https://data.aussda.at/"
+    },
+    {
+      "url": "https://dataverse.at/",
+      "title": "AUSSDA",
+      "final-url": "https://dataverse.at/"
+    }
+  ]
+}
