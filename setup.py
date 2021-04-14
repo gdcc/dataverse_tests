@@ -23,7 +23,12 @@ def find_version(*file_paths):
 INSTALL_REQUIREMENTS = [
     # A string or list of strings specifying what other distributions need to
     # be installed when this one is.
-    "",
+    "pytest==6.1.2",
+    "selenium==3.141.0",
+    "requests==2.25.0",
+    "pydantic[dotenv]==1.7.2",
+    "typer==0.3.2",
+    "pyDataverse==0.3.1",
 ]
 
 setuptools.setup(

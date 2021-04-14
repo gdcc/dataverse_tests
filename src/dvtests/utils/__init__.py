@@ -17,13 +17,13 @@ from pyDataverse.utils import read_file
 from pyDataverse.utils import read_json
 from pyDataverse.utils import write_json
 
-from .config import Config
+from dvtests.config import UtilsConfig
 
 
 if os.getenv("ENV_FILE"):
-    config = Config(_env_file=os.getenv("ENV_FILE"))
+    config = UtilsConfig(_env_file=os.getenv("ENV_FILE"))
 else:
-    config = Config()
+    config = UtilsConfig()
 
 INSTANCE_DATA_DIR = os.path.join(
     os.path.dirname(os.path.realpath(__file__)), "data/instances", config.INSTANCE,
