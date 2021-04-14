@@ -1,0 +1,39 @@
+{
+  "dataverses": [
+    {
+      "create": {
+        "metadata-filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
+        "parent": ":root",
+        "update": {
+          "alias": "test_create_testdata",
+          "name": "Test Create Testdata"
+        }
+      },
+      "publish": {}
+    }
+  ],
+  "datasets": [
+    {
+      "id": 0,
+      "create": {
+        "metadata-filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_full_01.json",
+        "parent": "test_create_testdata"
+      },
+      "publish": {}
+    }
+  ],
+  "datafiles": {
+    "0": [
+      {
+        "upload": {
+          "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
+          "filename": "dataverse_testdata/files/jpeg/10000_image.jpeg",
+          "update": {
+            "filename": "10000_image.jpeg"
+          }
+        },
+        "publish-dataset": {}
+      }
+    ]
+  }
+}

@@ -2,10 +2,7 @@ import os
 from typing import List
 
 import typer
-from config import Config
-
 from utils import collect_data
-from utils import config
 from utils import create_testdata
 from utils import generate_data
 from utils import INSTANCE_DATA_DIR
@@ -41,13 +38,12 @@ def create_testdata_command(config_file: str, force: bool = False) -> None:
 
 @app.command("remove-testdata")
 def remove_testdata_command(
-    config_file: str = None,
-    parent: str = None,
+    parent: str,
+    parent_data_type: str = "dataverse",
     data_types: List[str] = ["dataverses", "datasets"],
-    ds_published: bool = False,
     force: bool = False,
 ) -> None:
-    remove_testdata(config_file, parent, data_types, ds_published, force)
+    remove_testdata(parent, parent_data_type, data_types, force)
     typer.echo(f"Testdata removed")
 
 
