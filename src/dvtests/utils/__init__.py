@@ -25,14 +25,13 @@ if os.getenv("ENV_FILE"):
 else:
     config = UtilsConfig()
 
-INSTANCE_DATA_DIR = os.path.join(
-    os.path.dirname(os.path.realpath(__file__)), "data/instances", config.INSTANCE,
-)
-if not os.path.isdir(INSTANCE_DATA_DIR):
-    os.makedirs(INSTANCE_DATA_DIR)
 ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
+INSTANCE_DATA_DIR = os.path.join(ROOT_DIR, "src/dvtests/data", config.INSTANCE,)
+
+if not os.path.isdir(INSTANCE_DATA_DIR):
+    os.makedirs(INSTANCE_DATA_DIR)
 
 
 def collect_data(
