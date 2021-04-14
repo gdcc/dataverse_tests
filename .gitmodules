@@ -1,0 +1,3 @@
+[submodule "dataverse_testdata"]
+	path = dataverse_testdata
+	url = git@github.com:AUSSDA/dataverse_testdata.git
