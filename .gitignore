@@ -141,8 +141,9 @@ cython_debug/
 
 __pycache__/
 internal
-browserengines/
-testing/data/instances/
-utils/data/
-env-config/
 Pipfile.lock
+browserengines
+src/dvtests/testing/data/instances/
+src/dvtests/utils/data/
+env-config/
+dendron.yml
