@@ -1,19 +1,29 @@
 import os
+from typing import List
+
 import typer
-from utils import collect_data, generate_data, create_testdata, remove_testdata
 from config import Config
+
+from utils import collect_data
+from utils import config
+from utils import create_testdata
+from utils import generate_data
+from utils import INSTANCE_DATA_DIR
+from utils import remove_testdata
+from utils import ROOT_DIR
 
 
 app = typer.Typer()
-if os.getenv("ENV_FILE"):
-    config = Config(_env_file=os.getenv("ENV_FILE"))
-else:
-    config = Config()
 
 
 @app.command("collect")
-def collect_command() -> None:
-    collect_data()
+def collect_command(
+    parent: str = ":root",
+    data_types: List[str] = ["dataverses", "datasets", "datafiles"],
+    filename: str = "tree.json",
+    create_json: bool = False,
+) -> None:
+    collect_data(parent, data_types, filename, create_json)
     typer.echo(f"Data collected")
 
 
@@ -24,14 +34,20 @@ def generate_command() -> None:
 
 
 @app.command("create-testdata")
-def create_testdata_command(force: bool = False, publish: bool = False) -> None:
-    create_testdata(force, publish)
+def create_testdata_command(config_file: str, force: bool = False) -> None:
+    create_testdata(config_file, force)
     typer.echo(f"Testdata created")
 
 
 @app.command("remove-testdata")
-def remove_testdata_command(force: bool = False) -> None:
-    remove_testdata(force)
+def remove_testdata_command(
+    config_file: str = None,
+    parent: str = None,
+    data_types: List[str] = ["dataverses", "datasets"],
+    ds_published: bool = False,
+    force: bool = False,
+) -> None:
+    remove_testdata(config_file, parent, data_types, ds_published, force)
     typer.echo(f"Testdata removed")
 
 

@@ -1,12 +1,22 @@
 import glob
-from json import dump, dumps, loads, load
 import os
 import sys
+from json import dump
+from json import dumps
+from json import load
+from json import loads
 from time import sleep
-from pyDataverse.api import NativeApi
-from pyDataverse.utils import read_file, dataverse_tree_walker, read_json, write_json
-from pyDataverse.models import Dataverse, Dataset, Datafile
+from typing import List
+
 from config import Config
+from pyDataverse.api import NativeApi
+from pyDataverse.models import Datafile
+from pyDataverse.models import Dataset
+from pyDataverse.models import Dataverse
+from pyDataverse.utils import dataverse_tree_walker
+from pyDataverse.utils import read_file
+from pyDataverse.utils import read_json
+from pyDataverse.utils import write_json
 
 
 if os.getenv("ENV_FILE"):
@@ -22,14 +32,21 @@ if not os.path.isdir(INSTANCE_DATA_DIR):
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 
-def collect_data() -> None:
+def collect_data(
+    parent: str = ":root",
+    data_types: List[str] = ["dataverses", "datasets", "datafiles"],
+    filename: str = "tree.json",
+    create_json: bool = False,
+) -> None:
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
-    tree = api.get_children(children_types=["dataverses", "datasets", "datafiles"])
-    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_TREE), tree)
+    tree = api.get_children(parent, children_types=data_types)
+    write_json(os.path.join(INSTANCE_DATA_DIR, filename), tree)
+    if create_json:
+        generate_data(filename)
 
 
-def generate_data() -> None:
-    data = read_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_TREE))
+def generate_data(filename: str = "tree.json") -> None:
+    data = read_json(os.path.join(INSTANCE_DATA_DIR, filename))
     dataverses, datasets, datafiles = dataverse_tree_walker(data)
     filename_dv = os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAVERSES)
     if os.path.isfile(filename_dv):
@@ -54,108 +71,115 @@ def generate_data() -> None:
     print(f"- Datafiles: {len(datafiles)}")
 
 
-def create_testdata(force: bool, publish=False) -> None:
+def create_testdata(config_file: str, force: bool) -> None:
+    # Init
     if config.PRODUCTION and not force:
         print(
-            "Create test data on production instance not allowed. Use --force to force it."
+            "Create testdata on a PRODUCTION instance not allowed. Use --force to force it."
         )
         sys.exit()
-    lst_pids = []
+    pid_idx = []
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
+    workflow = read_json(os.path.join(ROOT_DIR, config_file))
 
-    # Publish :root Dataverse
-    if publish:
-        # TODO: Check via API request, if :root is published or not
-        resp = api.publish_dataverse(":root")
-        print(resp.json())
-        sleep(3)
+    # Dataverses
+    for dv_conf in workflow["dataverses"]:
+        dv_alias = None
+        if "create" in dv_conf:
+            if dv_conf["create"]:
+                dv = Dataverse()
+                dv_filename = os.path.join(ROOT_DIR, dv_conf["filename"])
+                dv.from_json(read_file(dv_filename))
+                if "update" in dv_conf:
+                    for key, val in dv_conf["update"].items():
+                        kwargs = {key: val}
+                        dv.set(kwargs)
+                dv_alias = dv.get()["alias"]
+                resp = api.create_dataverse(dv_conf["parent"], dv.json())
 
-    # Create Dataverse
-    dv_parent_alias = ":root"
-    dv = Dataverse()
-    dv_filename = os.path.join(ROOT_DIR, "aussda_test-data/data/json/dataverse_1.json")
-    dv.from_json(read_file(dv_filename))
-    dv_alias = dv.get()["alias"]
-    resp = api.create_dataverse(dv_parent_alias, dv.json())
-    sleep(3)
-    # print(resp.json())
-    resp = api.publish_dataverse(dv_alias)
-    sleep(3)
-    # print(resp.json())
+        if "publish" in dv_conf:
+            if dv_conf["publish"]:
+                if not dv_alias and "alias" in dv_conf:
+                    dv_alias = dv_conf["alias"]
+                resp = api.publish_dataverse(dv_alias)
 
-    # Create Dataset
-    ds = Dataset()
-    ds_filename = os.path.join(ROOT_DIR, "aussda_test-data/data/json/dataset_1.json")
-    ds.from_json(read_file(ds_filename))
-    resp = api.create_dataset(dv_alias, ds.json())
-    sleep(3)
-    # print(resp.json())
-    pid = resp.json()["data"]["persistentId"]
-    lst_pids.append(pid)
+    # Datasets
+    for ds_conf in workflow["datasets"]:
+        pid = None
+        if "create" in ds_conf:
+            if ds_conf["create"]:
+                ds = Dataset()
+                ds_filename = os.path.join(ROOT_DIR, ds_conf["filename"])
+                ds.from_json(read_file(ds_filename))
+                if "update" in ds_conf:
+                    for key, val in ds_conf["update"].items():
+                        kwargs = {key: val}
+                        ds.set(kwargs)
+                resp = api.create_dataset(dv_alias, ds.json())
+                pid = resp.json()["data"]["persistentId"]
+                pid_idx.append(pid)
 
-    # Publish Dataset
-    if publish:
-        for pid in lst_pids:
-            resp = api.publish_dataset(pid, release_type="major")
-            sleep(3)
-            print(resp.json())
+        if "publish" in ds_conf:
+            if ds_conf["publish"]:
+                if not pid:
+                    print("ERROR: PID missing!")
+                    sys.exit()
+                resp = api.publish_dataset(pid, release_type="major")
 
-    # Upload Datafiles
-    json_filenames = []
-
-    for filepath in glob.glob(
-        os.path.join(ROOT_DIR, "aussda_test-data/data/json/", "*.json")
-    ):
-        filename = os.path.basename(filepath)
-        file_split = filename.split("_")
-        if file_split[0] == "datafile":
-            json_filenames.append(filepath)
-
-    for filepath in json_filenames:
-        df_dict = read_json(filepath)
-        filename = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.realpath(filepath))),
-            "files",
-            df_dict["filename"],
-        )
-        df = Datafile()
-        df.set(df_dict)
-        df.set({"pid": pid})
-        resp = api.upload_datafile(pid, filename, df.json())
-        if filename[-4:] == ".sav" or filename[-4:] == ".dta":
-            sleep(30)
-        else:
-            sleep(10)
-        print(resp.json())
-
-    if publish_datasets:
-        resp = api.publish_dataset(pid, release_type="major")
-        sleep(3)
-        # print(resp.json())
+    # Datafiles
+    for df_conf in workflow["datafiles"]:
+        if "create" in df_conf:
+            if df_conf["create"]:
+                metadata = read_json(df_conf["metadata-filename"])
+                df = Datafile()
+                df.set(metadata)
+                if "update" in df_conf:
+                    for key, val in df_conf["update"].items():
+                        kwargs = {key: val}
+                        df.set(kwargs)
+                pid = pid_idx[df_conf["parent"]]
+                df.set({"pid": pid})
+                filename = df_conf["filename"]
+                resp = api.upload_datafile(pid, filename, df.json())
+                if filename[-4:] == ".sav" or filename[-4:] == ".dta":
+                    sleep(30)
+                else:
+                    sleep(3)
+                if "publish-dataset" in df_conf:
+                    if df_conf["publish-dataset"]:
+                        resp = api.publish_dataset(pid, release_type="major")
 
 
-def remove_testdata(force: bool, publish_datasets=False) -> None:
+def remove_testdata(
+    config_file: str = None,
+    parent: str = None,
+    data_types: List[str] = ["dataverses", "datasets"],
+    ds_published: bool = False,
+    force: bool = False,
+) -> None:
     if config.PRODUCTION and not force:
         print(
-            "Remote test data on production instance not allowed. Use --force to force it."
+            "Delete testdata on a PRODUCTION instance not allowed. Use --force to force it."
         )
         sys.exit()
+    workflow = read_json(os.path.join(ROOT_DIR, config_file))
+    if "parent" in workflow:
+        parent = workflow["parent"]
+    if "data-types" in workflow:
+        data_types = workflow["data-types"]
+    if "datasets-published" in workflow:
+        datasets_published = workflow["datasets-published"]
+
     api = NativeApi(config.BASE_URL, config.API_TOKEN)
 
     # Clean up
-    dv_alias = "pyDataverse_testing"
-    data = api.get_children(dv_alias, children_types=["dataverses", "datasets"])
+    data = api.get_children(parent, children_types=data_types)
     dataverses, datasets, datafiles = dataverse_tree_walker(data)
-    dataverses.append({"alias": dv_alias})
+    if "parent-data-type" in workflow:
+        dataverses.append({"dataverse_alias": parent})
 
-    # first the datasets
-    if publish_datasets:
-        for ds in datasets:
-            resp = api.destroy_dataset(ds["pid"])
-    else:
-        for ds in datasets:
-            resp = api.delete_dataset(ds["pid"])
+    for ds in datasets:
+        resp = api.destroy_dataset(ds["pid"])
 
-    # last the dataverses
     for dv in dataverses:
-        resp = api.delete_dataverse(dv["alias"])
+        resp = api.delete_dataverse(dv["dataverse_alias"])
