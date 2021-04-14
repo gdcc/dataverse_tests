@@ -7,4 +7,3 @@ from .test_search import *
 from .test_sitemap import *
 from .test_user_authentication import *
 from .test_user_profile import *
-

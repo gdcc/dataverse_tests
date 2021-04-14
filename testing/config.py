@@ -1,9 +1,11 @@
 import os
+
 from pydantic import BaseSettings
 
 
 class Config(BaseSettings):
     INSTANCE: str
+    API_TOKEN: str = ""
     USER_AGENT: str = None
     HEADLESS: bool = True
     BROWSER: list = None

@@ -3,7 +3,9 @@ from time import sleep
 
 import pytest
 
-from ..conftest import get_instance_dir, read_json, login_normal_user
+from ..conftest import get_instance_dir
+from ..conftest import login_normal_user
+from ..conftest import read_json
 
 
 class TestDataverses:

@@ -1,9 +1,11 @@
-from json import load
 import os
+from json import load
 from time import sleep
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+
 from .config import Config
 
 
@@ -95,12 +97,11 @@ def login_normal_user(driver, test_config, config, user, password):
     return driver
 
 
-def login_shibboleth_user(driver, test_config, config, user, password):
-    base_url = test_config["instance"]["base-url"]
+def login_shibboleth_user(driver, base_url, width, height, user, password, name):
     driver.get(f"{base_url}/loginpage.xhtml")
     sleep(5)
-    driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
-    sleep(5)
+    driver.set_window_size(width, height)
+    sleep(10)
     driver.find_element(By.ID, "idpSelectSelector").click()
     sleep(1)
     dropdown = driver.find_element(By.ID, "idpSelectSelector")
@@ -118,6 +119,7 @@ def login_shibboleth_user(driver, test_config, config, user, password):
         driver.find_element(By.ID, "_shib_idp_accept_TOU").click()
         driver.find_element(By.NAME, "_eventId_proceed").click()
         sleep(5)
+    assert driver.find_element(By.ID, "userDisplayInfoTitle").text == name
     return driver
 
 
