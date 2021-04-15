@@ -1,18 +1,33 @@
-from json import load
 import os
+from json import load
 from time import sleep
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from .config import Config
+
+from dvtests.config import TestingConfig
+
+
+ROOT_DIR = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+)
 
 
 @pytest.fixture
 def config():
     if os.getenv("ENV_FILE"):
-        return Config(_env_file=os.getenv("ENV_FILE"))
+        return TestingConfig(_env_file=os.getenv("ENV_FILE"))
     else:
-        return Config()
+        return TestingConfig()
+
+
+@pytest.fixture
+def test_config(config):
+    instance_dir = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), "data/instances", config.INSTANCE
+    )
+    return read_json(os.path.join(instance_dir, config.TEST_CONFIG_FILENAME))
 
 
 @pytest.fixture
@@ -62,20 +77,6 @@ def browser(config, firefox, chrome):
     return browser
 
 
-@pytest.fixture
-def test_config(config):
-    instance_dir = os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), "data/instances", config.INSTANCE
-    )
-    return read_json(os.path.join(instance_dir, config.TEST_CONFIG_FILENAME))
-
-
-def get_instance_dir(config):
-    return os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), "data/instances", config.INSTANCE
-    )
-
-
 def login_normal_user(driver, test_config, config, user, password):
     base_url = test_config["instance"]["base-url"]
     driver.get(f"{base_url}/loginpage.xhtml")
@@ -95,12 +96,11 @@ def login_normal_user(driver, test_config, config, user, password):
     return driver
 
 
-def login_shibboleth_user(driver, test_config, config, user, password):
-    base_url = test_config["instance"]["base-url"]
+def login_shibboleth_user(driver, base_url, width, height, user, password, name):
     driver.get(f"{base_url}/loginpage.xhtml")
     sleep(5)
-    driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
-    sleep(5)
+    driver.set_window_size(width, height)
+    sleep(10)
     driver.find_element(By.ID, "idpSelectSelector").click()
     sleep(1)
     dropdown = driver.find_element(By.ID, "idpSelectSelector")
@@ -118,6 +118,7 @@ def login_shibboleth_user(driver, test_config, config, user, password):
         driver.find_element(By.ID, "_shib_idp_accept_TOU").click()
         driver.find_element(By.NAME, "_eventId_proceed").click()
         sleep(5)
+    assert driver.find_element(By.ID, "userDisplayInfoTitle").text == name
     return driver
 
 
@@ -152,6 +153,64 @@ def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
 
     """
     with open(filename, mode, encoding=encoding) as f:
-        data = load(f)
+        return load(f)
 
-    return data
+
+@pytest.fixture
+def dataset_upload_default_full_01():
+    return read_json(
+        os.path.join(
+            ROOT_DIR,
+            "dataverse_testdata/metadata/json/dataset/dataset_upload_default_full_01.json",
+        )
+    )
+
+
+@pytest.fixture
+def dataset_upload_default_min_02():
+    return read_json(
+        os.path.join(
+            ROOT_DIR,
+            "dataverse_testdata/metadata/json/dataset/dataset_upload_default_min_01.json",
+        )
+    )
+
+
+@pytest.fixture
+def datafile_upload_full_01():
+    return read_json(
+        os.path.join(
+            ROOT_DIR,
+            "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
+        )
+    )
+
+
+@pytest.fixture
+def datafile_upload_min_01():
+    return read_json(
+        os.path.join(
+            ROOT_DIR,
+            "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json",
+        )
+    )
+
+
+@pytest.fixture
+def dataverse_upload_full_01():
+    return read_json(
+        os.path.join(
+            ROOT_DIR,
+            "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
+        )
+    )
+
+
+@pytest.fixture
+def dataverse_upload_min_01():
+    return read_json(
+        os.path.join(
+            ROOT_DIR,
+            "dataverse_testdata/metadata/json/dataverse/dataverse_upload_min_01.json",
+        )
+    )

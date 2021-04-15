@@ -1,9 +1,20 @@
-import os
 from pydantic import BaseSettings
 
 
-class Config(BaseSettings):
+class UtilsConfig(BaseSettings):
     INSTANCE: str
+    BASE_URL: str = None
+    API_TOKEN: str = None
+    PRODUCTION: bool = False
+    FILENAME_DATAVERSES: str = "dataverses.json"
+    FILENAME_DATASETS: str = "datasets.json"
+    FILENAME_DATAFILES: str = "datafiles.json"
+    FILENAME_METADATA: str = "metadata.json"
+
+
+class TestingConfig(BaseSettings):
+    INSTANCE: str
+    API_TOKEN: str = ""
     USER_AGENT: str = None
     HEADLESS: bool = True
     BROWSER: list = None
@@ -22,8 +33,3 @@ class Config(BaseSettings):
     FILENAME_DATASETS: str = "datasets.json"
     FILENAME_DATAFILES: str = "datafiles.json"
     FILENAME_METADATA: str = "metadata.json"
-
-    class Config:
-        env_file = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.realpath(__file__))), ".env"
-        )

@@ -139,17 +139,11 @@ cython_debug/
 
 # Personal
 
-docs/
-app/docs/build
-app/docs/Makefile
 __pycache__/
 internal
-settings.json
-browserengines/
-tests/data/instances/
-metadata.json
-utils/data/
-test_dev.py
-terms/
-aussda_test-data/
+Pipfile.lock
+browserengines
+src/dvtests/testing/data
+src/dvtests/data
 env-config/
+dendron.yml
