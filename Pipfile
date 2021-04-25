@@ -4,12 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pytest = "==6.1.2"
-selenium = "==3.141.0"
-requests = "==2.25.0"
 pydantic = {version = "==1.7.2", extras = ["dotenv"]}
 typer = "==0.3.2"
 pyDataverse = "==0.3.1"
+pytest-selenium = "2.0.1"
 
 [dev-packages]
 black = "==19.10b0"
