@@ -8,6 +8,7 @@ from json import loads
 from time import sleep
 from typing import List
 
+import requests
 from pyDataverse.api import NativeApi
 from pyDataverse.models import Datafile
 from pyDataverse.models import Dataset
@@ -150,6 +151,29 @@ def create_testdata(config_file: str, force: bool) -> None:
         if "publish-dataset" in df_conf:
             if df_conf["publish-dataset"]:
                 resp = api.publish_dataset(pid, release_type="major")
+
+
+def create_user(config_file: str, force: bool) -> None:
+    # Init
+    if config.PRODUCTION and not force:
+        print(
+            "Create user on a PRODUCTION instance not allowed. Use --force to force it."
+        )
+        sys.exit()
+
+    workflow = read_json(os.path.join(ROOT_DIR, config_file))
+    # Users
+    for u_conf in workflow["users"]:
+        if "create" in u_conf:
+            u_filename = os.path.join(ROOT_DIR, u_conf["create"]["filename"])
+            data = read_json(u_filename)
+            if "update" in u_conf["create"]:
+                for key, val in u_conf["create"]["update"].items():
+                    data[key] = val
+            requests.post(
+                f"{config.BASE_URL}/api/builtin-users?password={config.USER_NORMAL_PWD}&key={config.BUILTIN_USER_KEY}",
+                json=data,
+            )
 
 
 def remove_testdata(

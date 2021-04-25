@@ -82,5 +82,120 @@
         "publish-dataset": {}
       }
     ]
-  }
+  },
+  "users": [
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "alias": "",
+          "name": ""
+        }
+      }
+    },
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "email": "ContactEmail2@mailinator.com",
+          "firstName": "FirstName2",
+          "lastName": "LastName2",
+          "userName": "UserName2",
+          "affiliation": "Affiliation2",
+          "position": "Position2"
+        }
+      }
+    },
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "email": "ContactEmail3@mailinator.com",
+          "firstName": "FirstName3",
+          "lastName": "LastName3",
+          "userName": "UserName3",
+          "affiliation": "Affiliation3",
+          "position": "Position3"
+        }
+      }
+    },
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "email": "ContactEmail4@mailinator.com",
+          "firstName": "FirstName4",
+          "lastName": "LastName4",
+          "userName": "UserName4",
+          "affiliation": "Affiliation4",
+          "position": "Position4"
+        }
+      }
+    },
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "email": "ContactEmail5@mailinator.com",
+          "firstName": "FirstName5",
+          "lastName": "LastName5",
+          "userName": "UserName5",
+          "affiliation": "Affiliation5",
+          "position": "Position5"
+        }
+      }
+    },
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "email": "ContactEmail6@mailinator.com",
+          "firstName": "FirstName6",
+          "lastName": "LastName6",
+          "userName": "UserName6",
+          "affiliation": "Affiliation6",
+          "position": "Position6"
+        }
+      }
+    },
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "email": "ContactEmail7@mailinator.com",
+          "firstName": "FirstName7",
+          "lastName": "LastName7",
+          "userName": "UserName7",
+          "affiliation": "Affiliation7",
+          "position": "Position7"
+        }
+      }
+    },
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "email": "ContactEmail8@mailinator.com",
+          "firstName": "FirstName8",
+          "lastName": "LastName8",
+          "userName": "UserName8",
+          "affiliation": "Affiliation8",
+          "position": "Position8"
+        }
+      }
+    },
+    {
+      "create": {
+        "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+        "update": {
+          "email": "ContactEmail9@mailinator.com",
+          "firstName": "FirstName9",
+          "lastName": "LastName9",
+          "userName": "UserName9",
+          "affiliation": "Affiliation9",
+          "position": "Position9"
+        }
+      }
+    }
+  ]
 }
