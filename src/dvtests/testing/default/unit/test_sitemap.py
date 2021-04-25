@@ -3,10 +3,19 @@ import requests
 
 
 class TestSitemap:
+    @pytest.mark.v4_18_1
     def test_sitemap(self, test_config):
-        if not test_config["tests"]["sitemap"]["test"]:
-            pytest.skip("Test not configured to be executed.")
+        """
 
+        Input
+        * base url
+
+        Expected result
+        * content type
+        * status code
+        * url
+
+        """
         base_url = test_config["instance"]["base-url"]
         url = f"{base_url}/sitemap.xml"
 

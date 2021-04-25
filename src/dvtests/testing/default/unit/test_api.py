@@ -4,10 +4,26 @@ from pyDataverse.api import NativeApi
 
 
 class TestApi:
+    @pytest.mark.v4_18_1
     def test_api_dataverses(self, test_config):
-        if not test_config["tests"]["api"]["dataverses"]["test"]:
-            pytest.skip("Test not configured to be executed.")
+        """
 
+        Input
+        * base url
+        * dataverse aliases
+
+        Expected result
+        * dataverse
+            * status code
+            * url
+            * content type
+            * alias
+            * affiliation
+            * tagline
+            * link url
+            * contact email
+
+        """
         base_url = test_config["instance"]["base-url"]
 
         for dv in test_config["dataverses"]:
@@ -37,12 +53,58 @@ class TestApi:
                     contact["contactEmail"] in test_config["dataverses"][dv]["emails"]
                 )
 
+    @pytest.mark.v4_18_1
     def test_dataverse_version(self, test_config):
-        if not test_config["tests"]["api"]["dataverse-version"]["test"]:
-            pytest.skip("Test not configured to be executed.")
+        """
 
+        Input
+        * base url
+
+        Expected result
+        * version
+        * build
+
+        """
         base_url = test_config["instance"]["base-url"]
 
         api = NativeApi(base_url)
         resp = api.get_info_version()
         assert resp.json()["data"]["version"] == test_config["instance"]["version"]
+
+    @pytest.mark.v4_18_1
+    def test_dataverse_server(self, test_config):
+        """
+
+        Input
+        * base url
+
+        Expected result
+        * base url
+
+        """
+        base_url = test_config["instance"]["base-url"]
+
+        api = NativeApi(base_url)
+        resp = api.get_info_server()
+        assert resp.json()["data"]["message"] == test_config["instance"]["base-url"]
+
+    def test_user(self, test_config, config):
+        """
+
+        Input
+        * base url
+
+        Expected result
+        * base url
+
+        """
+        """Test user endpoint.
+
+        Does not work below Dataverse 5.3 or 5.2
+        """
+        base_url = test_config["instance"]["base-url"]
+        api_token = config.API_TOKEN
+
+        api = NativeApi(base_url, api_token)
+        resp = api.get_user()
+        assert resp.json()["data"]["message"] == test_config["instance"]["base-url"]

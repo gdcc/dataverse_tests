@@ -9,15 +9,28 @@ from ..conftest import read_json
 
 
 class TestDataverses:
-    def test_all_dataverses(self, config, test_config, firefox):
-        if not test_config["tests"]["all-dataverses"]["test"]:
-            pytest.skip("Test not configured to be executed.")
+    @pytest.mark.v4_18_1
+    @pytest.mark.selenium
+    def test_all_dataverses(self, config, test_config, selenium):
+        """
 
+        TODO
+        * remove selenium
+
+        Input
+        * base url
+        * dataverse aliases
+
+        Expected result
+        * dataverses
+            * url
+
+        """
         instance_dir = get_instance_dir(config)
         base_url = test_config["instance"]["base-url"]
         dataverses = read_json(os.path.join(instance_dir, config.FILENAME_DATAVERSES))
-        firefox = login_normal_user(
-            firefox,
+        selenium = login_normal_user(
+            selenium,
             test_config,
             config,
             config.USER_SUPERUSER,
@@ -26,11 +39,11 @@ class TestDataverses:
 
         for dv in dataverses:
             url = f"{base_url}/dataverse.xhtml?alias={dv['dataverse_alias']}"
-            firefox.get(url)
+            selenium.get(url)
             sleep(1)
-            assert url == firefox.current_url
+            assert url == selenium.current_url
 
             url = f"{base_url}/dataverse/{dv['dataverse_alias']}"
-            firefox.get(url)
+            selenium.get(url)
             sleep(1)
-            assert url == firefox.current_url
+            assert url == selenium.current_url

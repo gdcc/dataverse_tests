@@ -10,15 +10,25 @@ from ..conftest import read_json
 
 
 class TestDatafiles:
-    def test_all_datafiles(self, config, test_config, firefox):
-        if not test_config["tests"]["all-datafiles"]["test"]:
-            pytest.skip("Test not configured to be executed.")
+    @pytest.mark.v4_18_1
+    @pytest.mark.selenium
+    def test_all_datafiles(self, config, test_config, selenium):
+        """
 
+        Input
+        * base url
+        * datafiles
+
+        Expected result
+        * datafile
+            * url
+
+        """
         instance_dir = get_instance_dir(config)
         base_url = test_config["instance"]["base-url"]
         datafiles = read_json(os.path.join(instance_dir, config.FILENAME_DATAFILES))
-        firefox = login_normal_user(
-            firefox,
+        selenium = login_normal_user(
+            selenium,
             test_config,
             config,
             config.USER_SUPERUSER,
@@ -27,6 +37,6 @@ class TestDatafiles:
 
         for df in datafiles:
             url = f"{base_url}/file.xhtml?fileId={df['datafile_id']}&version=:latest"
-            firefox.get(url)
+            selenium.get(url)
             sleep(1)
-            assert url == firefox.current_url
+            assert url == selenium.current_url

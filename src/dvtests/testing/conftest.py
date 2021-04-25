@@ -24,57 +24,34 @@ def config():
 
 @pytest.fixture
 def test_config(config):
-    instance_dir = os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), "data/instances", config.INSTANCE
-    )
-    return read_json(os.path.join(instance_dir, config.TEST_CONFIG_FILENAME))
+    instance_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data")
+    return read_json(os.path.join(instance_dir, config.INSTANCE + ".json"))
 
 
 @pytest.fixture
-def firefox(config):
-    options = webdriver.firefox.options.Options()
+def firefox_options(firefox_options, config):
+    firefox_options.add_argument("-foreground")
     if config.HEADLESS:
-        options.headless = True
+        firefox_options.headless = True
     else:
-        options.headless = False
-    profile = webdriver.FirefoxProfile()
+        firefox_options.headless = False
     if config.USER_AGENT:
-        profile.set_preference("general.useragent.override", "SELENIUM-TEST")
-    driver = webdriver.Firefox(firefox_profile=profile, options=options)
-    yield driver
-    driver.close()
-    driver.quit()
+        firefox_options.set_preference("general.useragent.override", "SELENIUM-TEST")
+    return firefox_options
 
 
 @pytest.fixture
-def chrome(config):
-    options = webdriver.ChromeOptions()
+def chrome_options(chrome_options, config):
     if config.HEADLESS:
-        options.headless = True
-    else:
-        options.headless = False
+        chrome_options.add_argument("--headless")
     if config.USER_AGENT:
-        options.add_argument(f"user-agent={config.USER_AGENT}")
-    options.add_argument("--no-sandbox")
-    options.add_argument("--no-default-browser-check")
-    options.add_argument("--no-first-run")
-    options.add_argument("--disable-default-apps")
-    options.add_argument("--disable-dev-shm-usage")
-    driver = webdriver.Chrome(options=options)
-    yield driver
-    driver.close()
-    driver.quit()
-
-
-@pytest.fixture
-def browser(config, firefox, chrome):
-    browser = {}
-    for b in config.BROWSER:
-        if b == "firefox":
-            browser["firefox"] = firefox
-        elif b == "chrome":
-            browser["chrome"] = chrome
-    return browser
+        chrome_options.add_argument(f"user-agent={config.USER_AGENT}")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--no-default-browser-check")
+    chrome_options.add_argument("--no-first-run")
+    chrome_options.add_argument("--disable-default-apps")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    return chrome_options
 
 
 def login_normal_user(driver, test_config, config, user, password):
@@ -157,6 +134,26 @@ def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
 
 
 @pytest.fixture
+def dataverse_upload_full_01():
+    return read_json(
+        os.path.join(
+            ROOT_DIR,
+            "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
+        )
+    )
+
+
+@pytest.fixture
+def dataverse_upload_min_01():
+    return read_json(
+        os.path.join(
+            ROOT_DIR,
+            "dataverse_testdata/metadata/json/dataverse/dataverse_upload_min_01.json",
+        )
+    )
+
+
+@pytest.fixture
 def dataset_upload_default_full_01():
     return read_json(
         os.path.join(
@@ -192,25 +189,5 @@ def datafile_upload_min_01():
         os.path.join(
             ROOT_DIR,
             "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json",
-        )
-    )
-
-
-@pytest.fixture
-def dataverse_upload_full_01():
-    return read_json(
-        os.path.join(
-            ROOT_DIR,
-            "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
-        )
-    )
-
-
-@pytest.fixture
-def dataverse_upload_min_01():
-    return read_json(
-        os.path.join(
-            ROOT_DIR,
-            "dataverse_testdata/metadata/json/dataverse/dataverse_upload_min_01.json",
         )
     )
