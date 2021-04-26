@@ -1,27 +1,40 @@
+import json
+import os
+
 import pytest
-import requests
+
+from ..conftest import BASE_URL
+from ..conftest import INSTANCE
+from ..conftest import ROOT_DIR
+
+
+with open(
+    os.path.join(
+        ROOT_DIR,
+        "src/dvtests/testing/data",
+        INSTANCE,
+        "default/unit/testdata_robots-txt.json",
+    )
+) as json_file:
+    testdata = json.load(json_file)
 
 
 class TestRobotsTxt:
     @pytest.mark.v4_18_1
-    def test_robots_txt(self, test_config):
-        """
+    @pytest.mark.v4_20
+    @pytest.mark.parametrize("expected", testdata["robots-txt"]["valid"])
+    def test_valid(self, session, expected):
+        """Test robots.txt."""
+        # Arrange
+        url = f"{BASE_URL}/robots.txt"
 
-        Input
-        * base url
+        # Act
+        resp = session.get(url)
 
-        Expected result
-        * status code
-        * content type
-        * encoding
-
-        """
-        test_cfg = test_config["tests"]["robots.txt"]
-
-        base_url = test_config["instance"]["base-url"]
-
-        url = f"{base_url}/robots.txt"
-        resp = requests.get(url)
+        # Assert
+        assert resp.url == url
         assert resp.status_code == 200
-        assert resp.encoding == test_cfg["encoding"]
-        assert "text/plain" in requests.head(url).headers["Content-Type"]
+        assert resp.encoding == expected["encoding"]
+        assert resp.headers["Content-Type"] == expected["content-type"]
+
+        # Cleanup

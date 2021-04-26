@@ -1,0 +1,10 @@
+{
+  "robots-txt": {
+    "valid": [
+      {
+        "encoding": "ISO-8859-1",
+        "content-type": "text/plain"
+      }
+    ]
+  }
+}

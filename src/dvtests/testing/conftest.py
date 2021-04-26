@@ -3,6 +3,8 @@ from json import load
 from time import sleep
 
 import pytest
+import requests
+from pyDataverse.api import NativeApi
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -16,20 +18,64 @@ ROOT_DIR = os.path.dirname(
 
 @pytest.fixture
 def config():
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     if os.getenv("ENV_FILE"):
         return TestingConfig(_env_file=os.getenv("ENV_FILE"))
     else:
         return TestingConfig()
 
 
+INSTANCE = (
+    TestingConfig(_env_file=os.getenv("ENV_FILE")).INSTANCE
+    if os.getenv("ENV_FILE")
+    else TestingConfig().INSTANCE
+)
+BASE_URL = (
+    TestingConfig(_env_file=os.getenv("ENV_FILE")).BASE_URL
+    if os.getenv("ENV_FILE")
+    else TestingConfig().BASE_URL
+)
+
+
+@pytest.fixture
+def session(config):
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
+    s = requests.Session()
+    s.headers.update({"User-Agent": config.USER_AGENT})
+    return s
+
+
+@pytest.fixture
+def native_api(config):
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
+    return NativeApi(BASE_URL)
+
+
 @pytest.fixture
 def test_config(config):
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     instance_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "data")
     return read_json(os.path.join(instance_dir, config.INSTANCE + ".json"))
 
 
 @pytest.fixture
 def firefox_options(firefox_options, config):
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     firefox_options.add_argument("-foreground")
     if config.HEADLESS:
         firefox_options.headless = True
@@ -42,6 +88,10 @@ def firefox_options(firefox_options, config):
 
 @pytest.fixture
 def chrome_options(chrome_options, config):
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     if config.HEADLESS:
         chrome_options.add_argument("--headless")
     if config.USER_AGENT:
@@ -54,12 +104,11 @@ def chrome_options(chrome_options, config):
     return chrome_options
 
 
-def login_normal_user(driver, test_config, config, user, password):
-    base_url = test_config["instance"]["base-url"]
-    driver.get(f"{base_url}/loginpage.xhtml")
-    driver.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
+def login_normal_user(driver, login_mode, window_width, window_height, user, password):
+    driver.get(f"{BASE_URL}/loginpage.xhtml")
+    driver.set_window_size(window_width, window_height)
     sleep(5)
-    if test_config["tests"]["login"]["login-page"] == "normal-user-and-shibboleth":
+    if login_mode == "normal-user-and-shibboleth":
         driver.find_element(By.LINK_TEXT, "Username/Email").click()
         sleep(3)
     driver.find_element(By.ID, "loginForm:credentialsContainer:0:credValue").send_keys(
@@ -135,6 +184,10 @@ def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
 
 @pytest.fixture
 def dataverse_upload_full_01():
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     return read_json(
         os.path.join(
             ROOT_DIR,
@@ -145,6 +198,10 @@ def dataverse_upload_full_01():
 
 @pytest.fixture
 def dataverse_upload_min_01():
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     return read_json(
         os.path.join(
             ROOT_DIR,
@@ -155,6 +212,10 @@ def dataverse_upload_min_01():
 
 @pytest.fixture
 def dataset_upload_default_full_01():
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     return read_json(
         os.path.join(
             ROOT_DIR,
@@ -165,6 +226,10 @@ def dataset_upload_default_full_01():
 
 @pytest.fixture
 def dataset_upload_default_min_02():
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     return read_json(
         os.path.join(
             ROOT_DIR,
@@ -175,6 +240,10 @@ def dataset_upload_default_min_02():
 
 @pytest.fixture
 def datafile_upload_full_01():
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     return read_json(
         os.path.join(
             ROOT_DIR,
@@ -185,6 +254,10 @@ def datafile_upload_full_01():
 
 @pytest.fixture
 def datafile_upload_min_01():
+    # Arrange
+    # Act
+    # Assert
+    # Cleanup
     return read_json(
         os.path.join(
             ROOT_DIR,

@@ -16,6 +16,7 @@ class UtilsConfig(BaseSettings):
 
 class TestingConfig(BaseSettings):
     INSTANCE: str
+    BASE_URL: str = None
     API_TOKEN: str = ""
     USER_AGENT: str = None
     HEADLESS: bool = True
