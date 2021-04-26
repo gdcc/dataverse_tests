@@ -1,0 +1,21 @@
+{
+  "shibboleth": {
+    "login-valid": [
+      {
+        "title": "AUSSDA"
+      }
+    ]
+  },
+  "normal-login": {
+    "login-valid": [
+      [
+        {
+          "login-mode": "normal-user-and-shibboleth"
+        },
+        {
+          "title": "AUSSDA"
+        }
+      ]
+    ]
+  }
+}

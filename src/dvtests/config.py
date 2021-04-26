@@ -10,10 +10,13 @@ class UtilsConfig(BaseSettings):
     FILENAME_DATASETS: str = "datasets.json"
     FILENAME_DATAFILES: str = "datafiles.json"
     FILENAME_METADATA: str = "metadata.json"
+    USER_NORMAL_PWD: str = None
+    BUILTIN_USER_KEY: str = None
 
 
 class TestingConfig(BaseSettings):
     INSTANCE: str
+    BASE_URL: str = None
     API_TOKEN: str = ""
     USER_AGENT: str = None
     HEADLESS: bool = True
@@ -33,3 +36,5 @@ class TestingConfig(BaseSettings):
     FILENAME_DATASETS: str = "datasets.json"
     FILENAME_DATAFILES: str = "datafiles.json"
     FILENAME_METADATA: str = "metadata.json"
+    USER_NORMAL_PWD: str = None
+    BUILTIN_USER_KEY: str = None

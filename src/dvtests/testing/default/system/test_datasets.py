@@ -10,31 +10,51 @@ from ..conftest import read_json
 
 
 class TestDatasets:
-    def test_all_datasets(self, config, test_config, firefox):
-        if not test_config["tests"]["all-datasets"]["test"]:
-            pytest.skip("Test not configured to be executed.")
+    @pytest.mark.v4_18_1
+    @pytest.mark.selenium
+    def test_all_datasets(self, config, test_config, selenium):
+        """
 
+        Input
+        * base url
+        * datasets pids
+
+        Expected result
+        * datafile
+            * url
+
+        """
         instance_dir = get_instance_dir(config)
         base_url = test_config["instance"]["base-url"]
         datasets = read_json(os.path.join(instance_dir, config.FILENAME_DATASETS))
-        firefox = login_normal_user(
-            firefox,
+        selenium = login_normal_user(
+            selenium,
             test_config,
             config,
             config.USER_SUPERUSER,
             config.USER_SUPERUSER_PWD,
         )
 
-        for ds in datasets:  # TODO: remove list subscripting
+        for ds in datasets:
             url = f"{base_url}/dataset.xhtml?persistentId={ds['pid']}"
-            firefox.get(url)
+            selenium.get(url)
             sleep(1)
-            assert url == firefox.current_url
+            assert url == selenium.current_url
 
+    @pytest.mark.v4_18_1
     def test_all_doiorg_pages(self, config, test_config):
-        if not test_config["tests"]["all-datasets"]["test"]:
-            pytest.skip("Test not configured to be executed.")
+        """
 
+        Input
+        * base url
+        * dataset pids
+
+        Expected result
+        * dataset
+            * url
+            * status code
+
+        """
         instance_dir = get_instance_dir(config)
         datasets = read_json(os.path.join(instance_dir, config.FILENAME_DATASETS))
         base_url = test_config["instance"]["base-url"]

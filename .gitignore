@@ -143,7 +143,6 @@ __pycache__/
 internal
 Pipfile.lock
 browserengines
-src/dvtests/testing/data
 src/dvtests/data
 env-config/
 dendron.yml

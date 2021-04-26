@@ -4,6 +4,7 @@ from typing import List
 import typer
 from utils import collect_data
 from utils import create_testdata
+from utils import create_user
 from utils import generate_data
 from utils import INSTANCE_DATA_DIR
 from utils import remove_testdata
@@ -34,6 +35,12 @@ def generate_command() -> None:
 def create_testdata_command(config_file: str, force: bool = False) -> None:
     create_testdata(config_file, force)
     typer.echo(f"Testdata created")
+
+
+@app.command("create-user")
+def create_user_command(config_file: str, force: bool = False) -> None:
+    create_user(config_file, force)
+    typer.echo(f"User created")
 
 
 @app.command("remove-testdata")
