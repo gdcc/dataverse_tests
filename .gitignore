@@ -144,5 +144,6 @@ internal
 Pipfile.lock
 browserengines
 src/dvtests/data
+user/
 env-config/
 dendron.yml

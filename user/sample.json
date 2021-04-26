@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "user-name": "dataverseAdmin",
+      "name": "Dataverse Admin",
+      "password": "SECRET",
+      "api-token": "SECRET",
+      "role": "superuser",
+      "authentication": "normal"
+    },
+    {
+      "user-name": "dataverseAdmin",
+      "name": "Dataverse Admin",
+      "password": "SECRET",
+      "api-token": "SECRET",
+      "role": "superuser",
+      "authentication": "normal"
+    }
+  ]
+}
