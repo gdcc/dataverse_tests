@@ -1,24 +1,13 @@
 import json
 import os
-from time import sleep
 
 import pytest
-from selenium.webdriver.common.by import By
 
-from ..conftest import BASE_URL
-from ..conftest import INSTANCE
-from ..conftest import login_normal_user
-from ..conftest import login_shibboleth_user
-from ..conftest import ROOT_DIR
+from ..conftest import TESTING_DATA_DIR
 
 
 with open(
-    os.path.join(
-        ROOT_DIR,
-        "src/dvtests/testing/data",
-        INSTANCE,
-        "default/unit/testdata_authentication.json",
-    )
+    os.path.join(TESTING_DATA_DIR, "default/unit/testdata_authentication.json",)
 ) as json_file:
     testdata = json.load(json_file)
 
@@ -29,10 +18,10 @@ class TestShibboleth:
     @pytest.mark.parametrize(
         "test_input,expected", testdata["shibboleth"]["interface-valid"]
     )
-    def test_interface_valid(self, session, test_input, expected):
+    def test_interface_valid(self, config, session, test_input, expected):
         """Test Shibboleth interface."""
         # Arrange
-        url = f'{BASE_URL}{test_input["url"]}'
+        url = f'{config.BASE_URL}{test_input["url"]}'
 
         # Act
         resp = session.get(url)

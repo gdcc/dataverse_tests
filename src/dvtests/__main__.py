@@ -1,4 +1,3 @@
-import os
 from typing import List
 
 import typer
@@ -6,9 +5,7 @@ from utils import collect_data
 from utils import create_testdata
 from utils import create_user
 from utils import generate_data
-from utils import INSTANCE_DATA_DIR
 from utils import remove_testdata
-from utils import ROOT_DIR
 
 
 app = typer.Typer()
@@ -22,25 +19,25 @@ def collect_command(
     create_json: bool = False,
 ) -> None:
     collect_data(parent, data_types, filename, create_json)
-    typer.echo(f"Data collected")
+    typer.echo("Data collected")
 
 
 @app.command("generate")
 def generate_command() -> None:
     generate_data()
-    typer.echo(f"Data generated")
+    typer.echo("Data generated")
 
 
 @app.command("create-testdata")
 def create_testdata_command(config_file: str, force: bool = False) -> None:
     create_testdata(config_file, force)
-    typer.echo(f"Testdata created")
+    typer.echo("Testdata created")
 
 
 @app.command("create-user")
 def create_user_command(config_file: str, force: bool = False) -> None:
     create_user(config_file, force)
-    typer.echo(f"User created")
+    typer.echo("User created")
 
 
 @app.command("remove-testdata")
@@ -51,7 +48,7 @@ def remove_testdata_command(
     force: bool = False,
 ) -> None:
     remove_testdata(parent, parent_data_type, data_types, force)
-    typer.echo(f"Testdata removed")
+    typer.echo("Testdata removed")
 
 
 if __name__ == "__main__":

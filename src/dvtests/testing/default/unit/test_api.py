@@ -3,14 +3,13 @@ import os
 
 import pytest
 
-from ..conftest import INSTANCE
+from ..conftest import CONFIG
 from ..conftest import ROOT_DIR
+from ..conftest import TESTING_DATA_DIR
 
 
 with open(
-    os.path.join(
-        ROOT_DIR, "src/dvtests/testing/data", INSTANCE, "default/unit/testdata_api.json"
-    )
+    os.path.join(TESTING_DATA_DIR, "default/unit/testdata_api.json")
 ) as json_file:
     testdata = json.load(json_file)
 

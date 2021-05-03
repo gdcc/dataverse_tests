@@ -3,18 +3,11 @@ import os
 
 import pytest
 
-from ..conftest import BASE_URL
-from ..conftest import INSTANCE
-from ..conftest import ROOT_DIR
+from ..conftest import TESTING_DATA_DIR
 
 
 with open(
-    os.path.join(
-        ROOT_DIR,
-        "src/dvtests/testing/data",
-        INSTANCE,
-        "default/unit/testdata_installation.json",
-    )
+    os.path.join(TESTING_DATA_DIR, "default/unit/testdata_installation.json",)
 ) as json_file:
     testdata = json.load(json_file)
 
@@ -55,11 +48,11 @@ class TestServer:
     @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("expected", testdata["server"]["request-valid"])
-    def test_request_valid(self, session, expected):
+    def test_request_valid(self, config, session, expected):
         """Test Dataverse server."""
         # Arrange
         # Act
-        resp = session.get(BASE_URL)
+        resp = session.get(config.BASE_URL)
 
         # Assert
         assert resp.headers["Server"] == expected["server"]
