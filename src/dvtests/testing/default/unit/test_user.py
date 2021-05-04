@@ -23,8 +23,6 @@ class TestApi:
         # Act
         resp = native_api.get_user()
         r_data = resp.json()["data"]
-
         # Assert
         assert r_data["message"] == expected["url"]
-
         # Cleanup

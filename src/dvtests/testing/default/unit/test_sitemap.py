@@ -13,20 +13,16 @@ with open(
 
 
 class TestSitemap:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("expected", testdata["sitemap"]["valid"])
     def test_valid(self, config, session, expected):
         """Test sitemap."""
         # Arrange
         url = f"{config.BASE_URL}/sitemap.xml"
-
         # Act
         resp = session.get(url)
-
         # Assert
         assert resp.status_code == 200
-        # assert resp.encoding == expected["encoding"]
+        # assert resp.encoding == expected["encoding"] # TODO
         assert resp.headers["Content-Type"] == expected["content-type"]
-
         # Cleanup

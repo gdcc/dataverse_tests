@@ -17,13 +17,12 @@ with open(
 
 
 class TestNormalLogin:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected", testdata["normal-login"]["login-valid"]
     )
-    def test_login_valid(self, config, users, selenium, test_input, expected):
+    def test_login_valid(self, users, selenium, test_input, expected):
         """Test normal login procedure."""
         # Arrange
         selenium = login_normal(
@@ -38,7 +37,6 @@ class TestNormalLogin:
         navbar_user = wait.until(
             EC.element_to_be_clickable((By.ID, "userDisplayInfoTitle"))
         )
-
         # Act
         # Assert
         assert selenium.title == expected["title"]

@@ -21,7 +21,6 @@ with open(
 
 
 class TestAllDatafiles:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("test_input", testdata)
     def test_fileid_url_not_logged_in(self, config, session, test_input):
@@ -36,7 +35,6 @@ class TestAllDatafiles:
         assert resp.url == url
         # Cleanup
 
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize("test_input", testdata)
@@ -55,7 +53,6 @@ class TestAllDatafiles:
         assert selenium.current_url == url
         # Cleanup
 
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(

@@ -13,7 +13,6 @@ with open(
 
 
 class TestShibboleth:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize(
         "test_input,expected", testdata["shibboleth"]["interface-valid"]
@@ -22,10 +21,8 @@ class TestShibboleth:
         """Test Shibboleth interface."""
         # Arrange
         url = f'{config.BASE_URL}{test_input["url"]}'
-
         # Act
         resp = session.get(url)
-
         # Assert
         assert resp.url == url
         assert resp.status_code == 200

@@ -13,7 +13,6 @@ with open(
 
 
 class TestEndpoint:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("test_input,expected", testdata["endpoint"]["valid"])
     def test_valid(self, session, test_input, expected):
@@ -21,7 +20,6 @@ class TestEndpoint:
         # Arrange
         # Act
         resp = session.get(test_input["url"])
-
         # Assert
         assert resp.text
         assert resp.url == test_input["url"]

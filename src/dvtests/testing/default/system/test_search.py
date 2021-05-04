@@ -3,11 +3,7 @@ import os
 
 import pytest
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 
-from ..conftest import DATA_DIR
-from ..conftest import search_header
 from ..conftest import search_navbar
 from ..conftest import TESTING_DATA_DIR
 
@@ -19,7 +15,6 @@ with open(
 
 
 class TestSearch:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(

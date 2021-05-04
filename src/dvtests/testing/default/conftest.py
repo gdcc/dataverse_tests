@@ -1,4 +1,3 @@
-from ..conftest import CONFIG
 from ..conftest import custom_click_cookie_rollbar
 from ..conftest import DATA_DIR
 from ..conftest import login_normal

@@ -20,7 +20,6 @@ with open(
 
 
 class TestAllDatasets:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("test_input", testdata)
     def test_pid_url_not_logged_in(self, config, session, test_input):
@@ -35,7 +34,6 @@ class TestAllDatasets:
         assert resp.url == url
         # Cleanup
 
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("test_input", testdata)
     def test_doiorg_url(self, config, session, test_input):
@@ -51,7 +49,6 @@ class TestAllDatasets:
         assert resp.url == url_end
         # Cleanup
 
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(

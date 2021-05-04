@@ -21,7 +21,6 @@ with open(
 
 
 class TestAllDataverses:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("test_input", testdata)
     def test_xhtml_url_not_logged_in(self, config, session, test_input):
@@ -30,14 +29,12 @@ class TestAllDataverses:
         url = f"{config.BASE_URL}/dataverse.xhtml?alias={test_input['dataverse_alias']}"
         # Act
         resp = session.get(url)
-
         # Assert
         assert resp.status_code == 200
         assert resp.headers["Content-Type"] == "text/html;charset=UTF-8"
         assert resp.url == url
         # Cleanup
 
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("test_input", testdata)
     def test_clean_url_not_logged_in(self, config, session, test_input):
@@ -54,7 +51,6 @@ class TestAllDataverses:
         assert resp.url == url
         # Cleanup
 
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
@@ -69,11 +65,6 @@ class TestAllDataverses:
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
         wait.until(EC.visibility_of_element_located((By.ID, "dv-sidebar")))
         facet_dataverse = selenium.find_element(By.CLASS_NAME, "facetTypeDataverse")
-        # facet_dataset = selenium.find_element(By.CLASS_NAME, "facetTypeDataset")
-        # facet_datafile = selenium.find_element(By.CLASS_NAME, "facetTypeFile")
-        # assert facet_dataset.text == f"Datasets ({metadata['datasets']})"
-        # assert facet_datafile.text == f"Files ({metadata['datafiles']})"
-
         # Assert
         assert facet_dataverse.text == f"Dataverses ({expected['num-dataverses']})"
         # Cleanup

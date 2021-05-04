@@ -3,8 +3,6 @@ import os
 
 import pytest
 
-from ..conftest import CONFIG
-from ..conftest import ROOT_DIR
 from ..conftest import TESTING_DATA_DIR
 
 
@@ -15,7 +13,6 @@ with open(
 
 
 class TestDataverse:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize("test_input,expected", testdata["dataverse"]["valid"])
     def test_valid(self, config, native_api, test_input, expected):

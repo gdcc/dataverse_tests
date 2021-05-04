@@ -27,7 +27,7 @@ TESTING_DATA_DIR = os.path.join(ROOT_DIR, "src/dvtests/testing/data", CONFIG.INS
 TESTDATA_METADATA_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json")
 
 
-@pytest.fixture
+@pytest.fixture()
 def config():
     return CONFIG
 
@@ -85,6 +85,7 @@ def selenium(selenium, config):
     selenium.quit()
 
 
+@pytest.fixture
 def login_normal(
     selenium, base_url, login_options, user_handle, user_pwd, max_wait_time
 ):
