@@ -22,23 +22,23 @@ class TestNormalLogin:
     @pytest.mark.parametrize(
         "test_input,expected", testdata["normal-login"]["login-valid"]
     )
-    def test_login_valid(self, users, selenium, test_input, expected):
+    def test_login_valid(self, config, selenium, users, test_input, expected):
         """Test normal login procedure."""
         # Arrange
-        selenium = login_normal(
+        # Act
+        login_normal(
             selenium,
             config.BASE_URL,
             config.LOGIN_OPTIONS,
-            test_input["user"],
-            users[test_input["user"]]["password"],
+            test_input["user-handle"],
+            users[test_input["user-handle"]]["password"],
             config.MAX_WAIT_TIME,
         )
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
         navbar_user = wait.until(
             EC.element_to_be_clickable((By.ID, "userDisplayInfoTitle"))
         )
-        # Act
         # Assert
         assert selenium.title == expected["title"]
-        assert navbar_user.text == users[test_input["user"]]["name"]
+        assert navbar_user.text == users[test_input["user-handle"]]["name"]
         # Cleanup

@@ -3,11 +3,7 @@
     "login-valid": [
       [
         {
-          "user": "dataverseAdmin",
-          "login-options": [
-            "normal",
-            "shibboleth"
-          ]
+          "user-handle": "dataverseAdmin"
         },
         {
           "title": "AUSSDA"
@@ -15,11 +11,7 @@
       ],
       [
         {
-          "user": "TestUser_NormalLogin",
-          "login-options": [
-            "normal",
-            "shibboleth"
-          ]
+          "user-handle": "TestUser_NormalLogin"
         },
         {
           "title": "AUSSDA"

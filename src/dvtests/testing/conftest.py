@@ -85,13 +85,11 @@ def selenium(selenium, config):
     selenium.quit()
 
 
-@pytest.fixture
 def login_normal(
     selenium, base_url, login_options, user_handle, user_pwd, max_wait_time
 ):
     """Login with normal user."""
     wait = WebDriverWait(selenium, max_wait_time)
-    # set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
     selenium.get(f"{base_url}/loginpage.xhtml")
 
     if "shibboleth" in login_options:
