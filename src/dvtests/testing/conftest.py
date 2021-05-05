@@ -212,15 +212,14 @@ def custom_login_shibboleth_institution_page(
     return selenium
 
 
-def custom_click_cookie_rollbar(selenium, config):
+def custom_click_cookie_rollbar(selenium, max_wait_time):
     """Accept cookie rollbar."""
-    wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-    btn_cookie_rollbar = wait.until(
+    wait = WebDriverWait(selenium, max_wait_time)
+    wait.until(
         EC.element_to_be_clickable(
             (By.ID, "CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection")
         )
-    )
-    btn_cookie_rollbar.click()
+    ).click()
     return selenium
 
 

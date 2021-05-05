@@ -5,5 +5,12 @@
         "num-dataverses": 17
       }
     ]
+  },
+  "create-dataverse": {
+    "min-valid": [
+      {
+        "user-handle": "dataverseAdmin"
+      }
+    ]
   }
 }

@@ -26,7 +26,7 @@ class TestNormalLogin:
         """Test normal login procedure."""
         # Arrange
         # Act
-        login_normal(
+        selenium = login_normal(
             selenium,
             config.BASE_URL,
             config.LOGIN_OPTIONS,
