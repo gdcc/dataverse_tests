@@ -1,0 +1,40 @@
+{
+  "version": {
+    "valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "version": "4.20",
+            "build": "413-4e07b62"
+          }
+        ]
+      ]
+    }
+  },
+  "server": {
+    "api-valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "url": "data.aussda.at"
+          }
+        ]
+      ]
+    },
+    "request-valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "server": "Apache/2.4.41 (Ubuntu)",
+            "content-encoding": "gzip",
+            "keep-alive": "timeout=5, max=100",
+            "connection": "Keep-Alive"
+          }
+        ]
+      ]
+    }
+  }
+}

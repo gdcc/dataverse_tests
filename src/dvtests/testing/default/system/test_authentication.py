@@ -1,79 +1,48 @@
-import json
 import os
 
 import pytest
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
-from ..conftest import BASE_URL
-from ..conftest import INSTANCE
-from ..conftest import login_normal_user
-from ..conftest import login_shibboleth_user
-from ..conftest import ROOT_DIR
+from ..conftest import read_json
+from ..conftest import TEST_CONFIG_DATA_DIR
 
 
-with open(
+test_config = read_json(
     os.path.join(
-        ROOT_DIR,
-        "src/dvtests/testing/data",
-        INSTANCE,
-        "default/system/testdata_authentication.json",
+        TEST_CONFIG_DATA_DIR, "default/system/test-config_authentication.json",
     )
-) as json_file:
-    testdata = json.load(json_file)
-
-
-class TestShibboleth:
-    @pytest.mark.v4_18_1
-    @pytest.mark.v4_20
-    @pytest.mark.selenium
-    @pytest.mark.parametrize("expected", testdata["shibboleth"]["login-valid"])
-    def test_login_valid(self, config, selenium, expected):
-        """Test Shibboleth login procedure."""
-        # Arrange
-        # Act
-        selenium = login_shibboleth_user(
-            selenium,
-            BASE_URL,
-            config.WINDOW_WIDTH,
-            config.WINDOW_HEIGHT,
-            config.USER_SHIBBOLETH,
-            config.USER_SHIBBOLETH_PWD,
-            config.USER_SHIBBOLETH_NAME,
-        )
-
-        # Assert
-        assert selenium.title == expected["title"]
-        assert (
-            selenium.find_element(By.ID, "userDisplayInfoTitle").text
-            == config.USER_SHIBBOLETH_NAME
-        )
-        # Cleanup
+)
 
 
 class TestNormalLogin:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
-        "test_input,expected", testdata["normal-login"]["login-valid"]
+        "homepage_logged_in",
+        test_config["normal-login"]["login-valid"]["users"],
+        indirect=True,
     )
-    def test_login(self, config, selenium, test_input, expected):
+    @pytest.mark.parametrize(
+        "test_input,expected",
+        test_config["normal-login"]["login-valid"]["input-expected"],
+    )
+    def test_login_valid(self, config, homepage_logged_in, users, test_input, expected):
         """Test normal login procedure."""
         # Arrange
+        selenium, user_handle = homepage_logged_in
+        wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
         # Act
-        selenium = login_normal_user(
-            selenium,
-            test_input["login-mode"],
-            config.WINDOW_WIDTH,
-            config.WINDOW_HEIGHT,
-            config.USER_NORMAL,
-            config.USER_NORMAL_PWD,
+        navbar_user = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//span[@id='userDisplayInfoTitle']"))
         )
-
         # Assert
         assert selenium.title == expected["title"]
         assert (
-            selenium.find_element(By.ID, "userDisplayInfoTitle").text
-            == config.USER_NORMAL_NAME
+            navbar_user.text
+            == users[user_handle]["given-name"]
+            + " "
+            + users[user_handle]["family-name"]
         )
         # Cleanup

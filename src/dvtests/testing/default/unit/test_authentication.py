@@ -1,42 +1,28 @@
-import json
 import os
-from time import sleep
 
 import pytest
-from selenium.webdriver.common.by import By
 
-from ..conftest import BASE_URL
-from ..conftest import INSTANCE
-from ..conftest import login_normal_user
-from ..conftest import login_shibboleth_user
-from ..conftest import ROOT_DIR
+from ..conftest import read_json
+from ..conftest import TEST_CONFIG_DATA_DIR
 
 
-with open(
-    os.path.join(
-        ROOT_DIR,
-        "src/dvtests/testing/data",
-        INSTANCE,
-        "default/unit/testdata_authentication.json",
-    )
-) as json_file:
-    testdata = json.load(json_file)
+test_config = read_json(
+    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_authentication.json",)
+)
 
 
 class TestShibboleth:
-    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.parametrize(
-        "test_input,expected", testdata["shibboleth"]["interface-valid"]
+        "test_input,expected",
+        test_config["shibboleth"]["interface-valid"]["input-expected"],
     )
-    def test_interface_valid(self, session, test_input, expected):
+    def test_interface_valid(self, config, session, test_input, expected):
         """Test Shibboleth interface."""
         # Arrange
-        url = f'{BASE_URL}{test_input["url"]}'
-
+        url = f'{config.BASE_URL}{test_input["url"]}'
         # Act
         resp = session.get(url)
-
         # Assert
         assert resp.url == url
         assert resp.status_code == 200

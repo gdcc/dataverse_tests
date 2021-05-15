@@ -1,69 +1,71 @@
 import os
-from time import sleep
 
 import pytest
-import requests
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
-from ..conftest import get_instance_dir
-from ..conftest import login_normal_user
 from ..conftest import read_json
+from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import UTILS_DATA_DIR
 
 
-class TestDatasets:
-    @pytest.mark.v4_18_1
+testdata = read_json(os.path.join(UTILS_DATA_DIR, "datasets.json",))
+test_config = read_json(
+    os.path.join(TEST_CONFIG_DATA_DIR, "default/system/test-config_datasets.json",)
+)
+
+
+class TestAllDatasets:
+    @pytest.mark.v4_20
+    @pytest.mark.parametrize("test_input", testdata)
+    def test_pid_url_not_logged_in(self, config, session, test_input):
+        """Test all Dataset XHTML URL's as not-logged-in user."""
+        # Arrange
+        url = f"{config.BASE_URL}/dataset.xhtml?persistentId={test_input['pid']}"
+        # Act
+        resp = session.get(url)
+        # Assert
+        assert resp.status_code == 200
+        assert resp.headers["Content-Type"] == "text/html;charset=UTF-8"
+        assert resp.url == url
+        # Cleanup
+
+    @pytest.mark.v4_20
+    @pytest.mark.parametrize("test_input", testdata)
+    def test_doiorg_url(self, config, session, test_input):
+        """Test all doi.org URL's."""
+        # Arrange
+        url_start = f"https://doi.org/{test_input['pid'][4:]}"
+        url_end = f"{config.BASE_URL}/dataset.xhtml?persistentId={test_input['pid']}"
+        # Act
+        resp = session.get(url_start)
+        # Assert
+        assert resp.status_code == 200
+        assert resp.headers["Content-Type"] == "text/html;charset=UTF-8"
+        assert resp.url == url_end
+        # Cleanup
+
+    @pytest.mark.v4_20
     @pytest.mark.selenium
-    def test_all_datasets(self, config, test_config, selenium):
-        """
-
-        Input
-        * base url
-        * datasets pids
-
-        Expected result
-        * datafile
-            * url
-
-        """
-        instance_dir = get_instance_dir(config)
-        base_url = test_config["instance"]["base-url"]
-        datasets = read_json(os.path.join(instance_dir, config.FILENAME_DATASETS))
-        selenium = login_normal_user(
-            selenium,
-            test_config,
-            config,
-            config.USER_SUPERUSER,
-            config.USER_SUPERUSER_PWD,
+    @pytest.mark.parametrize(
+        "test_input,expected",
+        test_config["all-datasets"]["facet-not-logged-in"]["input-expected"],
+    )
+    def test_facet_not_logged_in(self, config, homepage, test_input, expected):
+        """Test all Datasets in facet as not-logged-in user."""
+        # Arrange
+        selenium = homepage
+        wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
+        # Act
+        selenium.get(config.BASE_URL)
+        wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
+        wait.until(
+            EC.visibility_of_element_located((By.XPATH, "//div[@id='dv-sidebar']"))
         )
-
-        for ds in datasets:
-            url = f"{base_url}/dataset.xhtml?persistentId={ds['pid']}"
-            selenium.get(url)
-            sleep(1)
-            assert url == selenium.current_url
-
-    @pytest.mark.v4_18_1
-    def test_all_doiorg_pages(self, config, test_config):
-        """
-
-        Input
-        * base url
-        * dataset pids
-
-        Expected result
-        * dataset
-            * url
-            * status code
-
-        """
-        instance_dir = get_instance_dir(config)
-        datasets = read_json(os.path.join(instance_dir, config.FILENAME_DATASETS))
-        base_url = test_config["instance"]["base-url"]
-
-        # Resolve doi.org URL
-        for ds in datasets:
-            url_start = f"https://doi.org/{ds['pid'][4:]}"
-            url_end = f"{base_url}/dataset.xhtml?persistentId={ds['pid']}"
-            resp = requests.get(url_start)
-            sleep(3)
-            assert resp.status_code == 200
-            assert url_end == resp.current_url
+        facet_dataset = selenium.find_element(
+            By.XPATH, "//span[@class='facetTypeDataset']"
+        )
+        # Assert
+        assert facet_dataset.text == f"Datasets ({expected['num-datasets']})"
+        # Cleanup

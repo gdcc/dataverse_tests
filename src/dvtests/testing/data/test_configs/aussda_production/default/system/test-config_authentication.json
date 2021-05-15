@@ -1,0 +1,19 @@
+{
+  "normal-login": {
+    "login-valid": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "title": "AUSSDA"
+          }
+        ]
+      ]
+    }
+  }
+}

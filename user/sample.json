@@ -1,0 +1,16 @@
+{
+  "USER_HANDLE": {
+    "name": "USER_NAME",
+    "password": "SECRET",
+    "api-token": "SECRET",
+    "role": "ROLE",
+    "authentication": "AUTH_MODE"
+  },
+  "dataverseAdmin": {
+    "name": "Dataverse Admin",
+    "password": "SECRET",
+    "api-token": "SECRET",
+    "role": "superuser",
+    "authentication": "normal"
+  }
+}
