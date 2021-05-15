@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pydantic = {version = "==1.7.2", extras = ["dotenv"]}
+pydantic = {version = "==1.8.2", extras = ["dotenv"]}
 pyDataverse = "==0.3.1"
 pytest-selenium = "2.0.1"
 typer = "==0.3.2"
