@@ -2,150 +2,143 @@ import os
 
 import pytest
 from pyDataverse.api import NativeApi
+from pyDataverse.models import Dataverse
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
-from ..conftest import custom_click_cookie_rollbar
-from ..conftest import DATA_DIR
-from ..conftest import login_normal
+from ..conftest import DATAVERSE_VERSION_DIR
 from ..conftest import read_json
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import UTILS_DATA_DIR
 
 
-all_dataverses = read_json(os.path.join(DATA_DIR, "dataverses.json"))
+all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, "dataverses.json"))
 test_config = read_json(
-    os.path.join(TESTING_DATA_DIR, "default/system/testdata_dataverses.json")
+    os.path.join(TEST_CONFIG_DATA_DIR, "default/system/test-config_dataverses.json")
 )
-
-FORM_DATA_CREATE_DATASET_DV_4_20 = {
-    "name": {"form-name": "name", "form-type": "text", "data-name": "name"},
-    "alias": {"form-name": "identifier", "form-type": "text", "data-name": "alias"},
-    "category": {
-        "form-name": "dataverseCategory",
-        "form-type": "select",
-        "data-name": "dataverseType",
-    },
-    "storage": {
-        "form-name": "dataverseStorage",
-        "form-type": "select",
-        "data-name": "",
-    },
-    "affiliation": {
-        "form-name": "affiliation",
-        "form-type": "text",
-        "data-name": "affiliation",
-    },
-    "parent-dataverse": {
-        "form-name": "selectHostDataverse",
-        "form-type": "text",
-        "data-name": "",
-    },
-    "description": {
-        "form-name": "description",
-        "form-type": "text",
-        "data-name": "description",
-    },
-    "contactEmail": {
-        "form-name": "j_idt259:0:contactEmail",
-        "form-type": "text",
-        "data-name": ["dataverseContacts", 0, "contactEmail"],
-    },
-}
 
 
 class TestCreateDataverse:
     @pytest.mark.v4_20
-    @pytest.mark.parametrize("test_input", test_config["create-dataverse"]["min-valid"])
+    @pytest.mark.selenium
+    @pytest.mark.parametrize(
+        "homepage_logged_in",
+        test_config["create-dataverse"]["min-valid"]["users"],
+        indirect=True,
+    )
     def test_min_valid(
-        self, config, selenium, native_api, users, dataverse_upload_min_01, test_input
+        self, config, homepage_logged_in, users, dataverse_upload_min_01,
     ):
         """Test create a minimum Dataverse via frontend."""
         # Arrange
+        is_created = False
+        selenium, user_handle = homepage_logged_in
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-        dv = dataverse_upload_min_01
-        selenium = login_normal(
-            selenium,
-            config.BASE_URL,
-            config.LOGIN_OPTIONS,
-            test_input["user-handle"],
-            users[test_input["user-handle"]]["password"],
-            config.MAX_WAIT_TIME,
-        )
         form_fields = ["name", "alias", "contactEmail", "category"]
-        custom_click_cookie_rollbar(selenium, config.MAX_WAIT_TIME)
+        dv = Dataverse()
+        dv.set(dataverse_upload_min_01)
         # Act
-        wait.until(EC.element_to_be_clickable((By.ID, "addDataForm"))).click()
-        wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "New Dataverse"))).click()
+        wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, "//form[@id='addDataForm']/div[1]/button")
+            )
+        ).click()
+        wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, "//form[@id='addDataForm']/div[1]/ul/li[1]/a")
+            )
+        ).click()
 
         for ff in form_fields:
-            fd = FORM_DATA_CREATE_DATASET_DV_4_20[ff]
+            fd = read_json(
+                os.path.join(DATAVERSE_VERSION_DIR, "form-data_create-dataverse.json")
+            )[ff]
             input_field = wait.until(
-                EC.visibility_of_element_located(
-                    (By.ID, f'dataverseForm:{fd["form-name"]}')
-                )
+                EC.visibility_of_element_located((By.XPATH, fd["xpath"]))
             )
-            if type(fd["data-name"]) == str:
-                field_data = dv[fd["data-name"]]
-            elif type(fd["data-name"]) == list:
-                field_data = dv
-                for idx in fd["data-name"]:
+            if type(fd["content"]) == str:
+                field_data = dv.get()[fd["content"]]
+            elif type(fd["content"]) == list:
+                field_data = dv.get()
+                for idx in fd["content"]:
                     field_data = field_data[idx]
-            if fd["form-type"] == "text":
+            if fd["type"] == "text":
                 input_field.click()
                 input_field.clear()
                 input_field.send_keys(field_data)
-            elif fd["form-type"] == "select":
+            elif fd["type"] == "select":
                 select = Select(input_field)
                 select.select_by_value(field_data)
         if "affiliation" not in form_fields:
             input_field = wait.until(
-                EC.visibility_of_element_located((By.ID, f"dataverseForm:affiliation"))
+                EC.visibility_of_element_located(
+                    (By.XPATH, "//input[@id='dataverseForm:affiliation']")
+                )
             )
             input_field.click()
             input_field.clear()
         try:
             wait.until(
-                EC.element_to_be_clickable((By.ID, "dataverseForm:save"))
+                EC.element_to_be_clickable(
+                    (By.XPATH, "//button[@id='dataverseForm:save']")
+                )
             ).click()
-            wait.until(EC.element_to_be_clickable((By.CLASS_NAME, "alert")))
-            alert = selenium.find_element(By.CLASS_NAME, "alert")
+            is_created = True
+            wait.until(
+                EC.visibility_of_element_located(
+                    (By.XPATH, "//div[contains(@class, 'alert-success')]")
+                )
+            )
+            alert = selenium.find_element(
+                By.XPATH, "//div[contains(@class, 'alert-success')]"
+            )
             # Assert
             assert "Success!" in alert.text
-            assert alert.find_element(By.CLASS_NAME, "glyphicon-ok-sign")
+            assert selenium.find_element(
+                By.XPATH,
+                "//div[contains(@class, 'alert-success')]/strong[text()='Success!']",
+            )
 
-            url = f'{config.BASE_URL}/dataverse/{dv["alias"]}'
+            url = f'{config.BASE_URL}/dataverse/{dv.get()["alias"]}'
             selenium.get(url)
 
             assert selenium.current_url == url
 
             dv_header_unpublished = wait.until(
-                EC.visibility_of_element_located((By.CLASS_NAME, "label-unpublished"))
+                EC.visibility_of_element_located(
+                    (By.XPATH, "//span[contains(@class, 'label-unpublished')]")
+                )
             )
             assert dv_header_unpublished.text == "Unpublished"
 
             if "name" in form_fields:
                 dv_header_name = wait.until(
                     EC.visibility_of_element_located(
-                        (By.CLASS_NAME, "dataverseHeaderDataverseName")
+                        (
+                            By.XPATH,
+                            "//a[contains(@class, 'dataverseHeaderDataverseName')]",
+                        )
                     )
                 )
-                assert dv_header_name.text == dv["name"]
+                assert dv_header_name.text == dv.get()["name"]
 
             if "affiliation" in form_fields:
                 dv_header_affiliation = wait.until(
                     EC.visibility_of_element_located(
-                        (By.CSS_SELECTOR, ".dataverseHeaderName:first-child")
+                        (
+                            By.XPATH,
+                            "//div[contains(@class, 'dataverseHeaderName')]/span[1]",
+                        )
                     )
                 )
-                assert dv_header_affiliation.text == f'({dv["affiliation"]})'
+                assert dv_header_affiliation.text == f'({dv.get()["affiliation"]})'
         finally:
             # Cleanup
-            api = NativeApi(
-                config.BASE_URL, users[test_input["user-handle"]]["api-token"]
-            )
-            resp = api.delete_dataverse(dv["alias"])
+            if is_created:
+                api = NativeApi(config.BASE_URL, users[user_handle]["api-token"])
+                api.delete_dataverse(dv.get()["alias"])
 
 
 class TestAllDataverses:
@@ -168,11 +161,9 @@ class TestAllDataverses:
     def test_clean_url_not_logged_in(self, config, session, test_input):
         """Test all Dataverse collection clean URL's as not-logged-in user."""
         # Arrange
-
         url = f"{config.BASE_URL}/dataverse/{test_input['dataverse_alias']}"
         # Act
         resp = session.get(url)
-
         # Assert
         assert resp.status_code == 200
         assert resp.headers["Content-Type"] == "text/html;charset=UTF-8"
@@ -182,17 +173,23 @@ class TestAllDataverses:
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
-        "expected", test_config["all-dataverses"]["facet-not-logged-in"]
+        "test_input,expected",
+        test_config["all-dataverses"]["facet-not-logged-in"]["input-expected"],
     )
-    def test_facet_not_logged_in(self, config, selenium, expected):
+    def test_facet_not_logged_in(self, config, homepage, test_input, expected):
         """Test all Dataverse collections in facet as not-logged-in user."""
         # Arrange
+        selenium = homepage
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
         # Act
         selenium.get(config.BASE_URL)
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-        wait.until(EC.visibility_of_element_located((By.ID, "dv-sidebar")))
-        facet_dataverse = selenium.find_element(By.CLASS_NAME, "facetTypeDataverse")
+        wait.until(
+            EC.visibility_of_element_located((By.XPATH, "//div[@id='dv-sidebar']"))
+        )
+        facet_dataverse = selenium.find_element(
+            By.XPATH, "//span[@class='facetTypeDataverse']"
+        )
         # Assert
         assert facet_dataverse.text == f"Dataverses ({expected['num-dataverses']})"
         # Cleanup

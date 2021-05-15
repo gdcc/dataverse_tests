@@ -1,4 +1,3 @@
-import json
 import os
 
 import pytest
@@ -6,39 +5,44 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from ..conftest import login_normal
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import read_json
+from ..conftest import TEST_CONFIG_DATA_DIR
 
 
-with open(
-    os.path.join(TESTING_DATA_DIR, "default/system/testdata_authentication.json",)
-) as json_file:
-    testdata = json.load(json_file)
+test_config = read_json(
+    os.path.join(
+        TEST_CONFIG_DATA_DIR, "default/system/test-config_authentication.json",
+    )
+)
 
 
 class TestNormalLogin:
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
-        "test_input,expected", testdata["normal-login"]["login-valid"]
+        "homepage_logged_in",
+        test_config["normal-login"]["login-valid"]["users"],
+        indirect=True,
     )
-    def test_login_valid(self, config, selenium, users, test_input, expected):
+    @pytest.mark.parametrize(
+        "test_input,expected",
+        test_config["normal-login"]["login-valid"]["input-expected"],
+    )
+    def test_login_valid(self, config, homepage_logged_in, users, test_input, expected):
         """Test normal login procedure."""
         # Arrange
-        # Act
-        selenium = login_normal(
-            selenium,
-            config.BASE_URL,
-            config.LOGIN_OPTIONS,
-            test_input["user-handle"],
-            users[test_input["user-handle"]]["password"],
-            config.MAX_WAIT_TIME,
-        )
+        selenium, user_handle = homepage_logged_in
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
+        # Act
         navbar_user = wait.until(
-            EC.element_to_be_clickable((By.ID, "userDisplayInfoTitle"))
+            EC.element_to_be_clickable((By.XPATH, "//span[@id='userDisplayInfoTitle']"))
         )
         # Assert
         assert selenium.title == expected["title"]
-        assert navbar_user.text == users[test_input["user-handle"]]["name"]
+        assert (
+            navbar_user.text
+            == users[user_handle]["given-name"]
+            + " "
+            + users[user_handle]["family-name"]
+        )
         # Cleanup

@@ -1,36 +1,43 @@
-import json
 import os
 
 import pytest
 from selenium.webdriver.common.by import By
 
+from ..conftest import read_json
 from ..conftest import search_navbar
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import TEST_CONFIG_DATA_DIR
 
 
-with open(
-    os.path.join(TESTING_DATA_DIR, "default/system/testdata_search.json",)
-) as json_file:
-    testdata = json.load(json_file)
+test_config = read_json(
+    os.path.join(TEST_CONFIG_DATA_DIR, "default/system/test-config_search.json",)
+)
 
 
 class TestSearch:
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
-        "test_input,expected", testdata["search"]["navbar-not-logged-in"]
+        "test_input,expected",
+        test_config["search"]["navbar-not-logged-in"]["input-expected"],
     )
-    def test_search_navbar_not_logged_in(self, config, selenium, test_input, expected):
+    def test_search_navbar_not_logged_in(self, config, homepage, test_input, expected):
         """Test navbar search."""
         # Arrange
+        selenium = homepage
         num_dataverses = expected["num-dataverses"]
         num_datasets = expected["num-datasets"]
         num_datafiles = expected["num-datafiles"]
         # Act
         selenium = search_navbar(selenium, config, test_input["query"])
-        facet_dataverse = selenium.find_element(By.CLASS_NAME, "facetTypeDataverse")
-        facet_dataset = selenium.find_element(By.CLASS_NAME, "facetTypeDataset")
-        facet_datafile = selenium.find_element(By.CLASS_NAME, "facetTypeFile")
+        facet_dataverse = selenium.find_element(
+            By.XPATH, "//span[@class='facetTypeDataverse']"
+        )
+        facet_dataset = selenium.find_element(
+            By.XPATH, "//span[@class='facetTypeDataset']"
+        )
+        facet_datafile = selenium.find_element(
+            By.XPATH, "//span[@class='facetTypeFile']"
+        )
         # Assert
         assert selenium.current_url == expected["url"]
         assert facet_dataverse.text == f"Dataverses ({num_dataverses})"
