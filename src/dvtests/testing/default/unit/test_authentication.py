@@ -1,21 +1,21 @@
-import json
 import os
 
 import pytest
 
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import read_json
+from ..conftest import TEST_CONFIG_DATA_DIR
 
 
-with open(
-    os.path.join(TESTING_DATA_DIR, "default/unit/testdata_authentication.json",)
-) as json_file:
-    testdata = json.load(json_file)
+test_config = read_json(
+    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_authentication.json",)
+)
 
 
 class TestShibboleth:
     @pytest.mark.v4_20
     @pytest.mark.parametrize(
-        "test_input,expected", testdata["shibboleth"]["interface-valid"]
+        "test_input,expected",
+        test_config["shibboleth"]["interface-valid"]["input-expected"],
     )
     def test_interface_valid(self, config, session, test_input, expected):
         """Test Shibboleth interface."""

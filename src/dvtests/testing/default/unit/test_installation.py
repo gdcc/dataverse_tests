@@ -1,21 +1,22 @@
-import json
 import os
 
 import pytest
 
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import read_json
+from ..conftest import TEST_CONFIG_DATA_DIR
 
 
-with open(
-    os.path.join(TESTING_DATA_DIR, "default/unit/testdata_installation.json",)
-) as json_file:
-    testdata = json.load(json_file)
+test_config = read_json(
+    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_installation.json")
+)
 
 
 class TestVersion:
     @pytest.mark.v4_20
-    @pytest.mark.parametrize("expected", testdata["version"]["valid"])
-    def test_valid(self, native_api, expected):
+    @pytest.mark.parametrize(
+        "test_input,expected", test_config["version"]["valid"]["input-expected"]
+    )
+    def test_valid(self, native_api, test_input, expected):
         """Test Dataverse version."""
         # Arrange
         # Act
@@ -29,8 +30,10 @@ class TestVersion:
 
 class TestServer:
     @pytest.mark.v4_20
-    @pytest.mark.parametrize("expected", testdata["server"]["api-valid"])
-    def test_api_valid(self, native_api, expected):
+    @pytest.mark.parametrize(
+        "test_input,expected", test_config["server"]["api-valid"]["input-expected"]
+    )
+    def test_api_valid(self, native_api, test_input, expected):
         """Test Dataverse server."""
         # Arrange
         # Act
@@ -41,8 +44,10 @@ class TestServer:
         # Cleanup
 
     @pytest.mark.v4_20
-    @pytest.mark.parametrize("expected", testdata["server"]["request-valid"])
-    def test_request_valid(self, config, session, expected):
+    @pytest.mark.parametrize(
+        "test_input,expected", test_config["server"]["request-valid"]["input-expected"]
+    )
+    def test_request_valid(self, config, session, test_input, expected):
         """Test Dataverse server."""
         # Arrange
         # Act

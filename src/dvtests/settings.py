@@ -19,11 +19,12 @@ class TestSettings(BaseSettings):
     INSTANCE: str
     USER_FILENAME: str
     DATA_COLLECTOR: str
+    VERSION: str
     HEADLESS: bool = True
     USER_AGENT: str = "TESTING"
     WINDOW_HEIGHT: int = 1400
     WINDOW_WIDTH: int = 1600
-    MAX_WAIT_TIME: int = 10
+    MAX_WAIT_TIME: int = 20
     LOGIN_OPTIONS: List[str] = ["normal"]
     FILENAME_DATAVERSES: str = "dataverses.json"
     FILENAME_DATASETS: str = "datasets.json"

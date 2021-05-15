@@ -1,0 +1,15 @@
+{
+  "robots-txt": {
+    "valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "encoding": "ISO-8859-1",
+            "content-type": "text/plain"
+          }
+        ]
+      ]
+    }
+  }
+}

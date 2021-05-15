@@ -1,21 +1,22 @@
-import json
 import os
 
 import pytest
 
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import read_json
+from ..conftest import TEST_CONFIG_DATA_DIR
 
 
-with open(
-    os.path.join(TESTING_DATA_DIR, "default/unit/testdata_robots-txt.json",)
-) as json_file:
-    testdata = json.load(json_file)
+test_config = read_json(
+    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_robots-txt.json",)
+)
 
 
 class TestRobotsTxt:
     @pytest.mark.v4_20
-    @pytest.mark.parametrize("expected", testdata["robots-txt"]["valid"])
-    def test_valid(self, config, session, expected):
+    @pytest.mark.parametrize(
+        "test_input,expected", test_config["robots-txt"]["valid"]["input-expected"]
+    )
+    def test_valid(self, config, session, test_input, expected):
         """Test robots.txt."""
         # Arrange
         url = f"{config.BASE_URL}/robots.txt"

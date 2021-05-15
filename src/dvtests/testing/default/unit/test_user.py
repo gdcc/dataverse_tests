@@ -1,20 +1,21 @@
-import json
 import os
 
 import pytest
 
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import read_json
+from ..conftest import TEST_CONFIG_DATA_DIR
 
-with open(
-    os.path.join(TESTING_DATA_DIR, "default/unit/testdata_user.json",)
-) as json_file:
-    testdata = json.load(json_file)
+test_config = read_json(
+    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_user.json",)
+)
 
 
 class TestApi:
     @pytest.mark.v5_2
-    @pytest.mark.parametrize("expected", testdata["api"]["valid"])
-    def test_valid(self, native_api, expected):
+    @pytest.mark.parametrize(
+        "test_input,expected", test_config["api"]["valid"]["input-expected"]
+    )
+    def test_valid(self, native_api, test_input, expected):
         """Test API user endpoint.
 
         Does not work below Dataverse 5.3 or 5.2

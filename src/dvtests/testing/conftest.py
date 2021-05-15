@@ -1,5 +1,6 @@
 import os
 from json import load
+from time import sleep
 
 import pytest
 import requests
@@ -20,10 +21,17 @@ else:
 ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
-DATA_DIR = os.path.join(
+UTILS_DATA_DIR = os.path.join(
     ROOT_DIR, "src/dvtests/data", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR
 )
-TESTING_DATA_DIR = os.path.join(ROOT_DIR, "src/dvtests/testing/data", CONFIG.INSTANCE)
+TEST_CONFIG_DATA_DIR = os.path.join(
+    ROOT_DIR, "src/dvtests/testing/data/test_configs", CONFIG.INSTANCE
+)
+DATAVERSE_VERSION_DIR = os.path.join(
+    ROOT_DIR,
+    "src/dvtests/testing/data/dataverse_versions",
+    CONFIG.VERSION.replace(".", "_"),
+)
 TESTDATA_METADATA_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json")
 
 
@@ -78,81 +86,76 @@ def chrome_options(chrome_options, config):
 
 
 @pytest.fixture
-def selenium(selenium, config):
+def homepage(selenium, config):
+    """Get homepage with selenium."""
+    selenium.get(config.BASE_URL)
     selenium.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
-    yield selenium
-    selenium.close()
-    selenium.quit()
-
-
-def login_normal(
-    selenium, base_url, login_options, user_handle, user_pwd, max_wait_time
-):
-    """Login with normal user."""
-    wait = WebDriverWait(selenium, max_wait_time)
-    selenium.get(f"{base_url}/loginpage.xhtml")
-
-    if "shibboleth" in login_options:
-        btn_username_email = wait.until(
-            EC.element_to_be_clickable((By.LINK_TEXT, "Username/Email"))
-        )
-        btn_username_email.click()
-
-    input_username_email = wait.until(
-        EC.element_to_be_clickable(
-            (By.ID, "loginForm:credentialsContainer:0:credValue")
-        )
-    )
-    input_username_email.send_keys(user_handle)
-
-    input_pwd = wait.until(
-        EC.element_to_be_clickable(
-            (By.ID, "loginForm:credentialsContainer:1:sCredValue")
-        )
-    )
-    input_pwd.send_keys(user_pwd)
-
-    btn_login = wait.until(EC.element_to_be_clickable((By.ID, "loginForm:login")))
-    btn_login.click()
-    wait.until(EC.element_to_be_clickable((By.ID, "userDisplayInfoTitle")))
+    custom_click_cookie_rollbar(selenium, config.MAX_WAIT_TIME)
     return selenium
-    # TODO: logout
 
 
-def login_shibboleth(
-    selenium, config, shibb_login_page_title, user_handle, user_pwd, user_name
-):
-    """Login with Shibboleth user."""
+@pytest.fixture
+def homepage_logged_in(request, homepage, config, users):
+    """Get homepage logged in with selenium."""
+    selenium = homepage
+    user_handle = request.param
+    user_pwd = users[user_handle]["password"]
+    user_name = (
+        users[user_handle]["given-name"] + " " + users[user_handle]["family-name"]
+    )
+    user_auth = users[user_handle]["authentication"]
+
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-    # set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
     selenium.get(f"{config.BASE_URL}/loginpage.xhtml")
+    sleep(15)
 
-    if "shibboleth" in config.LOGIN_OPTIONS:
+    if user_auth == "normal":
         btn_username_email = wait.until(
-            EC.element_to_be_clickable((By.LINK_TEXT, "Username/Email"))
+            EC.element_to_be_clickable((By.XPATH, "//*[text()='Username/Email']"))
         )
         btn_username_email.click()
+        input_username_email = wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, "//input[@id='loginForm:credentialsContainer:0:credValue']")
+            )
+        )
+        input_username_email.send_keys(user_handle)
 
-    select_institution = wait.until(
-        EC.element_to_be_clickable((By.ID, "idpSelectSelector"))
+        input_pwd = wait.until(
+            EC.element_to_be_clickable(
+                (By.XPATH, "//input[@id='loginForm:credentialsContainer:1:sCredValue']")
+            )
+        )
+        input_pwd.send_keys(user_pwd)
+
+        btn_login = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@id='loginForm:login']"))
+        )
+        btn_login.click()
+    elif user_auth == "shibboleth":
+        select_institution = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//select[@id='idpSelectSelector']"))
+        )
+        select_institution.click()
+
+        select_institution.find_element(
+            By.XPATH, f"//option[. = '{config.SHIBBOLETH_INSTITUTION}']"
+        ).click()
+
+        btn_select_institution = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//input[@id='idpSelectListButton']"))
+        )
+        btn_select_institution.click()
+
+        # Institutions Shibboleth Login Page
+        selenium = custom_shibboleth_institution_login(
+            selenium, config, user_handle, user_pwd, user_name
+        )
+    navbar_user = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//span[@id='userDisplayInfoTitle']"))
     )
-    select_institution.click()
-
-    select_institution.find_element(
-        By.XPATH, f"//option[. = '{config.SHIBBOLETH_INSTITUTION}']"
-    ).click()
-
-    btn_select_institution = wait.until(
-        EC.element_to_be_clickable((By.ID, "idpSelectListButton"))
-    )
-    btn_select_institution.click()
-
-    # Institutions Shibboleth Login Page
-    selenium = custom_login_shibboleth_institution_page(
-        selenium, config, shibb_login_page_title, user_handle, user_pwd, user_name
-    )
-    wait.until(EC.element_to_be_clickable((By.ID, "userDisplayInfoTitle")))
-    return selenium
+    assert navbar_user.text == user_name
+    return homepage, user_handle
 
 
 def search_navbar(selenium, config, query):
@@ -169,7 +172,11 @@ def search_navbar(selenium, config, query):
     navbar_search_input.send_keys(query)
     navbar_search_input.send_keys(Keys.ENTER)
 
-    wait.until(EC.visibility_of_element_located((By.ID, "dv-main")))
+    wait.until(
+        EC.text_to_be_present_in_element_value(
+            (By.XPATH, "//input[@id='j_idt421:searchBasic']"), "elections"
+        )
+    )
     return selenium
 
 
@@ -184,42 +191,66 @@ def search_header(selenium, config, query):
     header_search.send_keys(query)
     header_search.send_keys(Keys.ENTER)
 
-    wait.until(EC.visibility_of_element_located((By.ID, "dv-main")))
+    wait.until(
+        EC.text_to_be_present_in_element_value(
+            (By.XPATH, "//input[@id='j_idt421:searchBasic']"), "elections"
+        )
+    )
     return selenium
 
 
-def custom_login_shibboleth_institution_page(
-    selenium, config, shibb_login_page_title, user_handle, user_pwd, user_name
+def custom_shibboleth_institution_login(
+    selenium, config, user_handle, user_pwd, user_name
 ):
     """Login on Shibboleth institution login page."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-    input_user_id = wait.until(EC.element_to_be_clickable((By.ID, "userid")))
+    input_user_id = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//input[@id='userid']"))
+    )
     input_user_id.send_keys(user_handle)
 
-    input_user_pwd = wait.until(EC.element_to_be_clickable((By.ID, "password")))
+    input_user_pwd = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//input[@id='password']"))
+    )
     input_user_pwd.send_keys(user_pwd)
-    btn_login = wait.until(EC.element_to_be_clickable((By.NAME, "_eventId_proceed")))
+    btn_login = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//button[@name='_eventId_proceed']"))
+    )
     btn_login.click()
+    sleep(3)
 
     if selenium.title == config.SHIBBOLETH_LOGIN_PAGE_TITLE:
         btn_tou = wait.until(
-            EC.element_to_be_clickable((By.ID, "_shib_idp_accept_TOU"))
+            EC.element_to_be_clickable(
+                (By.XPATH, "//button[@id='_shib_idp_accept_TOU']")
+            )
         )
         btn_tou.click()
 
-        btn_next = wait.until(EC.element_to_be_clickable((By.ID, "_eventId_proceed")))
+        btn_next = wait.until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@id='_eventId_proceed']"))
+        )
         btn_next.click()
+    navbar_user = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//span[@id='userDisplayInfoTitle']"))
+    )
+    assert navbar_user.text == user_name
     return selenium
 
 
 def custom_click_cookie_rollbar(selenium, max_wait_time):
     """Accept cookie rollbar."""
     wait = WebDriverWait(selenium, max_wait_time)
-    wait.until(
+    sleep(3)
+    btn_cookie_accept = wait.until(
         EC.element_to_be_clickable(
-            (By.ID, "CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection")
+            (
+                By.XPATH,
+                "//a[@id='CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection']",
+            )
         )
-    ).click()
+    )
+    btn_cookie_accept.click()
     return selenium
 
 
@@ -314,6 +345,13 @@ def datafile_upload_min_01():
     # Act
     # Assert
     # Cleanup
+    return read_json(
+        os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_min_01.json",)
+    )
+
+
+@pytest.fixture
+def form_create_dataverse():
     return read_json(
         os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_min_01.json",)
     )

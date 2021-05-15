@@ -1,0 +1,53 @@
+{
+  "endpoint": {
+    "valid": {
+      "input-expected": [
+        [
+          {
+            "url": "https://data.aussda.at/oai"
+          },
+          {
+            "encoding": "UTF-8",
+            "content-type": "text/xml;charset=UTF-8"
+          }
+        ],
+        [
+          {
+            "url": "https://data.aussda.at/oai?verb=ListIdentifiers&metadataPrefix=oai_ddi&set=all_published"
+          },
+          {
+            "encoding": "UTF-8",
+            "content-type": "text/xml;charset=UTF-8"
+          }
+        ],
+        [
+          {
+            "url": "https://data2.aussda.at/oai?verb=ListIdentifiers&metadataPrefix=ddi"
+          },
+          {
+            "encoding": "UTF-8",
+            "content-type": "text/xml;charset=UTF-8"
+          }
+        ],
+        [
+          {
+            "url": "https://data2.aussda.at/oai?verb=ListRecords&metadataPrefix=ddi&set=all_published"
+          },
+          {
+            "encoding": "UTF-8",
+            "content-type": "text/xml;charset=UTF-8"
+          }
+        ],
+        [
+          {
+            "url": "https://data2.aussda.at/oai?verb=GetRecord&metadataPrefix=oai_ddi&identifier=doi:10.11587/BQVSOW"
+          },
+          {
+            "encoding": "UTF-8",
+            "content-type": "text/xml;charset=UTF-8"
+          }
+        ]
+      ]
+    }
+  }
+}
