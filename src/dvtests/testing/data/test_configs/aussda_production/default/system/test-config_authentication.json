@@ -1,6 +1,6 @@
 {
-  "normal-login": {
-    "login-valid": {
+  "login": {
+    "valid": {
       "users": [
         "dataverseAdmin",
         "TestUser_NormalLogin",

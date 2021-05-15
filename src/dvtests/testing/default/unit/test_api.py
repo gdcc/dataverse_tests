@@ -16,7 +16,7 @@ class TestDataverse:
         "test_input,expected", test_config["dataverse"]["valid"]["input-expected"]
     )
     def test_valid(self, config, native_api, test_input, expected):
-        """Test important Dataverses."""
+        """Test important valid Dataverses."""
         # Arrange
         # Act
         resp = native_api.get_dataverse(test_input["alias"])

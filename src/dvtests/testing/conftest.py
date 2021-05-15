@@ -37,11 +37,13 @@ TESTDATA_METADATA_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json
 
 @pytest.fixture()
 def config():
+    """Get config settings."""
     return CONFIG
 
 
 @pytest.fixture
 def users(config):
+    """Load users JSON file."""
     filename = os.path.join(ROOT_DIR, config.USER_FILENAME)
     with open(filename, "r", encoding="utf-8") as f:
         return load(f)
@@ -49,6 +51,7 @@ def users(config):
 
 @pytest.fixture
 def session(config):
+    """Create request session."""
     s = requests.Session()
     s.headers.update({"User-Agent": config.USER_AGENT})
     yield s
@@ -56,11 +59,13 @@ def session(config):
 
 @pytest.fixture
 def native_api(config):
+    """Initialize pyDataverse Native Api object."""
     yield NativeApi(config.BASE_URL)
 
 
 @pytest.fixture
 def firefox_options(firefox_options, config):
+    """Set Firefox options."""
     firefox_options.add_argument("-foreground")
     if config.HEADLESS:
         firefox_options.headless = True
@@ -73,6 +78,7 @@ def firefox_options(firefox_options, config):
 
 @pytest.fixture
 def chrome_options(chrome_options, config):
+    """Set Chrome options."""
     if config.HEADLESS:
         chrome_options.add_argument("--headless")
     if config.USER_AGENT:
@@ -96,7 +102,7 @@ def homepage(selenium, config):
 
 @pytest.fixture
 def homepage_logged_in(request, homepage, config, users):
-    """Get homepage logged in with selenium."""
+    """Get logged in homepage with selenium."""
     selenium = homepage
     user_handle = request.param
     user_pwd = users[user_handle]["password"]
@@ -202,7 +208,7 @@ def search_header(selenium, config, query):
 def custom_shibboleth_institution_login(
     selenium, config, user_handle, user_pwd, user_name
 ):
-    """Login on Shibboleth institution login page."""
+    """Custom Login on Shibboleth institution page."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
     input_user_id = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//input[@id='userid']"))
@@ -239,7 +245,7 @@ def custom_shibboleth_institution_login(
 
 
 def custom_click_cookie_rollbar(selenium, max_wait_time):
-    """Accept cookie rollbar."""
+    """Remove cookie rollbar."""
     wait = WebDriverWait(selenium, max_wait_time)
     sleep(3)
     btn_cookie_accept = wait.until(
@@ -345,13 +351,6 @@ def datafile_upload_min_01():
     # Act
     # Assert
     # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_min_01.json",)
-    )
-
-
-@pytest.fixture
-def form_create_dataverse():
     return read_json(
         os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_min_01.json",)
     )

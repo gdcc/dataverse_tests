@@ -34,7 +34,7 @@ class TestServer:
         "test_input,expected", test_config["server"]["api-valid"]["input-expected"]
     )
     def test_api_valid(self, native_api, test_input, expected):
-        """Test Dataverse server."""
+        """Test Dataverse server via API."""
         # Arrange
         # Act
         resp = native_api.get_info_server()
@@ -48,7 +48,7 @@ class TestServer:
         "test_input,expected", test_config["server"]["request-valid"]["input-expected"]
     )
     def test_request_valid(self, config, session, test_input, expected):
-        """Test Dataverse server."""
+        """Test Dataverse server via homepage."""
         # Arrange
         # Act
         resp = session.get(config.BASE_URL)

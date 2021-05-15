@@ -18,7 +18,7 @@ class TestApi:
     def test_valid(self, native_api, test_input, expected):
         """Test API user endpoint.
 
-        Does not work below Dataverse 5.3 or 5.2
+        Does not work below Dataverse 5.2.
         """
         # Arrange
         # Act

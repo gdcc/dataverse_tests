@@ -16,19 +16,16 @@ test_config = read_json(
 )
 
 
-class TestNormalLogin:
+class TestLogin:
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
-        "homepage_logged_in",
-        test_config["normal-login"]["login-valid"]["users"],
-        indirect=True,
+        "homepage_logged_in", test_config["login"]["valid"]["users"], indirect=True,
     )
     @pytest.mark.parametrize(
-        "test_input,expected",
-        test_config["normal-login"]["login-valid"]["input-expected"],
+        "test_input,expected", test_config["login"]["valid"]["input-expected"],
     )
-    def test_login_valid(self, config, homepage_logged_in, users, test_input, expected):
+    def test_valid(self, config, homepage_logged_in, users, test_input, expected):
         """Test normal login procedure."""
         # Arrange
         selenium, user_handle = homepage_logged_in
