@@ -6,18 +6,19 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_DATA_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
 testdata = read_json(os.path.join(UTILS_DATA_DIR, "datafiles.json",))
 test_config = read_json(
-    os.path.join(TEST_CONFIG_DATA_DIR, "default/system/test-config_datafiles.json",)
+    os.path.join(TESTING_DATA_DIR, "default/system/test-config_datafiles.json",)
 )
 
 
 class TestAllDatafiles:
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.parametrize("datafiles", testdata)
     def test_fileid_url_not_logged_in(self, config, session, datafiles):
         """Test all Datafile File ID URL's as not-logged-in user."""
@@ -32,6 +33,7 @@ class TestAllDatafiles:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize("datafiles", testdata)
     def test_page_not_logged_in(self, config, selenium, datafiles):
@@ -52,6 +54,7 @@ class TestAllDatafiles:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected",

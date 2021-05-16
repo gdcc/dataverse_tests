@@ -6,18 +6,19 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_DATA_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
 testdata = read_json(os.path.join(UTILS_DATA_DIR, "datasets.json",))
 test_config = read_json(
-    os.path.join(TEST_CONFIG_DATA_DIR, "default/system/test-config_datasets.json",)
+    os.path.join(TESTING_DATA_DIR, "default/system/test-config_datasets.json",)
 )
 
 
 class TestAllDatasets:
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.parametrize("test_input", testdata)
     def test_pid_url_not_logged_in(self, config, session, test_input):
         """Test all Dataset XHTML URL's as not-logged-in user."""
@@ -32,11 +33,12 @@ class TestAllDatasets:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.parametrize("test_input", testdata)
     def test_doiorg_url(self, config, session, test_input):
         """Test all doi.org URL's."""
         # Arrange
-        url_start = f"https://doi.org/{test_input['pid'][4:]}"
+        url_start = f"https://doi.org/{test_input['pid']}"
         url_end = f"{config.BASE_URL}/dataset.xhtml?persistentId={test_input['pid']}"
         # Act
         resp = session.get(url_start)
@@ -48,6 +50,7 @@ class TestAllDatasets:
 
     @pytest.mark.v4_20
     @pytest.mark.selenium
+    @pytest.mark.utils
     @pytest.mark.parametrize(
         "test_input,expected",
         test_config["all-datasets"]["facet-not-logged-in"]["input-expected"],

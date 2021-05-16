@@ -22,16 +22,9 @@ ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
 UTILS_DATA_DIR = os.path.join(
-    ROOT_DIR, "src/dvtests/data", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR
+    ROOT_DIR, "src/dvtests/utils/data", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR
 )
-TEST_CONFIG_DATA_DIR = os.path.join(
-    ROOT_DIR, "src/dvtests/testing/data/test_configs", CONFIG.INSTANCE
-)
-DATAVERSE_VERSION_DIR = os.path.join(
-    ROOT_DIR,
-    "src/dvtests/testing/data/dataverse_versions",
-    CONFIG.VERSION.replace(".", "_"),
-)
+TESTING_DATA_DIR = os.path.join(ROOT_DIR, "src/dvtests/testing/data", CONFIG.INSTANCE)
 TESTDATA_METADATA_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json")
 
 

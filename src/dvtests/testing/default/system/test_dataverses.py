@@ -8,15 +8,14 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
-from ..conftest import DATAVERSE_VERSION_DIR
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_DATA_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
 all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, "dataverses.json"))
 test_config = read_json(
-    os.path.join(TEST_CONFIG_DATA_DIR, "default/system/test-config_dataverses.json")
+    os.path.join(TESTING_DATA_DIR, "default/system/test-config_dataverses.json")
 )
 
 
@@ -53,7 +52,10 @@ class TestCreateDataverse:
 
         for ff in form_fields:
             fd = read_json(
-                os.path.join(DATAVERSE_VERSION_DIR, "form-data_create-dataverse.json")
+                os.path.join(
+                    TESTING_DATA_DIR,
+                    "default/system/installation-config_form-data_create-dataverse.json",
+                )
             )[ff]
             input_field = wait.until(
                 EC.visibility_of_element_located((By.XPATH, fd["xpath"]))
@@ -143,6 +145,7 @@ class TestCreateDataverse:
 
 class TestAllDataverses:
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.parametrize("test_input", all_dataverses)
     def test_xhtml_url_not_logged_in(self, config, session, test_input):
         """Test all Dataverse collection XHTML URL's as not-logged-in user."""
@@ -157,6 +160,7 @@ class TestAllDataverses:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.parametrize("test_input", all_dataverses)
     def test_clean_url_not_logged_in(self, config, session, test_input):
         """Test all Dataverse collection clean URL's as not-logged-in user."""
@@ -171,6 +175,7 @@ class TestAllDataverses:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected",
