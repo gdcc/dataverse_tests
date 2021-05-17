@@ -1,3 +1,5 @@
+from ..conftest import CONFIG
+from ..conftest import read_file
 from ..conftest import read_json
 from ..conftest import ROOT_DIR
 from ..conftest import search_header
