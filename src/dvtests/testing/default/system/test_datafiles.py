@@ -6,13 +6,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..conftest import read_json
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import TESTING_CONFIG_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
 testdata = read_json(os.path.join(UTILS_DATA_DIR, "datafiles.json",))
 test_config = read_json(
-    os.path.join(TESTING_DATA_DIR, "default/system/test-config_datafiles.json",)
+    os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_datafiles.json",)
 )
 
 

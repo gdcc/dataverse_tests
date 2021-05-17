@@ -9,13 +9,13 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..conftest import read_json
-from ..conftest import TESTING_DATA_DIR
+from ..conftest import TESTING_CONFIG_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
 all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, "dataverses.json"))
 test_config = read_json(
-    os.path.join(TESTING_DATA_DIR, "default/system/test-config_dataverses.json")
+    os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_dataverses.json")
 )
 
 
@@ -53,7 +53,7 @@ class TestCreateDataverse:
         for ff in form_fields:
             fd = read_json(
                 os.path.join(
-                    TESTING_DATA_DIR,
+                    TESTING_CONFIG_DIR,
                     "default/system/installation-config_form-data_create-dataverse.json",
                 )
             )[ff]
