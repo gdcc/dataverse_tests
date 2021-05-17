@@ -5,18 +5,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from ..conftest import CONFIG
 from ..conftest import read_json
 from ..conftest import TESTING_CONFIG_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
-testdata = read_json(os.path.join(UTILS_DATA_DIR, "datafiles.json",))
+testdata = read_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_DATAFILES))
 test_config = read_json(
     os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_datafiles.json",)
 )
 
 
-class TestAllDatafiles:
+class TestAccess:
     @pytest.mark.v4_20
     @pytest.mark.utils
     @pytest.mark.parametrize("datafiles", testdata)
@@ -53,12 +54,14 @@ class TestAllDatafiles:
         assert selenium.current_url == url
         # Cleanup
 
+
+class TestSidebar:
     @pytest.mark.v4_20
     @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected",
-        test_config["all-datafiles"]["facet-not-logged-in"]["input-expected"],
+        test_config["sidebar"]["facet-not-logged-in"]["input-expected"],
     )
     def test_facet_not_logged_in(self, config, selenium, test_input, expected):
         """Test all Datafiles in facet as not-logged-in user."""

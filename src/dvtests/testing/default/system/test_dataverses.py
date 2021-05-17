@@ -8,23 +8,24 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
+from ..conftest import CONFIG
 from ..conftest import read_json
 from ..conftest import TESTING_CONFIG_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
-all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, "dataverses.json"))
+all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_DATAVERSES))
 test_config = read_json(
     os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_dataverses.json")
 )
 
 
-class TestCreateDataverse:
+class TestCreateFrontend:
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "homepage_logged_in",
-        test_config["create-dataverse"]["min-valid"]["users"],
+        test_config["create-frontend"]["min-valid"]["users"],
         indirect=True,
     )
     def test_min_valid(
@@ -143,7 +144,7 @@ class TestCreateDataverse:
                 api.delete_dataverse(dv.get()["alias"])
 
 
-class TestAllDataverses:
+class TestAccess:
     @pytest.mark.v4_20
     @pytest.mark.utils
     @pytest.mark.parametrize("test_input", all_dataverses)
@@ -174,12 +175,14 @@ class TestAllDataverses:
         assert resp.url == url
         # Cleanup
 
+
+class TestSidebar:
     @pytest.mark.v4_20
     @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected",
-        test_config["all-dataverses"]["facet-not-logged-in"]["input-expected"],
+        test_config["sidebar"]["facet-not-logged-in"]["input-expected"],
     )
     def test_facet_not_logged_in(self, config, homepage, test_input, expected):
         """Test all Dataverse collections in facet as not-logged-in user."""

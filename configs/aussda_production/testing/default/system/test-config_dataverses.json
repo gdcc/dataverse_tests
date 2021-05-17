@@ -1,5 +1,5 @@
 {
-  "all-dataverses": {
+  "sidebar": {
     "facet-not-logged-in": {
       "input-expected": [
         [
@@ -11,7 +11,7 @@
       ]
     }
   },
-  "create-dataverse": {
+  "create-frontend": {
     "min-valid": {
       "users": [
         "dataverseAdmin"
