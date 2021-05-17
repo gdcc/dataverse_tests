@@ -160,12 +160,13 @@ def homepage_logged_in(request, homepage, config, users):
 def search_navbar(selenium, config, query):
     """Search via navbar."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-    selenium.get(config.BASE_URL)
-    navbar_search = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Search")))
+    navbar_search = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//a[text()='Search']"))
+    )
     navbar_search.click()
 
     navbar_search_input = wait.until(
-        EC.element_to_be_clickable((By.ID, "navbarsearch"))
+        EC.element_to_be_clickable((By.XPATH, "//input[@id='navbarsearch']"))
     )
     navbar_search_input.clear()
     navbar_search_input.send_keys(query)
@@ -182,9 +183,10 @@ def search_navbar(selenium, config, query):
 def search_header(selenium, config, query):
     """Search via header."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-    selenium.get(config.BASE_URL)
     header_search = wait.until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "input.search-input"))
+        EC.element_to_be_clickable(
+            (By.XPATH, "//input[contains(@class, 'search-input')]")
+        )
     )
     header_search.clear()
     header_search.send_keys(query)
@@ -277,6 +279,27 @@ def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
     """
     with open(filename, mode, encoding=encoding) as f:
         return load(f)
+
+
+def read_file(filename, mode="r", encoding="utf-8"):
+    """Read in a file.
+
+    Parameters
+    ----------
+    filename : str
+        Filename with full path.
+    mode : str
+        Read mode of file. Defaults to `r`. See more at
+        https://docs.python.org/3.5/library/functions.html#open
+
+    Returns
+    -------
+    str
+        Returns data as string.
+
+    """
+    with open(filename, mode, encoding=encoding) as f:
+        return f.read()
 
 
 @pytest.fixture
