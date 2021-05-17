@@ -12,9 +12,23 @@
     }
   },
   "create-frontend": {
-    "min-valid": {
+    "valid": {
       "users": [
         "dataverseAdmin"
+      ],
+      "metadata-filenames": [
+        "dataverse/dataverse_upload_full_01.json"
+      ],
+      "input-expected": [
+        [
+          {
+            "host-dataverse": "AUSSDA",
+            "clean-default-value": [
+              "affiliation"
+            ]
+          },
+          {}
+        ]
       ]
     }
   }

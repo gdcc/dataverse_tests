@@ -1,46 +1,41 @@
 {
   "name": {
-    "xpath": "//input[@id='dataverseForm:name']",
-    "type": "text",
-    "content": "name"
+    "form-type": "text",
+    "xpath": "//input[@id='dataverseForm:name']"
   },
   "alias": {
-    "xpath": "//input[@id='dataverseForm:identifier']",
-    "type": "text",
-    "content": "alias"
+    "form-type": "text",
+    "xpath": "//input[@id='dataverseForm:identifier']"
   },
-  "category": {
-    "xpath": "//select[@id='dataverseForm:dataverseCategory']",
-    "type": "select",
-    "content": "dataverseType"
+  "dataverseType": {
+    "form-type": "select",
+    "xpath": "//select[@id='dataverseForm:dataverseCategory']"
   },
   "storage": {
-    "xpath": "//select[@id='dataverseForm:dataverseStorage']",
-    "type": "select",
-    "content": ""
+    "form-type": "select",
+    "xpath": "//select[@id='dataverseForm:dataverseStorage']"
   },
   "affiliation": {
-    "xpath": "//input[@id='dataverseForm:affiliation']",
-    "type": "text",
-    "content": "affiliation"
+    "form-type": "text",
+    "xpath": "//input[@id='dataverseForm:affiliation']"
   },
-  "parent-dataverse": {
-    "xpath": "//input[@id='dataverseForm:selectHostDataverse']",
-    "type": "text",
-    "content": ""
+  "hostdataverse": {
+    "form-type": "text",
+    "xpath": "//input[@id='dataverseForm:selectHostDataverse_input']"
   },
   "description": {
-    "xpath": "//input[@id='dataverseForm:description']",
-    "type": "text",
-    "content": "description"
+    "form-type": "text",
+    "xpath": "//textarea[@id='dataverseForm:description']"
   },
-  "contactEmail": {
-    "xpath": "//input[@id='dataverseForm:j_idt259:0:contactEmail']",
-    "type": "text",
-    "content": [
-      "dataverseContacts",
-      0,
-      "contactEmail"
-    ]
+  "dataverseContacts": {
+    "form-type": "add-item",
+    "xpath": "//div[@id='dataverseForm:j_idt255']/div",
+    "input": {
+      "xpath": "/div/div/input"
+    },
+    "add-item": {
+      "xpath": "/div/div[contains(@class, 'field-add-delete')]/a"
+    },
+    "metadata-child-name": "contactEmail"
   }
 }

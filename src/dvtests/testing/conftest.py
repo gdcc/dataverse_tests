@@ -303,70 +303,9 @@ def read_file(filename, mode="r", encoding="utf-8"):
 
 
 @pytest.fixture
-def dataverse_upload_full_01():
+def testdata(request):
     # Arrange
     # Act
     # Assert
     # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "dataverse/dataverse_upload_full_01.json",)
-    )
-
-
-@pytest.fixture
-def dataverse_upload_min_01():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "dataverse/dataverse_upload_min_01.json",)
-    )
-
-
-@pytest.fixture
-def dataset_upload_default_full_01():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(
-            TESTDATA_METADATA_DIR, "dataset/dataset_upload_default_full_01.json",
-        )
-    )
-
-
-@pytest.fixture
-def dataset_upload_default_min_02():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(
-            TESTDATA_METADATA_DIR, "dataset/dataset_upload_default_min_01.json",
-        )
-    )
-
-
-@pytest.fixture
-def datafile_upload_full_01():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_full_01.json",)
-    )
-
-
-@pytest.fixture
-def datafile_upload_min_01():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_min_01.json",)
-    )
+    return read_json(os.path.join(TESTDATA_METADATA_DIR, request.param,))
