@@ -3,11 +3,11 @@ import os
 import pytest
 
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_CONFIG_DIR
 
 
 test_config = read_json(
-    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_installation.json")
+    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_installation.json")
 )
 
 
@@ -34,7 +34,7 @@ class TestServer:
         "test_input,expected", test_config["server"]["api-valid"]["input-expected"]
     )
     def test_api_valid(self, native_api, test_input, expected):
-        """Test Dataverse server."""
+        """Test Dataverse server via API."""
         # Arrange
         # Act
         resp = native_api.get_info_server()
@@ -48,7 +48,7 @@ class TestServer:
         "test_input,expected", test_config["server"]["request-valid"]["input-expected"]
     )
     def test_request_valid(self, config, session, test_input, expected):
-        """Test Dataverse server."""
+        """Test Dataverse server via homepage."""
         # Arrange
         # Act
         resp = session.get(config.BASE_URL)

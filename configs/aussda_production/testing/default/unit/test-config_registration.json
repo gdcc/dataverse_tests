@@ -1,0 +1,17 @@
+{
+  "terms": {
+    "valid": {
+      "input-expected": [
+        [
+          {
+            "url": "/dataverseuser.xhtml?editMode=CREATE",
+            "xpath": "//div[@id='terms-agreement-block']"
+          },
+          {
+            "terms-filename": "dataverse_resources/terms_of_use/20210517_terms-of-use_de.html"
+          }
+        ]
+      ]
+    }
+  }
+}

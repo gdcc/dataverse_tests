@@ -3,11 +3,11 @@ import os
 import pytest
 
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_CONFIG_DIR
 
 
 test_config = read_json(
-    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_sitemap.json",)
+    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_sitemap.json",)
 )
 
 

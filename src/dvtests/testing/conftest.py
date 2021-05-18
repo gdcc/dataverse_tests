@@ -22,26 +22,21 @@ ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
 UTILS_DATA_DIR = os.path.join(
-    ROOT_DIR, "src/dvtests/data", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR
+    ROOT_DIR, "data/utils", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR
 )
-TEST_CONFIG_DATA_DIR = os.path.join(
-    ROOT_DIR, "src/dvtests/testing/data/test_configs", CONFIG.INSTANCE
-)
-DATAVERSE_VERSION_DIR = os.path.join(
-    ROOT_DIR,
-    "src/dvtests/testing/data/dataverse_versions",
-    CONFIG.VERSION.replace(".", "_"),
-)
+TESTING_CONFIG_DIR = os.path.join(ROOT_DIR, "configs", CONFIG.INSTANCE, "testing")
 TESTDATA_METADATA_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json")
 
 
 @pytest.fixture()
 def config():
+    """Get config settings."""
     return CONFIG
 
 
 @pytest.fixture
 def users(config):
+    """Load users JSON file."""
     filename = os.path.join(ROOT_DIR, config.USER_FILENAME)
     with open(filename, "r", encoding="utf-8") as f:
         return load(f)
@@ -49,6 +44,7 @@ def users(config):
 
 @pytest.fixture
 def session(config):
+    """Create request session."""
     s = requests.Session()
     s.headers.update({"User-Agent": config.USER_AGENT})
     yield s
@@ -56,11 +52,13 @@ def session(config):
 
 @pytest.fixture
 def native_api(config):
+    """Initialize pyDataverse Native Api object."""
     yield NativeApi(config.BASE_URL)
 
 
 @pytest.fixture
 def firefox_options(firefox_options, config):
+    """Set Firefox options."""
     firefox_options.add_argument("-foreground")
     if config.HEADLESS:
         firefox_options.headless = True
@@ -73,6 +71,7 @@ def firefox_options(firefox_options, config):
 
 @pytest.fixture
 def chrome_options(chrome_options, config):
+    """Set Chrome options."""
     if config.HEADLESS:
         chrome_options.add_argument("--headless")
     if config.USER_AGENT:
@@ -96,7 +95,7 @@ def homepage(selenium, config):
 
 @pytest.fixture
 def homepage_logged_in(request, homepage, config, users):
-    """Get homepage logged in with selenium."""
+    """Get logged in homepage with selenium."""
     selenium = homepage
     user_handle = request.param
     user_pwd = users[user_handle]["password"]
@@ -161,12 +160,13 @@ def homepage_logged_in(request, homepage, config, users):
 def search_navbar(selenium, config, query):
     """Search via navbar."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-    selenium.get(config.BASE_URL)
-    navbar_search = wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Search")))
+    navbar_search = wait.until(
+        EC.element_to_be_clickable((By.XPATH, "//a[text()='Search']"))
+    )
     navbar_search.click()
 
     navbar_search_input = wait.until(
-        EC.element_to_be_clickable((By.ID, "navbarsearch"))
+        EC.element_to_be_clickable((By.XPATH, "//input[@id='navbarsearch']"))
     )
     navbar_search_input.clear()
     navbar_search_input.send_keys(query)
@@ -183,9 +183,10 @@ def search_navbar(selenium, config, query):
 def search_header(selenium, config, query):
     """Search via header."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-    selenium.get(config.BASE_URL)
     header_search = wait.until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "input.search-input"))
+        EC.element_to_be_clickable(
+            (By.XPATH, "//input[contains(@class, 'search-input')]")
+        )
     )
     header_search.clear()
     header_search.send_keys(query)
@@ -202,7 +203,7 @@ def search_header(selenium, config, query):
 def custom_shibboleth_institution_login(
     selenium, config, user_handle, user_pwd, user_name
 ):
-    """Login on Shibboleth institution login page."""
+    """Custom Login on Shibboleth institution page."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
     input_user_id = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//input[@id='userid']"))
@@ -239,7 +240,7 @@ def custom_shibboleth_institution_login(
 
 
 def custom_click_cookie_rollbar(selenium, max_wait_time):
-    """Accept cookie rollbar."""
+    """Remove cookie rollbar."""
     wait = WebDriverWait(selenium, max_wait_time)
     sleep(3)
     btn_cookie_accept = wait.until(
@@ -280,78 +281,31 @@ def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
         return load(f)
 
 
+def read_file(filename, mode="r", encoding="utf-8"):
+    """Read in a file.
+
+    Parameters
+    ----------
+    filename : str
+        Filename with full path.
+    mode : str
+        Read mode of file. Defaults to `r`. See more at
+        https://docs.python.org/3.5/library/functions.html#open
+
+    Returns
+    -------
+    str
+        Returns data as string.
+
+    """
+    with open(filename, mode, encoding=encoding) as f:
+        return f.read()
+
+
 @pytest.fixture
-def dataverse_upload_full_01():
+def testdata(request):
     # Arrange
     # Act
     # Assert
     # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "dataverse/dataverse_upload_full_01.json",)
-    )
-
-
-@pytest.fixture
-def dataverse_upload_min_01():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "dataverse/dataverse_upload_min_01.json",)
-    )
-
-
-@pytest.fixture
-def dataset_upload_default_full_01():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(
-            TESTDATA_METADATA_DIR, "dataset/dataset_upload_default_full_01.json",
-        )
-    )
-
-
-@pytest.fixture
-def dataset_upload_default_min_02():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(
-            TESTDATA_METADATA_DIR, "dataset/dataset_upload_default_min_01.json",
-        )
-    )
-
-
-@pytest.fixture
-def datafile_upload_full_01():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_full_01.json",)
-    )
-
-
-@pytest.fixture
-def datafile_upload_min_01():
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_min_01.json",)
-    )
-
-
-@pytest.fixture
-def form_create_dataverse():
-    return read_json(
-        os.path.join(TESTDATA_METADATA_DIR, "datafile/datafile_upload_min_01.json",)
-    )
+    return read_json(os.path.join(TESTDATA_METADATA_DIR, request.param,))

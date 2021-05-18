@@ -3,10 +3,10 @@ import os
 import pytest
 
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_CONFIG_DIR
 
 test_config = read_json(
-    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_user.json",)
+    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_user.json",)
 )
 
 
@@ -18,7 +18,7 @@ class TestApi:
     def test_valid(self, native_api, test_input, expected):
         """Test API user endpoint.
 
-        Does not work below Dataverse 5.3 or 5.2
+        Does not work below Dataverse 5.2.
         """
         # Arrange
         # Act

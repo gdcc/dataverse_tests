@@ -1,15 +1,17 @@
 {
   "USER_HANDLE": {
-    "name": "USER_NAME",
+    "given-name": "GIVEN_NAME",
+    "family-name": "FAMILY_NAME",
     "password": "SECRET",
     "api-token": "SECRET",
     "role": "ROLE",
     "authentication": "AUTH_MODE"
   },
   "dataverseAdmin": {
-    "name": "Dataverse Admin",
-    "password": "SECRET",
-    "api-token": "SECRET",
+    "given-name": "Dataverse",
+    "family-name": "Admin",
+    "password": "1234567890!",
+    "api-token": "00000-11111-222222-333333",
     "role": "superuser",
     "authentication": "normal"
   }

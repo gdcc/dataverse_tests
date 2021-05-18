@@ -3,10 +3,10 @@ import os
 import pytest
 
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_CONFIG_DIR
 
 test_config = read_json(
-    os.path.join(TEST_CONFIG_DATA_DIR, "default/unit/test-config_api.json")
+    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_api.json")
 )
 
 
@@ -16,7 +16,7 @@ class TestDataverse:
         "test_input,expected", test_config["dataverse"]["valid"]["input-expected"]
     )
     def test_valid(self, config, native_api, test_input, expected):
-        """Test important Dataverses."""
+        """Test important valid Dataverses."""
         # Arrange
         # Act
         resp = native_api.get_dataverse(test_input["alias"])

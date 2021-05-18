@@ -1,4 +1,5 @@
 import os
+from time import sleep
 
 import pytest
 from pyDataverse.api import NativeApi
@@ -8,37 +9,65 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
-from ..conftest import DATAVERSE_VERSION_DIR
+from ..conftest import CONFIG
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_CONFIG_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
-all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, "dataverses.json"))
+all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_DATAVERSES))
 test_config = read_json(
-    os.path.join(TEST_CONFIG_DATA_DIR, "default/system/test-config_dataverses.json")
+    os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_dataverses.json")
 )
 
 
-class TestCreateDataverse:
+class TestCreateFrontend:
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "homepage_logged_in",
-        test_config["create-dataverse"]["min-valid"]["users"],
+        test_config["create-frontend"]["valid"]["users"],
         indirect=True,
     )
-    def test_min_valid(
-        self, config, homepage_logged_in, users, dataverse_upload_min_01,
+    @pytest.mark.parametrize(
+        "testdata",
+        test_config["create-frontend"]["valid"]["metadata-filenames"],
+        indirect=True,
+    )
+    @pytest.mark.parametrize(
+        "test_input,expected", test_config["create-frontend"]["valid"]["input-expected"]
+    )
+    def test_valid(
+        self,
+        config,
+        homepage_logged_in,
+        users,
+        native_api,
+        testdata,
+        test_input,
+        expected,
     ):
         """Test create a minimum Dataverse via frontend."""
         # Arrange
         is_created = False
         selenium, user_handle = homepage_logged_in
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-        form_fields = ["name", "alias", "contactEmail", "category"]
         dv = Dataverse()
-        dv.set(dataverse_upload_min_01)
+        dv.set(testdata)
+        installation_cfg = read_json(
+            os.path.join(
+                TESTING_CONFIG_DIR,
+                "default/system/installation-config_form-data_create-dataverse.json",
+            )
+        )
+        attr_single = []
+        attr_multiple = []
+        for key, val in dv.get().items():
+            if type(val) == str:
+                attr_single.append(key)
+            elif type(val) == list:
+                attr_multiple.append(key)
+        # dv.set({"hostdataverse": test_input["host-dataverse"]})
         # Act
         wait.until(
             EC.element_to_be_clickable(
@@ -51,34 +80,77 @@ class TestCreateDataverse:
             )
         ).click()
 
-        for ff in form_fields:
-            fd = read_json(
-                os.path.join(DATAVERSE_VERSION_DIR, "form-data_create-dataverse.json")
-            )[ff]
+        for attr in test_input["clean-default-values"]:
+            md_form_mapping = installation_cfg[attr]
             input_field = wait.until(
-                EC.visibility_of_element_located((By.XPATH, fd["xpath"]))
-            )
-            if type(fd["content"]) == str:
-                field_data = dv.get()[fd["content"]]
-            elif type(fd["content"]) == list:
-                field_data = dv.get()
-                for idx in fd["content"]:
-                    field_data = field_data[idx]
-            if fd["type"] == "text":
-                input_field.click()
-                input_field.clear()
-                input_field.send_keys(field_data)
-            elif fd["type"] == "select":
-                select = Select(input_field)
-                select.select_by_value(field_data)
-        if "affiliation" not in form_fields:
-            input_field = wait.until(
-                EC.visibility_of_element_located(
-                    (By.XPATH, "//input[@id='dataverseForm:affiliation']")
-                )
+                EC.visibility_of_element_located((By.XPATH, md_form_mapping["xpath"]))
             )
             input_field.click()
             input_field.clear()
+
+        for attr, pdv_data in dv.get().items():
+            md_form_mapping = installation_cfg[attr]
+            # prepare form_data
+            if type(pdv_data) == list:
+                form_data = []
+                for item in pdv_data:
+                    if type(item[md_form_mapping["metadata-child-name"]]) == str:
+                        form_data.append(item[md_form_mapping["metadata-child-name"]])
+            else:
+                form_data = pdv_data
+            # fill out form
+            if md_form_mapping["form-type"] == "text":
+                input_field = wait.until(
+                    EC.element_to_be_clickable((By.XPATH, md_form_mapping["xpath"]))
+                )
+                input_field.click()
+                input_field.clear()
+                input_field.send_keys(form_data)
+            elif md_form_mapping["form-type"] == "select":
+                input_field = wait.until(
+                    EC.visibility_of_element_located(
+                        (By.XPATH, md_form_mapping["xpath"])
+                    )
+                )
+                select = Select(input_field)
+                select.select_by_value(form_data)
+            elif md_form_mapping["form-type"] == "add-item":
+                for count, val in enumerate(form_data):
+                    input_field = wait.until(
+                        EC.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                "("
+                                + md_form_mapping["xpath"]
+                                + md_form_mapping["input"]["xpath"]
+                                + ")["
+                                + str(count + 1)
+                                + "]",
+                            )
+                        )
+                    )
+                    input_field.click()
+                    input_field.clear()
+                    input_field.send_keys(val)
+                    if count + 1 < len(form_data):
+                        btn_add_item = wait.until(
+                            EC.element_to_be_clickable(
+                                (
+                                    By.XPATH,
+                                    "("
+                                    + md_form_mapping["xpath"]
+                                    + md_form_mapping["add-item"]["xpath"]
+                                    + "[contains(@data-original-title, 'Add')])["
+                                    + str(count + 1)
+                                    + "]",
+                                )
+                            )
+                        )
+                        btn_add_item.click()
+            elif md_form_mapping["form-type"] == "checkbox":
+                # TODO: implement
+                pass
+        sleep(3)
         try:
             wait.until(
                 EC.element_to_be_clickable(
@@ -95,6 +167,7 @@ class TestCreateDataverse:
                 By.XPATH, "//div[contains(@class, 'alert-success')]"
             )
             # Assert
+            # verify alert box
             assert "Success!" in alert.text
             assert selenium.find_element(
                 By.XPATH,
@@ -102,18 +175,17 @@ class TestCreateDataverse:
             )
 
             url = f'{config.BASE_URL}/dataverse/{dv.get()["alias"]}'
+            # verify dataverse URL
             selenium.get(url)
-
             assert selenium.current_url == url
-
+            # verify header title
             dv_header_unpublished = wait.until(
                 EC.visibility_of_element_located(
                     (By.XPATH, "//span[contains(@class, 'label-unpublished')]")
                 )
             )
             assert dv_header_unpublished.text == "Unpublished"
-
-            if "name" in form_fields:
+            if "name" in dv.get():
                 dv_header_name = wait.until(
                     EC.visibility_of_element_located(
                         (
@@ -123,8 +195,7 @@ class TestCreateDataverse:
                     )
                 )
                 assert dv_header_name.text == dv.get()["name"]
-
-            if "affiliation" in form_fields:
+            if "affiliation" in dv.get():
                 dv_header_affiliation = wait.until(
                     EC.visibility_of_element_located(
                         (
@@ -134,6 +205,24 @@ class TestCreateDataverse:
                     )
                 )
                 assert dv_header_affiliation.text == f'({dv.get()["affiliation"]})'
+            # verify with API response
+            api = NativeApi(config.BASE_URL, users[user_handle]["api-token"])
+            dv_api = api.get_dataverse(dv.get()["alias"]).json()["data"]
+            for attr in attr_single:
+                assert dv_api[attr] == dv.get()[attr]
+            for count, attr in enumerate(attr_multiple):
+                dict_multiple = {}
+                dict_multiple[attr] = []
+                for ele in dv_api[attr]:
+                    dict_multiple[attr].append(
+                        ele[installation_cfg[attr]["metadata-child-name"]]
+                    )
+            for attr in attr_multiple:
+                for ele in dv.get()[attr]:
+                    assert (
+                        ele[installation_cfg[attr]["metadata-child-name"]]
+                        in dict_multiple[attr]
+                    )
         finally:
             # Cleanup
             if is_created:
@@ -141,8 +230,9 @@ class TestCreateDataverse:
                 api.delete_dataverse(dv.get()["alias"])
 
 
-class TestAllDataverses:
+class TestAccess:
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.parametrize("test_input", all_dataverses)
     def test_xhtml_url_not_logged_in(self, config, session, test_input):
         """Test all Dataverse collection XHTML URL's as not-logged-in user."""
@@ -157,6 +247,7 @@ class TestAllDataverses:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.parametrize("test_input", all_dataverses)
     def test_clean_url_not_logged_in(self, config, session, test_input):
         """Test all Dataverse collection clean URL's as not-logged-in user."""
@@ -170,11 +261,14 @@ class TestAllDataverses:
         assert resp.url == url
         # Cleanup
 
+
+class TestSidebar:
     @pytest.mark.v4_20
+    @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected",
-        test_config["all-dataverses"]["facet-not-logged-in"]["input-expected"],
+        test_config["sidebar"]["facet-not-logged-in"]["input-expected"],
     )
     def test_facet_not_logged_in(self, config, homepage, test_input, expected):
         """Test all Dataverse collections in facet as not-logged-in user."""

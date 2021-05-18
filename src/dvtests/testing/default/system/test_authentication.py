@@ -6,29 +6,24 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..conftest import read_json
-from ..conftest import TEST_CONFIG_DATA_DIR
+from ..conftest import TESTING_CONFIG_DIR
 
 
 test_config = read_json(
-    os.path.join(
-        TEST_CONFIG_DATA_DIR, "default/system/test-config_authentication.json",
-    )
+    os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_authentication.json",)
 )
 
 
-class TestNormalLogin:
+class TestLogin:
     @pytest.mark.v4_20
     @pytest.mark.selenium
     @pytest.mark.parametrize(
-        "homepage_logged_in",
-        test_config["normal-login"]["login-valid"]["users"],
-        indirect=True,
+        "homepage_logged_in", test_config["login"]["valid"]["users"], indirect=True,
     )
     @pytest.mark.parametrize(
-        "test_input,expected",
-        test_config["normal-login"]["login-valid"]["input-expected"],
+        "test_input,expected", test_config["login"]["valid"]["input-expected"],
     )
-    def test_login_valid(self, config, homepage_logged_in, users, test_input, expected):
+    def test_valid(self, config, homepage_logged_in, users, test_input, expected):
         """Test normal login procedure."""
         # Arrange
         selenium, user_handle = homepage_logged_in
