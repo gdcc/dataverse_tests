@@ -13,6 +13,7 @@ In addition to the tests, `utils` helps you with your test preparation. It makes
   * Modular test architecture, optimized for use on Jenkins or similar build/testing tools
   * Supports Firefox and Chrome
   * Tests: Login (normal + Shibboleth), Data Completeness, Create Dataverse Frontend, Installation / Server, Search, OAI PMH, Sitemap, robots.txt,
+  * tested on a Dataverse 4.20 installation
 * Helper functions (`utils`)
   * Collect (all) data of your installation: Dataverses, Datasets, Datafiles
   * Upload testdata
@@ -28,6 +29,22 @@ In addition to the tests, `utils` helps you with your test preparation. It makes
 * Installation: Test fresh, customized installation after setup
 * Upgrade: Test configuration and data completeness after upgrade
 * Monitoring: Frequent testing during operation
+
+**Roadmap**
+
+* Add tests
+  * Verify Metadata of a Dataverse
+  * Create a Dataset via Frontend
+  * Verify Metadata of a Dataset
+  * Upload a Datafile via Frontend
+  * Verify Metadata of a Datafile
+* Add new Dataverse version: add/update tests to work with as many as possible Dataverse versions.
+* Transfer repository to GDCC
+* Release 0.1.0
+* Get people involved
+  * Test on your own Dataverse installations
+  * Create issues
+  * Create pull requests
 
 ## Install
 
