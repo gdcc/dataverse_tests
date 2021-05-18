@@ -34,6 +34,19 @@ def collect_data(
     filename: str,
     create_json: bool,
 ) -> None:
+    """Collect data of a Dataverse installation.
+
+    Collect data from a data node down the Dataverse
+    tree-like data structure.
+
+    Collects the complete data of a Dataverse instance in
+    a tree structure (`tree.json`), containing all
+    Dataverses, Datasets and Datafiles. The file is
+    stored in your instance directory (e. g.
+    `utils/data/instances/dataverse_production`).
+
+    """
+
     if user_handle == "public":
         api = NativeApi(config.BASE_URL)
     else:
@@ -52,6 +65,18 @@ def collect_data(
 
 
 def generate_data(tree: dict, user_handle: str, filename: str = "tree.json") -> None:
+    """Pre-process data coming from collect data.
+
+    Generates lists of Dataverses (`dataverses.json`),
+    Datasets (`datasets.json`) and Datafiles
+    (`datafiles.json`) from the tree structure (`tree.json`).
+    The created lists are then used for tests
+    (`test_all_dataverses()`, `test_all_datasets()`,
+    `test_all_datafiles()`). The generated JSON files
+    are stored inside `utils/` in the related instance
+    folder.
+
+    """
     data = read_json(os.path.join(UTILS_DATA_DIR, user_handle, filename))
     dataverses, datasets, datafiles = dataverse_tree_walker(data)
     filename_dv = os.path.join(UTILS_DATA_DIR, user_handle, config.FILENAME_DATAVERSES)
@@ -84,6 +109,18 @@ def generate_data(tree: dict, user_handle: str, filename: str = "tree.json") -> 
 
 
 def create_testdata(config_file: str, force: bool) -> None:
+    """Create testdata defined in a config file.
+
+    Creates a pre-defined set of testdata on your
+    instance. By default, the function uses the
+    AUSSDA test data repository, which is so far not
+    publicly available. If `PRODUCTION` is `true`,
+    this function will not execute, as long as you
+    not add `--force` to the function call. This is
+    to protect from unwanted changes on a production
+    instance.
+
+    """
     # Init
     if config.PRODUCTION and not force:
         print(
@@ -190,6 +227,17 @@ def remove_testdata(
     parent_data_type: str = "dataverse",
     remove_parent: bool = False,
 ) -> None:
+    """Remove testdata.
+
+    Removes all data created by `create-testdata`.
+    It recursively collects all Dataverses and Datasets
+    from a passed Dataverse down (by default =
+    `science`). If `PRODUCTION` is `true`, this function
+    will not execute, as long as you not add `--force`
+    to the function call. This is to protect from
+    unwanted changes on a production instance.
+
+    """
     if config.PRODUCTION and not force:
         print(
             "Delete testdata on a PRODUCTION instance not allowed. Use --force to force it."
@@ -211,6 +259,10 @@ def remove_testdata(
 
 
 def create_user(user_handle: str, config_file: str, force: bool) -> None:
+    """Create user.
+
+    Create user defined in config_file and users JSON file.
+    """
     # Init
     if config.PRODUCTION and not force:
         print(
