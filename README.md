@@ -13,6 +13,7 @@ In addition to the tests, `utils` helps you with your test preparation. It makes
   * Modular test architecture, optimized for use on Jenkins or similar build/testing tools
   * Supports Firefox and Chrome
   * Tests: Login (normal + Shibboleth), Data Completeness, Create Dataverse Frontend, Installation / Server, Search, OAI PMH, Sitemap, robots.txt,
+  * tested on a Dataverse 4.20 installation
 * Helper functions (`utils`)
   * Collect (all) data of your installation: Dataverses, Datasets, Datafiles
   * Upload testdata
@@ -197,9 +198,35 @@ We recommend using the JSON files `configs/aussda_production/` with the prefix `
 
 To get all information for the CLI integration, add `--help`. It lists all commands.
 
+## Roadmap
+
+The next phase in 2021 will focus on getting people and organisations involved for further development and get the project used by as many as possible. AUSSDA is not planning to add more core functionalities, as the project is now becoming a community-driven project.
+
+* Get people involved
+  * Test on your own Dataverse installations
+  * Create issues
+  * Create pull requests
+* Integrate [dataverse-sample-data repository](https://github.com/IQSS/dataverse-sample-data)
+* Transfer repository to GDCC
+* Release 0.1.0
+* Add new Dataverse version: add/update tests to work with as many as possible Dataverse versions.
+
 ## Contributor Guide
 
 See [CONTRIBUTING.rst](CONTRIBUTING.rst).
+
+**Possible Contributions**
+
+Please have a look at the [issues](https://github.com/AUSSDA/dataverse_tests/issues) to already submitted requests.
+
+Helpful tests to be developed by the community could be:
+
+* Verify Metadata of a Dataverse
+* Create a Dataset via Frontend
+* Verify Metadata of a Dataset
+* Upload a Datafile via Frontend
+* Verify Metadata of a Datafile
+* Verify access of a Datafile
 
 ## Resources
 
