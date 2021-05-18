@@ -17,6 +17,7 @@
         "dataverseAdmin"
       ],
       "metadata-filenames": [
+        "dataverse/dataverse_upload_min_01.json",
         "dataverse/dataverse_upload_full_01.json"
       ],
       "input-expected": [

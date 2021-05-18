@@ -2,6 +2,7 @@
   "dataverses": [
     {
       "create": {
+        "user-handle": "dataverseAdmin",
         "metadata-filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
         "parent": ":root",
         "update": {
@@ -9,77 +10,100 @@
           "name": "Test Create Testdata"
         }
       },
-      "publish": {}
+      "publish": {
+        "user-handle": "dataverseAdmin"
+      }
     },
     {
       "create": {
+        "user-handle": "dataverseAdmin",
         "metadata-filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
         "parent": "test_create_testdata"
       },
-      "publish": {}
+      "publish": {
+        "user-handle": "dataverseAdmin"
+      }
     }
   ],
   "datasets": [
     {
       "id": 0,
       "create": {
+        "user-handle": "dataverseAdmin",
         "metadata-filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_full_01.json",
         "parent": "test_create_testdata"
       },
-      "publish": {}
+      "publish": {
+        "user-handle": "dataverseAdmin"
+      }
     },
     {
       "id": 1,
       "create": {
+        "user-handle": "dataverseAdmin",
         "metadata-filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_min_01.json",
         "parent": "DataverseName1"
       },
-      "publish": {}
+      "publish": {
+        "user-handle": "dataverseAdmin"
+      }
     }
   ],
   "datafiles": {
     "0": [
       {
         "upload": {
+          "user-handle": "dataverseAdmin",
           "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
           "filename": "dataverse_testdata/files/jpeg/10000_image.jpeg",
           "update": {
             "filename": "10000_image.jpeg"
           }
         },
-        "publish-dataset": {}
+        "publish-dataset": {
+          "user-handle": "dataverseAdmin"
+        }
       },
       {
         "upload": {
+          "user-handle": "dataverseAdmin",
           "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json",
           "filename": "dataverse_testdata/files/png/10000_image.png",
           "update": {
             "filename": "10000_image.png"
           }
         },
-        "publish-dataset": {}
+        "publish-dataset": {
+          "user-handle": "dataverseAdmin"
+        }
       }
     ],
     "1": [
       {
         "upload": {
+          "user-handle": "dataverseAdmin",
           "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json",
           "filename": "dataverse_testdata/files/do/10002_data_checks.do",
           "update": {
             "filename": "10002_data_checks.do"
           }
         },
-        "publish-dataset": {}
+        "publish-dataset": {
+          "user-handle": "dataverseAdmin"
+        }
       },
       {
         "upload": {
+          "user-handle": "dataverseAdmin",
           "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
           "filename": "dataverse_testdata/files/dta/10002_da_de_v0_9.dta",
           "update": {
             "filename": "10002_da_de_v0_9.dta"
           }
         },
-        "publish-dataset": {}
+        "publish-dataset": {
+          "user-handle": "dataverseAdmin"
+        }
       }
     ]
   },

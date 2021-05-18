@@ -1,10 +1,5 @@
-import glob
 import os
 import sys
-from json import dump
-from json import dumps
-from json import load
-from json import loads
 from time import sleep
 from typing import List
 
@@ -18,46 +13,60 @@ from pyDataverse.utils import read_file
 from pyDataverse.utils import read_json
 from pyDataverse.utils import write_json
 
-from dvtests.config import UtilsConfig
+from dvtests.settings import UtilsSettings
 
 
 if os.getenv("ENV_FILE"):
-    config = UtilsConfig(_env_file=os.getenv("ENV_FILE"))
+    config = UtilsSettings(_env_file=os.getenv("ENV_FILE"))
 else:
-    config = UtilsConfig()
+    config = UtilsSettings()
 
 ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
-INSTANCE_DATA_DIR = os.path.join(ROOT_DIR, "src/dvtests/data", config.INSTANCE,)
-
-if not os.path.isdir(INSTANCE_DATA_DIR):
-    os.makedirs(INSTANCE_DATA_DIR)
+UTILS_DATA_DIR = os.path.join(ROOT_DIR, "data/utils", config.INSTANCE,)
 
 
 def collect_data(
-    parent: str = ":root",
-    data_types: List[str] = ["dataverses", "datasets", "datafiles"],
-    filename: str = "tree.json",
-    create_json: bool = False,
+    user_handle: str,
+    parent: str,
+    data_types: List[str],
+    filename: str,
+    create_json: bool,
 ) -> None:
-    api = NativeApi(config.BASE_URL, config.API_TOKEN)
+    if user_handle == "public":
+        api = NativeApi(config.BASE_URL)
+    else:
+        users = read_json(config.USER_FILENAME)
+        api = NativeApi(config.BASE_URL, users[user_handle]["api-token"])
     tree = api.get_children(parent, children_types=data_types)
-    write_json(os.path.join(INSTANCE_DATA_DIR, filename), tree)
+    if not os.path.isdir(os.path.join(ROOT_DIR, "data")):
+        os.makedirs(os.path.join(ROOT_DIR, "data"))
+        if not os.path.isdir(os.path.join(ROOT_DIR, "data", "utils")):
+            os.makedirs(os.path.join(ROOT_DIR, "data", "utils"))
+            if not os.path.isdir(os.path.join(ROOT_DIR, "data", "utils", user_handle)):
+                os.makedirs(os.path.join(ROOT_DIR, "data", "utils", user_handle))
+    write_json(os.path.join(UTILS_DATA_DIR, user_handle, filename), tree)
     if create_json:
-        generate_data(filename)
+        generate_data(tree, user_handle, filename)
 
 
-def generate_data(filename: str = "tree.json") -> None:
-    data = read_json(os.path.join(INSTANCE_DATA_DIR, filename))
+def generate_data(tree: dict, user_handle: str, filename: str = "tree.json") -> None:
+    data = read_json(os.path.join(UTILS_DATA_DIR, user_handle, filename))
     dataverses, datasets, datafiles = dataverse_tree_walker(data)
-    filename_dv = os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAVERSES)
+    filename_dv = os.path.join(UTILS_DATA_DIR, user_handle, config.FILENAME_DATAVERSES)
+    if not os.path.isdir(os.path.join(ROOT_DIR, "data")):
+        os.makedirs(os.path.join(ROOT_DIR, "data"))
+        if not os.path.isdir(os.path.join(ROOT_DIR, "data", "utils")):
+            os.makedirs(os.path.join(ROOT_DIR, "data", "utils"))
+            if not os.path.isdir(os.path.join(ROOT_DIR, "data", "utils", user_handle)):
+                os.makedirs(os.path.join(ROOT_DIR, "data", "utils", user_handle))
     if os.path.isfile(filename_dv):
         os.remove(filename_dv)
-    filename_ds = os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATASETS)
+    filename_ds = os.path.join(UTILS_DATA_DIR, user_handle, config.FILENAME_DATASETS)
     if os.path.isfile(filename_ds):
         os.remove(filename_ds)
-    filename_df = os.path.join(INSTANCE_DATA_DIR, config.FILENAME_DATAFILES)
+    filename_df = os.path.join(UTILS_DATA_DIR, user_handle, config.FILENAME_DATAFILES)
     if os.path.isfile(filename_df):
         os.remove(filename_df)
     write_json(filename_dv, dataverses)
@@ -68,7 +77,7 @@ def generate_data(filename: str = "tree.json") -> None:
         "datasets": len(datasets),
         "datafiles": len(datafiles),
     }
-    write_json(os.path.join(INSTANCE_DATA_DIR, config.FILENAME_METADATA), metadata)
+    write_json(os.path.join(UTILS_DATA_DIR, config.FILENAME_METADATA), metadata)
     print(f"- Dataverses: {len(dataverses)}")
     print(f"- Datasets: {len(datasets)}")
     print(f"- Datafiles: {len(datafiles)}")
@@ -82,13 +91,16 @@ def create_testdata(config_file: str, force: bool) -> None:
         )
         sys.exit()
     pid_idx = []
-    api = NativeApi(config.BASE_URL, config.API_TOKEN)
+    users = read_json(config.USER_FILENAME)
     workflow = read_json(os.path.join(ROOT_DIR, config_file))
 
     # Dataverses
     for dv_conf in workflow["dataverses"]:
         dv_alias = None
         if "create" in dv_conf:
+            api = NativeApi(
+                config.BASE_URL, users[dv_conf["create"]["user-handle"]]["api-token"]
+            )
             dv = Dataverse()
             dv_filename = os.path.join(ROOT_DIR, dv_conf["create"]["metadata-filename"])
             dv.from_json(read_file(dv_filename))
@@ -100,6 +112,9 @@ def create_testdata(config_file: str, force: bool) -> None:
             resp = api.create_dataverse(dv_conf["create"]["parent"], dv.json())
 
         if "publish" in dv_conf:
+            api = NativeApi(
+                config.BASE_URL, users[dv_conf["publish"]["user-handle"]]["api-token"]
+            )
             if not dv_alias and "alias" in dv_conf["publish"]:
                 dv_alias = dv_conf["publish"]["alias"]
             resp = api.publish_dataverse(dv_alias)
@@ -108,6 +123,9 @@ def create_testdata(config_file: str, force: bool) -> None:
     for ds_conf in workflow["datasets"]:
         pid = None
         if "create" in ds_conf:
+            api = NativeApi(
+                config.BASE_URL, users[ds_conf["create"]["user-handle"]]["api-token"]
+            )
             ds = Dataset()
             ds_filename = os.path.join(ROOT_DIR, ds_conf["create"]["metadata-filename"])
             ds.from_json(read_file(ds_filename))
@@ -123,6 +141,9 @@ def create_testdata(config_file: str, force: bool) -> None:
             if not pid:
                 print("ERROR: PID missing!")
                 sys.exit()
+            api = NativeApi(
+                config.BASE_URL, users[ds_conf["publish"]["user-handle"]]["api-token"]
+            )
             resp = api.publish_dataset(pid, release_type="major")
 
     # Datafiles
@@ -134,6 +155,10 @@ def create_testdata(config_file: str, force: bool) -> None:
             sys.exit()
         for df_conf in ds_datafiles:
             if "upload" in df_conf:
+                api = NativeApi(
+                    config.BASE_URL,
+                    users[df_conf["upload"]["user-handle"]]["api-token"],
+                )
                 metadata = read_json(df_conf["upload"]["metadata-filename"])
                 df = Datafile()
                 df.set(metadata)
@@ -149,38 +174,21 @@ def create_testdata(config_file: str, force: bool) -> None:
                 else:
                     sleep(3)
         if "publish-dataset" in df_conf:
+            api = NativeApi(
+                config.BASE_URL,
+                users[df_conf["publish-dataset"]["user-handle"]]["api-token"],
+            )
             if df_conf["publish-dataset"]:
                 resp = api.publish_dataset(pid, release_type="major")
 
 
-def create_user(config_file: str, force: bool) -> None:
-    # Init
-    if config.PRODUCTION and not force:
-        print(
-            "Create user on a PRODUCTION instance not allowed. Use --force to force it."
-        )
-        sys.exit()
-
-    workflow = read_json(os.path.join(ROOT_DIR, config_file))
-    # Users
-    for u_conf in workflow["users"]:
-        if "create" in u_conf:
-            u_filename = os.path.join(ROOT_DIR, u_conf["create"]["filename"])
-            data = read_json(u_filename)
-            if "update" in u_conf["create"]:
-                for key, val in u_conf["create"]["update"].items():
-                    data[key] = val
-            requests.post(
-                f"{config.BASE_URL}/api/builtin-users?password={config.USER_NORMAL_PWD}&key={config.BUILTIN_USER_KEY}",
-                json=data,
-            )
-
-
 def remove_testdata(
+    user_handle: str,
     parent: str,
-    parent_data_type: str = "dataverse",
     data_types: List[str] = ["dataverses", "datasets"],
     force: bool = False,
+    parent_data_type: str = "dataverse",
+    remove_parent: bool = False,
 ) -> None:
     if config.PRODUCTION and not force:
         print(
@@ -188,16 +196,39 @@ def remove_testdata(
         )
         sys.exit()
 
-    api = NativeApi(config.BASE_URL, config.API_TOKEN)
+    user = read_json(config.USER_FILENAME)[user_handle]
+    api = NativeApi(config.BASE_URL, user["api-token"])
 
     # Clean up
     data = api.get_children(parent, children_types=data_types)
-    dataverses, datasets, datafiles = dataverse_tree_walker(data)
-    if parent_data_type == "dataverse":
+    dataverses, datasets, = dataverse_tree_walker(data)
+    if parent_data_type == "dataverse" and remove_parent:
         dataverses.append({"dataverse_alias": parent})
-
     for ds in datasets:
-        resp = api.destroy_dataset(ds["pid"])
-
+        api.destroy_dataset(ds["pid"])
     for dv in dataverses:
-        resp = api.delete_dataverse(dv["dataverse_alias"])
+        api.delete_dataverse(dv["dataverse_alias"])
+
+
+def create_user(user_handle: str, config_file: str, force: bool) -> None:
+    # Init
+    if config.PRODUCTION and not force:
+        print(
+            "Create user on a PRODUCTION instance not allowed. Use --force to force it."
+        )
+        sys.exit()
+    users = read_json(config.USER_FILENAME)
+    workflow = read_json(os.path.join(ROOT_DIR, config_file))
+
+    # Users
+    for user in workflow["users"]:
+        if "create" in user:
+            filename = os.path.join(ROOT_DIR, user["create"]["filename"])
+            data = read_json(filename)
+            if "update" in user["create"]:
+                for key, val in user["create"]["update"].items():
+                    data[key] = val
+            requests.post(
+                f'{config.BASE_URL}/api/builtin-users?password={users[user_handle]["password"]}&key={config.BUILTIN_USER_KEY}',
+                json=data,
+            )

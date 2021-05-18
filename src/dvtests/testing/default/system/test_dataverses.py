@@ -80,7 +80,7 @@ class TestCreateFrontend:
             )
         ).click()
 
-        for attr in test_input["clean-default-value"]:
+        for attr in test_input["clean-default-values"]:
             md_form_mapping = installation_cfg[attr]
             input_field = wait.until(
                 EC.visibility_of_element_located((By.XPATH, md_form_mapping["xpath"]))

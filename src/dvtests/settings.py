@@ -12,6 +12,8 @@ else:
 
 class UtilsSettings(BaseSettings):
     BASE_URL: str
+    USER_FILENAME: str
+    PRODUCTION: bool = False
     INSTANCE: str = ENV_FILE_BASE
     FILENAME_DATAVERSES: str = "dataverses.json"
     FILENAME_DATASETS: str = "datasets.json"
