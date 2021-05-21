@@ -49,8 +49,11 @@ def remove_testdata_command(
     parent_data_type: str = "dataverse",
     data_types: List[str] = ["dataverses", "datasets"],
     force: bool = False,
+    remove_parent: bool = False,
 ) -> None:
-    remove_testdata(user_handle, parent, data_types, force, parent_data_type, False)
+    remove_testdata(
+        user_handle, parent, data_types, force, parent_data_type, remove_parent
+    )
     typer.echo("Testdata removed")
 
 
