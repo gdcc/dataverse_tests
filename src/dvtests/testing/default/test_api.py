@@ -24,13 +24,14 @@ class TestDataverse:
         # Assert
         assert r_data["alias"] == expected["alias"]
         assert r_data["name"] == expected["name"]
-        assert r_data["affiliation"] == expected["affiliation"]
         for c in r_data["dataverseContacts"]:
             assert c["contactEmail"] in expected["emails"]
         assert len(r_data["dataverseContacts"]) == len(expected["emails"])
-        assert r_data["theme"]["tagline"] == expected["tagline"]
-        assert r_data["theme"]["linkUrl"] == expected["link-url"]
+        # TODO: make metadata verification generic
+        # assert r_data["affiliation"] == expected["affiliation"]
+        # assert r_data["theme"]["tagline"] == expected["tagline"]
+        # assert r_data["theme"]["linkUrl"] == expected["link-url"]
         assert resp.status_code == 200
-        assert resp.headers["Content-Type"] == "application/json"
-        assert resp.url == expected["url"]
+        assert resp.headers["Content-Type"] == expected["content-type"]
+        assert resp.url == config.BASE_URL + expected["url"]
         # Cleanup

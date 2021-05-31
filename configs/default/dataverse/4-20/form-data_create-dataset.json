@@ -1,0 +1,43 @@
+{
+  "title": {
+    "form-type": "",
+    "xpath": "//div[@aria-labelledby='metadata_title']/div/div/div/div/div/div/input[contains(@class, 'datasetfield-title')]"
+  },
+  "subject": {
+    "form-type": "checkbox",
+    "xpath": ""
+  },
+  "datasetContact": {
+    "form-type": "add-item",
+    "xpath": "",
+    "input": {
+      "xpath": ""
+    },
+    "add-item": {
+      "xpath": ""
+    },
+    "metadata-child-name": ""
+  },
+  "author": {
+    "form-type": "add-item",
+    "xpath": "",
+    "input": {
+      "xpath": ""
+    },
+    "add-item": {
+      "xpath": ""
+    },
+    "metadata-child-name": ""
+  },
+  "dsDescription": {
+    "form-type": "add-item",
+    "xpath": "",
+    "input": {
+      "xpath": ""
+    },
+    "add-item": {
+      "xpath": ""
+    },
+    "metadata-child-name": ""
+  }
+}

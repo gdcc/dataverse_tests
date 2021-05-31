@@ -18,5 +18,17 @@
         }
       ]
     ]
+  },
+  "api": {
+    "valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "url": "data.aussda.at"
+          }
+        ]
+      ]
+    }
   }
 }

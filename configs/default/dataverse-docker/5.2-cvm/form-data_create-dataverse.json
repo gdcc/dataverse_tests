@@ -1,0 +1,41 @@
+{
+  "name": {
+    "form-type": "text",
+    "xpath": "//input[@id='dataverseForm:name']"
+  },
+  "alias": {
+    "form-type": "text",
+    "xpath": "//input[@id='dataverseForm:identifier']"
+  },
+  "dataverseType": {
+    "form-type": "select",
+    "xpath": "//select[@id='dataverseForm:dataverseCategory']"
+  },
+  "storage": {
+    "form-type": "select",
+    "xpath": "//select[@id='dataverseForm:dataverseStorage']"
+  },
+  "affiliation": {
+    "form-type": "text",
+    "xpath": "//input[@id='dataverseForm:affiliation']"
+  },
+  "hostdataverse": {
+    "form-type": "text",
+    "xpath": "//input[@id='dataverseForm:selectHostDataverse_input']"
+  },
+  "description": {
+    "form-type": "text",
+    "xpath": "//textarea[@id='dataverseForm:description']"
+  },
+  "dataverseContacts": {
+    "form-type": "add-item",
+    "xpath": "//div[@id='dataverseForm:j_idt255']/div",
+    "input": {
+      "xpath": "/div/div/input"
+    },
+    "add-item": {
+      "xpath": "/div/div[contains(@class, 'field-add-delete')]/a"
+    },
+    "metadata-child-name": "contactEmail"
+  }
+}

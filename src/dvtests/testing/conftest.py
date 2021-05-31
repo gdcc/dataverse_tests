@@ -89,7 +89,7 @@ def homepage(selenium, config):
     """Get homepage with selenium."""
     selenium.get(config.BASE_URL)
     selenium.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
-    custom_click_cookie_rollbar(selenium, config.MAX_WAIT_TIME)
+    # custom_click_cookie_rollbar(selenium, config.MAX_WAIT_TIME)
     return selenium
 
 
@@ -106,13 +106,15 @@ def homepage_logged_in(request, homepage, config, users):
 
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
     selenium.get(f"{config.BASE_URL}/loginpage.xhtml")
-    sleep(15)
+    if "shibboleth" in config.LOGIN_OPTIONS:
+        sleep(15)
 
     if user_auth == "normal":
-        btn_username_email = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//*[text()='Username/Email']"))
-        )
-        btn_username_email.click()
+        # if "normal" in config.LOGIN_OPTIONS and "shibboleth" not in config.LOGIN_OPTIONS:
+        #     btn_username_email = wait.until(
+        #         EC.element_to_be_clickable((By.XPATH, "//*[text()='Log In']"))
+        #     )
+        #     btn_username_email.click()
         input_username_email = wait.until(
             EC.element_to_be_clickable(
                 (By.XPATH, "//input[@id='loginForm:credentialsContainer:0:credValue']")

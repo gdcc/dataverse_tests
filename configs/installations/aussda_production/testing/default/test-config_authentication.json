@@ -1,5 +1,5 @@
 {
-  "login": {
+  "normal": {
     "valid": {
       "users": [
         "dataverseAdmin",
@@ -11,6 +11,28 @@
           {},
           {
             "title": "AUSSDA"
+          }
+        ]
+      ]
+    }
+  },
+  "shibboleth": {
+    "interface-valid": {
+      "input-expected": [
+        [
+          {
+            "url": "/Shibboleth.sso/DiscoFeed"
+          },
+          {
+            "content-type": "application/json; charset=UTF-8"
+          }
+        ],
+        [
+          {
+            "url": "/Shibboleth.sso/Metadata"
+          },
+          {
+            "content-type": "application/samlmetadata+xml"
           }
         ]
       ]
