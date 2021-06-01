@@ -7,7 +7,7 @@
   "login-button-login-normal": "//*[text()='Log In']",
   "login-institution-select": "//select[@id='idpSelectSelector']",
   "login-institution-select-button": "//input[@id='idpSelectListButton']",
-  "register-div-terms-of-use": "//div[@id='terms-agreement-block']",
+  "register-div-terms-of-use": "//div[contains(@class, 'terms-agreement-block')]",
   "search-navbar-link": "//ul[contains(@class, 'navbar-nav')]/li/a[text()='Search ']",
   "search-navbar-input": "//input[@id='navbarsearch']",
   "search-header-input": "//input[contains(@class, 'search-input')]",

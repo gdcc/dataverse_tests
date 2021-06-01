@@ -6,9 +6,7 @@
           {
             "url": "/dataverseuser.xhtml?editMode=CREATE"
           },
-          {
-            "terms-filename": "dataverse_resources/terms_of_use/20210517_terms-of-use_de.html"
-          }
+          {}
         ]
       ]
     }
