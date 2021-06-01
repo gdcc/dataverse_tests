@@ -6,9 +6,7 @@ from ..conftest import read_json
 from ..conftest import TESTING_CONFIG_DIR
 
 
-test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_oaipmh.json",)
-)
+test_config = read_json(os.path.join(TESTING_CONFIG_DIR, "default/test_oaipmh.json",))
 
 
 class TestEndpoint:
