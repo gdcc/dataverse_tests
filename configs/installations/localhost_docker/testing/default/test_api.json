@@ -1,0 +1,22 @@
+{
+  "dataverse": {
+    "valid": {
+      "input-expected": [
+        [
+          {
+            "alias": "root"
+          },
+          {
+            "alias": "root",
+            "name": "Root",
+            "emails": [
+              "root@mailinator.com"
+            ],
+            "url": "http://localhost:8085/api/v1/dataverses/root?User-Agent=pydataverse",
+            "content-type": "application/json;charset=UTF-8"
+          }
+        ]
+      ]
+    }
+  }
+}

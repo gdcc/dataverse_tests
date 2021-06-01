@@ -14,7 +14,7 @@
               "info@aussda.at"
             ],
             "tagline": "We make social science data accessible, creating opportunities for research and data reuse, benefitting science and society.",
-            "link-url": "https://aussda.at",
+            "linkUrl": "https://aussda.at",
             "url": "https://data.aussda.at/api/v1/dataverses/:root?User-Agent=pydataverse"
           }
         ],
@@ -30,7 +30,7 @@
               "info@aussda.at"
             ],
             "tagline": "We make social science data accessible, creating opportunities for research and data reuse, benefitting science and society.",
-            "link-url": "https://aussda.at",
+            "linkUrl": "https://aussda.at",
             "url": "https://data.aussda.at/api/v1/dataverses/AUSSDA?User-Agent=pydataverse"
           }
         ]

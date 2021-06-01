@@ -5,9 +5,9 @@ import pytest
 from ..conftest import read_json
 from ..conftest import TESTING_CONFIG_DIR
 
-test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_api.json")
-)
+test_config = read_json(os.path.join(TESTING_CONFIG_DIR, "default/test_api.json"))
+
+DATAVERSE_METADATA_ATTR = ["affiliation", "tagline", "linkUrl"]
 
 
 class TestDataverse:
@@ -20,18 +20,24 @@ class TestDataverse:
         # Arrange
         # Act
         resp = native_api.get_dataverse(test_input["alias"])
-        r_data = resp.json()["data"]
+        resp_data = resp.json()["data"]
         # Assert
-        assert r_data["alias"] == expected["alias"]
-        assert r_data["name"] == expected["name"]
-        for c in r_data["dataverseContacts"]:
+        assert resp_data["alias"] == expected["alias"]
+        assert resp_data["name"] == expected["name"]
+        for c in resp_data["dataverseContacts"]:
             assert c["contactEmail"] in expected["emails"]
-        assert len(r_data["dataverseContacts"]) == len(expected["emails"])
-        # TODO: make metadata verification generic
-        # assert r_data["affiliation"] == expected["affiliation"]
-        # assert r_data["theme"]["tagline"] == expected["tagline"]
-        # assert r_data["theme"]["linkUrl"] == expected["link-url"]
+        assert len(resp_data["dataverseContacts"]) == len(expected["emails"])
+        for attr in DATAVERSE_METADATA_ATTR:
+            if attr == "linkUrl" or attr == "tagline":
+                if "tagline" in expected:
+                    assert resp_data["theme"]["tagline"] == expected["tagline"]
+                if "link-url" in expected:
+                    assert resp_data["theme"]["linkUrl"] == expected["linkUrl"]
+            else:
+                if attr in expected:
+                    assert resp_data[attr] == expected[attr]
         assert resp.status_code == 200
-        assert resp.headers["Content-Type"] == expected["content-type"]
-        assert resp.url == config.BASE_URL + expected["url"]
+        if config.VERSION == "dataverse-docker_5-2-cvm":
+            assert resp.headers["Content-Type"] == expected["content-type"]
+        assert resp.url == expected["url"]
         # Cleanup
