@@ -7,7 +7,7 @@ from ..conftest import TESTING_CONFIG_DIR
 
 
 test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_robots-txt.json",)
+    os.path.join(TESTING_CONFIG_DIR, "default/test_robots-txt.json",)
 )
 
 
@@ -26,5 +26,6 @@ class TestRobotsTxt:
         assert resp.url == url
         assert resp.status_code == 200
         assert resp.encoding == expected["encoding"]
-        # assert resp.headers["Content-Type"] == expected["content-type"]
+        if config.VERSION == "dataverse_4-20":
+            assert resp.headers["Content-Type"] == expected["content-type"]
         # Cleanup
