@@ -8,9 +8,7 @@ from ..conftest import search_navbar
 from ..conftest import TESTING_CONFIG_DIR
 
 
-test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_search.json",)
-)
+test_config = read_json(os.path.join(TESTING_CONFIG_DIR, "default/test_search.json",))
 
 
 class TestSearch:
@@ -20,7 +18,9 @@ class TestSearch:
         "test_input,expected",
         test_config["search"]["navbar-not-logged-in"]["input-expected"],
     )
-    def test_search_navbar_not_logged_in(self, config, homepage, test_input, expected):
+    def test_search_navbar_not_logged_in(
+        self, config, homepage, xpaths, test_input, expected
+    ):
         """Test navbar search."""
         # Arrange
         selenium = homepage
@@ -28,15 +28,13 @@ class TestSearch:
         num_datasets = expected["num-datasets"]
         num_datafiles = expected["num-datafiles"]
         # Act
-        selenium = search_navbar(selenium, config, test_input["query"])
+        selenium = search_navbar(selenium, config, xpaths, test_input["query"])
         facet_dataverse = selenium.find_element(
-            By.XPATH, "//span[@class='facetTypeDataverse']"
+            By.XPATH, xpaths["sidebar-facet-dataverse"]
         )
-        facet_dataset = selenium.find_element(
-            By.XPATH, "//span[@class='facetTypeDataset']"
-        )
+        facet_dataset = selenium.find_element(By.XPATH, xpaths["sidebar-facet-dataset"])
         facet_datafile = selenium.find_element(
-            By.XPATH, "//span[@class='facetTypeFile']"
+            By.XPATH, xpaths["sidebar-facet-datafile"]
         )
         # Assert
         assert selenium.current_url == expected["url"]

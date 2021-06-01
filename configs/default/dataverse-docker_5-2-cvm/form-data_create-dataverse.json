@@ -29,7 +29,7 @@
   },
   "dataverseContacts": {
     "form-type": "add-item",
-    "xpath": "//div[@id='dataverseForm:j_idt255']/div",
+    "xpath": "//div[@id='dataverseForm:j_idt262']/div",
     "input": {
       "xpath": "/div/div/input"
     },

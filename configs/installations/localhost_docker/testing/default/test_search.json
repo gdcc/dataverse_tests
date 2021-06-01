@@ -1,0 +1,19 @@
+{
+  "search": {
+    "navbar-not-logged-in": {
+      "input-expected": [
+        [
+          {
+            "query": "elections"
+          },
+          {
+            "num-dataverses": 0,
+            "num-datasets": 0,
+            "num-datafiles": 0,
+            "url": "http://localhost:8085/dataverse/root?q=elections"
+          }
+        ]
+      ]
+    }
+  }
+}
