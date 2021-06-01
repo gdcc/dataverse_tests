@@ -7,7 +7,7 @@ from ..conftest import TESTING_CONFIG_DIR
 
 
 test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_installation.json")
+    os.path.join(TESTING_CONFIG_DIR, "default/test_installation.json")
 )
 
 
@@ -16,7 +16,7 @@ class TestVersion:
     @pytest.mark.parametrize(
         "test_input,expected", test_config["version"]["valid"]["input-expected"]
     )
-    def test_valid(self, native_api, test_input, expected):
+    def test_valid(self, native_api, config, test_input, expected):
         """Test Dataverse version."""
         # Arrange
         # Act
@@ -24,7 +24,8 @@ class TestVersion:
         r_data = resp.json()["data"]
         # Assert
         assert r_data["version"] == expected["version"]
-        # assert r_data["build"] == expected["build"]
+        if config.VERSION == "dataverse_4-20":
+            assert r_data["build"] == expected["build"]
         # Cleanup
 
 
@@ -54,7 +55,8 @@ class TestServer:
         resp = session.get(config.BASE_URL)
         # Assert
         assert resp.headers["Server"] == expected["server"]
-        # assert resp.headers["Content-Encoding"] == expected["content-encoding"]
-        # assert resp.headers["Keep-Alive"] == expected["keep-alive"]
-        # assert resp.headers["Connection"] == expected["connection"]
+        if config.VERSION == "dataverse_4-20":
+            assert resp.headers["Content-Encoding"] == expected["content-encoding"]
+            assert resp.headers["Keep-Alive"] == expected["keep-alive"]
+            assert resp.headers["Connection"] == expected["connection"]
         # Cleanup
