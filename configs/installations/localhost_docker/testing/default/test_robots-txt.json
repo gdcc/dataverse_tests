@@ -1,0 +1,14 @@
+{
+  "robots-txt": {
+    "valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "encoding": "UTF-8"
+          }
+        ]
+      ]
+    }
+  }
+}

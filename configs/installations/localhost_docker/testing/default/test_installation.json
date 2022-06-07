@@ -1,0 +1,39 @@
+{
+  "version": {
+    "valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "version": "5.2"
+          }
+        ]
+      ]
+    }
+  },
+  "server": {
+    "api-valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "url": "localhost"
+          }
+        ]
+      ]
+    },
+    "request-valid": {
+      "input-expected": [
+        [
+          {},
+          {
+            "server": "Payara Server  5.2020.3 #badassfish",
+            "content-encoding": "gzip",
+            "keep-alive": "timeout=5, max=100",
+            "connection": "Keep-Alive"
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "terms": {
+    "valid": {
+      "input-expected": [
+        [
+          {
+            "url": "/dataverseuser.xhtml?editMode=CREATE"
+          },
+          {}
+        ]
+      ]
+    }
+  }
+}

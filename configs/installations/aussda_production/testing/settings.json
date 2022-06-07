@@ -1,0 +1,7 @@
+{
+  "login-options": [
+    "normal",
+    "shibboleth"
+  ],
+  "cookie-rollbar": true
+}

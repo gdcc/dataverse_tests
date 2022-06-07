@@ -1,6 +1,7 @@
 import os
 from json import load
 from time import sleep
+from typing import Any
 
 import pytest
 import requests
@@ -17,14 +18,19 @@ if os.getenv("ENV_FILE"):
     CONFIG = TestSettings(_env_file=os.getenv("ENV_FILE"))
 else:
     CONFIG = TestSettings()
-
 ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
+DATAVERSE_CONFIG_DIR = os.path.join(ROOT_DIR, "configs/default", CONFIG.VERSION)
 UTILS_DATA_DIR = os.path.join(
     ROOT_DIR, "data/utils", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR
 )
-TESTING_CONFIG_DIR = os.path.join(ROOT_DIR, "configs", CONFIG.INSTANCE, "testing")
+TESTING_CONFIG_DIR = os.path.join(
+    ROOT_DIR, "configs/installations", CONFIG.INSTANCE, "testing"
+)
+UTILS_CONFIG_DIR = os.path.join(
+    ROOT_DIR, "configs/installations", CONFIG.INSTANCE, "utils"
+)
 TESTDATA_METADATA_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json")
 
 
@@ -38,6 +44,22 @@ def config():
 def users(config):
     """Load users JSON file."""
     filename = os.path.join(ROOT_DIR, config.USER_FILENAME)
+    with open(filename, "r", encoding="utf-8") as f:
+        return load(f)
+
+
+@pytest.fixture
+def xpaths(config):
+    """Load XPATH JSON file."""
+    filename = os.path.join(DATAVERSE_CONFIG_DIR, "xpaths.json")
+    with open(filename, "r", encoding="utf-8") as f:
+        return load(f)
+
+
+@pytest.fixture
+def installation_settings(config):
+    """Load XPATH JSON file."""
+    filename = os.path.join(TESTING_CONFIG_DIR, "settings.json")
     with open(filename, "r", encoding="utf-8") as f:
         return load(f)
 
@@ -85,11 +107,12 @@ def chrome_options(chrome_options, config):
 
 
 @pytest.fixture
-def homepage(selenium, config):
+def homepage(selenium, config, installation_settings):
     """Get homepage with selenium."""
     selenium.get(config.BASE_URL)
     selenium.set_window_size(config.WINDOW_WIDTH, config.WINDOW_HEIGHT)
-    custom_click_cookie_rollbar(selenium, config.MAX_WAIT_TIME)
+    if installation_settings["cookie-rollbar"]:
+        custom_click_cookie_rollbar(selenium, config.MAX_WAIT_TIME)
     return selenium
 
 
@@ -103,37 +126,49 @@ def homepage_logged_in(request, homepage, config, users):
         users[user_handle]["given-name"] + " " + users[user_handle]["family-name"]
     )
     user_auth = users[user_handle]["authentication"]
+    installation_config = read_json(os.path.join(DATAVERSE_CONFIG_DIR, "general.json"))
 
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
     selenium.get(f"{config.BASE_URL}/loginpage.xhtml")
-    sleep(15)
+    if "shibboleth" in config.LOGIN_OPTIONS and config.MAX_WAIT_TIME < 15:
+        sleep(15)
+    else:
+        sleep(config.MAX_WAIT_TIME)
 
     if user_auth == "normal":
-        btn_username_email = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//*[text()='Username/Email']"))
-        )
-        btn_username_email.click()
+        if "shibboleth" in config.LOGIN_OPTIONS:
+            btn_login_normal = wait.until(
+                EC.element_to_be_clickable(
+                    (By.XPATH, installation_config["button-login-normal"])
+                )
+            )
+            btn_login_normal.click()
         input_username_email = wait.until(
             EC.element_to_be_clickable(
-                (By.XPATH, "//input[@id='loginForm:credentialsContainer:0:credValue']")
+                (By.XPATH, installation_config["input-username-email"])
             )
         )
         input_username_email.send_keys(user_handle)
 
         input_pwd = wait.until(
             EC.element_to_be_clickable(
-                (By.XPATH, "//input[@id='loginForm:credentialsContainer:1:sCredValue']")
+                (By.XPATH, installation_config["input-password"])
             )
         )
         input_pwd.send_keys(user_pwd)
 
         btn_login = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//button[@id='loginForm:login']"))
+            EC.element_to_be_clickable((By.XPATH, installation_config["button-login"]))
         )
         btn_login.click()
+        if config.VERSION == "dataverse-docker_5-2-cvm":
+            sleep(3)
+            selenium.get(config.BASE_URL)
     elif user_auth == "shibboleth":
         select_institution = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//select[@id='idpSelectSelector']"))
+            EC.element_to_be_clickable(
+                (By.XPATH, installation_config["select-institution"])
+            )
         )
         select_institution.click()
 
@@ -142,7 +177,9 @@ def homepage_logged_in(request, homepage, config, users):
         ).click()
 
         btn_select_institution = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//input[@id='idpSelectListButton']"))
+            EC.element_to_be_clickable(
+                (By.XPATH, installation_config["button-select-institution"])
+            )
         )
         btn_select_institution.click()
 
@@ -151,22 +188,22 @@ def homepage_logged_in(request, homepage, config, users):
             selenium, config, user_handle, user_pwd, user_name
         )
     navbar_user = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//span[@id='userDisplayInfoTitle']"))
+        EC.element_to_be_clickable((By.XPATH, installation_config["navbar-user"]))
     )
     assert navbar_user.text == user_name
     return homepage, user_handle
 
 
-def search_navbar(selenium, config, query):
+def search_navbar(selenium, config, xpaths, query):
     """Search via navbar."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
     navbar_search = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//a[text()='Search']"))
+        EC.element_to_be_clickable((By.XPATH, xpaths["search-navbar-link"]))
     )
     navbar_search.click()
 
     navbar_search_input = wait.until(
-        EC.element_to_be_clickable((By.XPATH, "//input[@id='navbarsearch']"))
+        EC.element_to_be_clickable((By.XPATH, xpaths["search-navbar-input"]))
     )
     navbar_search_input.clear()
     navbar_search_input.send_keys(query)
@@ -174,19 +211,17 @@ def search_navbar(selenium, config, query):
 
     wait.until(
         EC.text_to_be_present_in_element_value(
-            (By.XPATH, "//input[@id='j_idt421:searchBasic']"), "elections"
+            (By.XPATH, xpaths["search-sidebar-result"]), "elections"
         )
     )
     return selenium
 
 
-def search_header(selenium, config, query):
+def search_header(selenium, config, xpaths, query):
     """Search via header."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
     header_search = wait.until(
-        EC.element_to_be_clickable(
-            (By.XPATH, "//input[contains(@class, 'search-input')]")
-        )
+        EC.element_to_be_clickable((By.XPATH, xpaths["search-header-input"]))
     )
     header_search.clear()
     header_search.send_keys(query)
@@ -194,7 +229,7 @@ def search_header(selenium, config, query):
 
     wait.until(
         EC.text_to_be_present_in_element_value(
-            (By.XPATH, "//input[@id='j_idt421:searchBasic']"), "elections"
+            (By.XPATH, xpaths["search-sidebar-result"]), "elections"
         )
     )
     return selenium
@@ -255,7 +290,7 @@ def custom_click_cookie_rollbar(selenium, max_wait_time):
     return selenium
 
 
-def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> dict:
+def read_json(filename: str, mode: str = "r", encoding: str = "utf-8") -> Any:
     """Read in a json file.
 
     See more about the json module at
@@ -304,8 +339,4 @@ def read_file(filename, mode="r", encoding="utf-8"):
 
 @pytest.fixture
 def testdata(request):
-    # Arrange
-    # Act
-    # Assert
-    # Cleanup
     return read_json(os.path.join(TESTDATA_METADATA_DIR, request.param,))
