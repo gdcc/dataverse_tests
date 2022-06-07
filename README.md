@@ -51,7 +51,7 @@ Browser engine(s) (optional for selenium tests):
 **Clone repository**
 
 ```shell
-git clone https://github.com/AUSSDA/dataverse_tests.git
+git clone https://github.com/gdcc/dataverse_tests.git
 cd dataverse_tests/
 ```
 

@@ -1,6 +1,6 @@
 [submodule "dataverse_testdata"]
 	path = dataverse_testdata
-	url = git@github.com:AUSSDA/dataverse_testdata.git
+	url = http://github.com/AUSSDA/dataverse_testdata.git
 [submodule "dataverse-sample-data"]
 	path = dataverse-sample-data
 	url = https://github.com/IQSS/dataverse-sample-data
