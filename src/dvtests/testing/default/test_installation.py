@@ -2,17 +2,19 @@ import os
 
 import pytest
 
+from ..conftest import INSTALLATION_TESTING_CONFIG_DIR
 from ..conftest import read_json
-from ..conftest import TESTING_CONFIG_DIR
 
 
 test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/test_installation.json")
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_installation.json")
 )
 
 
 class TestVersion:
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
+    @pytest.mark.v5_6
     @pytest.mark.parametrize(
         "test_input,expected", test_config["version"]["valid"]["input-expected"]
     )
@@ -31,6 +33,8 @@ class TestVersion:
 
 class TestServer:
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
+    @pytest.mark.v5_6
     @pytest.mark.parametrize(
         "test_input,expected", test_config["server"]["api-valid"]["input-expected"]
     )
@@ -45,6 +49,8 @@ class TestServer:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
+    @pytest.mark.v5_6
     @pytest.mark.parametrize(
         "test_input,expected", test_config["server"]["request-valid"]["input-expected"]
     )

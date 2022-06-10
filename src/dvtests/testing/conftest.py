@@ -21,17 +21,15 @@ else:
 ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
-DATAVERSE_CONFIG_DIR = os.path.join(ROOT_DIR, "configs/default", CONFIG.VERSION)
-UTILS_DATA_DIR = os.path.join(
-    ROOT_DIR, "data/utils", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR
-)
-TESTING_CONFIG_DIR = os.path.join(
+DEFAULT_DATAVERSE_CONFIG_DIR = os.path.join(ROOT_DIR, "configs/default", CONFIG.VERSION)
+INSTALLATION_TESTING_CONFIG_DIR = os.path.join(
     ROOT_DIR, "configs/installations", CONFIG.INSTANCE, "testing"
 )
-UTILS_CONFIG_DIR = os.path.join(
+INSTALLATION_UTILS_CONFIG_DIR = os.path.join(
     ROOT_DIR, "configs/installations", CONFIG.INSTANCE, "utils"
 )
-TESTDATA_METADATA_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json")
+TESTDATA_METADATA_JSON_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json")
+UTILS_DATA_DIR = os.path.join(ROOT_DIR, "data", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR)
 
 
 @pytest.fixture()
@@ -51,7 +49,7 @@ def users(config):
 @pytest.fixture
 def xpaths(config):
     """Load XPATH JSON file."""
-    filename = os.path.join(DATAVERSE_CONFIG_DIR, "xpaths.json")
+    filename = os.path.join(DEFAULT_DATAVERSE_CONFIG_DIR, "xpaths.json")
     with open(filename, "r", encoding="utf-8") as f:
         return load(f)
 
@@ -59,7 +57,7 @@ def xpaths(config):
 @pytest.fixture
 def installation_settings(config):
     """Load XPATH JSON file."""
-    filename = os.path.join(TESTING_CONFIG_DIR, "settings.json")
+    filename = os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "settings.json")
     with open(filename, "r", encoding="utf-8") as f:
         return load(f)
 
@@ -126,7 +124,9 @@ def homepage_logged_in(request, homepage, config, users):
         users[user_handle]["given-name"] + " " + users[user_handle]["family-name"]
     )
     user_auth = users[user_handle]["authentication"]
-    installation_config = read_json(os.path.join(DATAVERSE_CONFIG_DIR, "general.json"))
+    installation_config = read_json(
+        os.path.join(DEFAULT_DATAVERSE_CONFIG_DIR, "xpaths.json")
+    )
 
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
     selenium.get(f"{config.BASE_URL}/loginpage.xhtml")
@@ -139,7 +139,7 @@ def homepage_logged_in(request, homepage, config, users):
         if "shibboleth" in config.LOGIN_OPTIONS:
             btn_login_normal = wait.until(
                 EC.element_to_be_clickable(
-                    (By.XPATH, installation_config["button-login-normal"])
+                    (By.XPATH, installation_config["login-button-login-normal"])
                 )
             )
             btn_login_normal.click()
@@ -158,16 +158,18 @@ def homepage_logged_in(request, homepage, config, users):
         input_pwd.send_keys(user_pwd)
 
         btn_login = wait.until(
-            EC.element_to_be_clickable((By.XPATH, installation_config["button-login"]))
+            EC.element_to_be_clickable(
+                (By.XPATH, installation_config["login-button-login"])
+            )
         )
         btn_login.click()
-        if config.VERSION == "dataverse-docker_5-2-cvm":
+        if config.VERSION == "dataverse_5-2" or "dataverse_5-6":
             sleep(3)
             selenium.get(config.BASE_URL)
     elif user_auth == "shibboleth":
         select_institution = wait.until(
             EC.element_to_be_clickable(
-                (By.XPATH, installation_config["select-institution"])
+                (By.XPATH, installation_config["login-institution-select"])
             )
         )
         select_institution.click()
@@ -188,7 +190,9 @@ def homepage_logged_in(request, homepage, config, users):
             selenium, config, user_handle, user_pwd, user_name
         )
     navbar_user = wait.until(
-        EC.element_to_be_clickable((By.XPATH, installation_config["navbar-user"]))
+        EC.element_to_be_clickable(
+            (By.XPATH, installation_config["navbar-user-display-info-title"])
+        )
     )
     assert navbar_user.text == user_name
     return homepage, user_handle
@@ -339,4 +343,4 @@ def read_file(filename, mode="r", encoding="utf-8"):
 
 @pytest.fixture
 def testdata(request):
-    return read_json(os.path.join(TESTDATA_METADATA_DIR, request.param,))
+    return read_json(os.path.join(TESTDATA_METADATA_JSON_DIR, request.param,))

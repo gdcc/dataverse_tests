@@ -140,7 +140,7 @@ cython_debug/
 # Personal
 
 __pycache__/
-internal
+project/
 Pipfile.lock
 browserengines
 data/

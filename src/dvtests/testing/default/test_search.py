@@ -3,16 +3,19 @@ import os
 import pytest
 from selenium.webdriver.common.by import By
 
+from ..conftest import INSTALLATION_TESTING_CONFIG_DIR
 from ..conftest import read_json
 from ..conftest import search_navbar
-from ..conftest import TESTING_CONFIG_DIR
 
 
-test_config = read_json(os.path.join(TESTING_CONFIG_DIR, "default/test_search.json",))
+test_config = read_json(
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_search.json",)
+)
 
 
 class TestSearch:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected",

@@ -10,19 +10,21 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..conftest import CONFIG
+from ..conftest import DEFAULT_DATAVERSE_CONFIG_DIR
+from ..conftest import INSTALLATION_TESTING_CONFIG_DIR
 from ..conftest import read_json
-from ..conftest import TESTING_CONFIG_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
-all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_DATAVERSES))
 test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_dataverses.json")
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_dataverses.json")
 )
+all_dataverses = read_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_DATAVERSES))
 
 
 class TestCreateFrontend:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "homepage_logged_in",
@@ -56,8 +58,7 @@ class TestCreateFrontend:
         dv.set(testdata)
         installation_cfg = read_json(
             os.path.join(
-                TESTING_CONFIG_DIR,
-                "default/system/installation-config_form-data_create-dataverse.json",
+                DEFAULT_DATAVERSE_CONFIG_DIR, "form-data_create-dataverse.json",
             )
         )
         attr_single = []
@@ -232,6 +233,7 @@ class TestCreateFrontend:
 
 class TestAccess:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.parametrize("test_input", all_dataverses)
     def test_xhtml_url_not_logged_in(self, config, session, test_input):
@@ -247,6 +249,7 @@ class TestAccess:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.parametrize("test_input", all_dataverses)
     def test_clean_url_not_logged_in(self, config, session, test_input):
@@ -264,13 +267,14 @@ class TestAccess:
 
 class TestSidebar:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected",
         test_config["sidebar"]["facet-not-logged-in"]["input-expected"],
     )
-    def test_facet_not_logged_in(self, config, homepage, test_input, expected):
+    def test_facet_not_logged_in(self, config, homepage, xpaths, test_input, expected):
         """Test all Dataverse collections in facet as not-logged-in user."""
         # Arrange
         selenium = homepage
@@ -278,11 +282,9 @@ class TestSidebar:
         # Act
         selenium.get(config.BASE_URL)
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-        wait.until(
-            EC.visibility_of_element_located((By.XPATH, "//div[@id='dv-sidebar']"))
-        )
+        wait.until(EC.visibility_of_element_located((By.XPATH, xpaths["div-sidebar"])))
         facet_dataverse = selenium.find_element(
-            By.XPATH, "//span[@class='facetTypeDataverse']"
+            By.XPATH, xpaths["sidebar-facet-dataverse"]
         )
         # Assert
         assert facet_dataverse.text == f"Dataverses ({expected['num-dataverses']})"

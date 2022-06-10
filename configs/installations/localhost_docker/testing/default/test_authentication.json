@@ -1,20 +1,4 @@
 {
-  "login": {
-    "valid": {
-      "users": [
-        "dataverseAdmin",
-        "TestUser_NormalLogin"
-      ],
-      "input-expected": [
-        [
-          {},
-          {
-            "title": "AUSSDA"
-          }
-        ]
-      ]
-    }
-  },
   "shibboleth": {
     "interface-valid": {
       "input-expected": [
@@ -32,6 +16,21 @@
           },
           {
             "content-type": "application/samlmetadata+xml"
+          }
+        ]
+      ]
+    }
+  },
+  "normal": {
+    "valid": {
+      "users": [
+        "dataverseAdmin"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "title": "AUSSDA"
           }
         ]
       ]

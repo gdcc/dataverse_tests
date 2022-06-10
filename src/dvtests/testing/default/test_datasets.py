@@ -6,19 +6,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..conftest import CONFIG
+from ..conftest import INSTALLATION_TESTING_CONFIG_DIR
 from ..conftest import read_json
-from ..conftest import TESTING_CONFIG_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
 testdata = read_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_DATASETS,))
 test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_datasets.json",)
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_datasets.json",)
 )
 
 
 class TestAccess:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.parametrize("test_input", testdata)
     def test_pid_url_not_logged_in(self, config, session, test_input):
@@ -34,6 +35,7 @@ class TestAccess:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.parametrize("test_input", testdata)
     def test_doiorg_url(self, config, session, test_input):
@@ -52,13 +54,14 @@ class TestAccess:
 
 class TestSidebar:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.selenium
     @pytest.mark.utils
     @pytest.mark.parametrize(
         "test_input,expected",
         test_config["sidebar"]["facet-not-logged-in"]["input-expected"],
     )
-    def test_facet_not_logged_in(self, config, homepage, test_input, expected):
+    def test_facet_not_logged_in(self, config, homepage, xpaths, test_input, expected):
         """Test all Datasets in facet as not-logged-in user."""
         # Arrange
         selenium = homepage
@@ -66,12 +69,8 @@ class TestSidebar:
         # Act
         selenium.get(config.BASE_URL)
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-        wait.until(
-            EC.visibility_of_element_located((By.XPATH, "//div[@id='dv-sidebar']"))
-        )
-        facet_dataset = selenium.find_element(
-            By.XPATH, "//span[@class='facetTypeDataset']"
-        )
+        wait.until(EC.visibility_of_element_located((By.XPATH, xpaths["div-sidebar"])))
+        facet_dataset = selenium.find_element(By.XPATH, xpaths["sidebar-facet-dataset"])
         # Assert
         assert facet_dataset.text == f"Datasets ({expected['num-datasets']})"
         # Cleanup

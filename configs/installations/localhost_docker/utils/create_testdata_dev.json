@@ -1,0 +1,79 @@
+[
+  {
+    "data-type": "dataverse",
+    "action": "create",
+    "parent-id": ":root",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
+      "update": {
+        "alias": "test_create_testdata",
+        "name": "Test Create Testdata"
+      }
+    }
+  },
+  {
+    "id": "test_create_testdata",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "harvard-open-source-1",
+    "data-type": "dataset",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/dataverses/dataverse-project/datasets/dataverse-irc-metrics/dataverse-irc-metrics.json"
+    },
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "hcpds-1",
+    "data-type": "dataset",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/reproductive-health-laws-around-the-world.json"
+    },
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "data-type": "datafile",
+    "action": "upload",
+    "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/Chrysanthemum.jpg",
+    "id-type": "dvtests",
+    "parent-id": "hcpds-1",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "data-type": "datafile",
+    "action": "upload",
+    "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/Desert.jpg",
+    "id-type": "dvtests",
+    "parent-id": "harvard-open-source-1",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "harvard-open-source-1",
+    "id-type": "dvtests",
+    "data-type": "dataset",
+    "action": "publish",
+    "release-type": "major",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "hcpds-1",
+    "id-type": "dvtests",
+    "data-type": "dataset",
+    "action": "publish",
+    "release-type": "major",
+    "user-handle": "dataverseAdmin"
+  }
+]

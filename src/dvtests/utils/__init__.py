@@ -146,7 +146,7 @@ def create_testdata(config_file: str, force: bool) -> None:
                 for key, val in action["metadata"]["update"].items():
                     kwargs = {key: val}
                     dv.set(kwargs)
-            # dv_alias = dv.get()["alias"]
+            dv_alias = dv.get()["alias"]
             resp = api.create_dataverse(action["parent-id"], dv.json(validate=False))
 
         # Publish Dataverse
@@ -235,12 +235,14 @@ def remove_testdata(
             "Delete testdata on a PRODUCTION instance not allowed. Use --force to force it."
         )
         sys.exit()
-
     user = read_json(CONFIG.USER_FILENAME)[user_handle]
     api = NativeApi(CONFIG.BASE_URL, user["api-token"])
 
     # Clean up
-    data = api.get_children(parent, children_types=data_types)
+    # data_types = ["dataverses", "datasets"]
+    data = api.get_children(
+        parent, parent_type=parent_data_type, children_types=data_types
+    )
     dataverses, datasets, datafiles, = dataverse_tree_walker(data)
     if parent_data_type == "dataverse" and remove_parent:
         dataverses.append({"dataverse_alias": parent})

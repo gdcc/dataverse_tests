@@ -5,17 +5,18 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from ..conftest import INSTALLATION_TESTING_CONFIG_DIR
 from ..conftest import read_json
-from ..conftest import TESTING_CONFIG_DIR
 
 
 test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/unit/test-config_authentication.json",)
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_authentication.json",)
 )
 
 
 class TestNormal:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "homepage_logged_in", test_config["login"]["valid"]["users"], indirect=True,
@@ -23,14 +24,18 @@ class TestNormal:
     @pytest.mark.parametrize(
         "test_input,expected", test_config["login"]["valid"]["input-expected"],
     )
-    def test_valid(self, config, homepage_logged_in, users, test_input, expected):
+    def test_valid(
+        self, config, homepage_logged_in, xpaths, users, test_input, expected
+    ):
         """Test normal login procedure."""
         # Arrange
         selenium, user_handle = homepage_logged_in
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
         # Act
         navbar_user = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//span[@id='userDisplayInfoTitle']"))
+            EC.element_to_be_clickable(
+                (By.XPATH, xpaths["navbar-user-display-info-title"])
+            )
         )
         # Assert
         assert selenium.title == expected["title"]
@@ -45,6 +50,7 @@ class TestNormal:
 
 class TestShibboleth:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.parametrize(
         "test_input,expected",
         test_config["shibboleth"]["interface-valid"]["input-expected"],

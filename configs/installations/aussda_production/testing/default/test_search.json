@@ -8,8 +8,8 @@
           },
           {
             "num-dataverses": 2,
-            "num-datasets": 256,
-            "num-datafiles": 1,
+            "num-datasets": 337,
+            "num-datafiles": 19,
             "url": "https://data.aussda.at/dataverse/AUSSDA?q=elections"
           }
         ]

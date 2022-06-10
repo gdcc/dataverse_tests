@@ -1,0 +1,36 @@
+{
+  "sidebar": {
+    "facet-not-logged-in": {
+      "input-expected": [
+        [
+          {},
+          {
+            "num-dataverses": 17
+          }
+        ]
+      ]
+    }
+  },
+  "create-frontend": {
+    "valid": {
+      "users": [
+        "dataverseAdmin"
+      ],
+      "metadata-filenames": [
+        "dataverse/dataverse_upload_min_01.json",
+        "dataverse/dataverse_upload_full_01.json"
+      ],
+      "input-expected": [
+        [
+          {
+            "host-dataverse": "Root",
+            "clean-default-values": [
+              "affiliation"
+            ]
+          },
+          {}
+        ]
+      ]
+    }
+  }
+}

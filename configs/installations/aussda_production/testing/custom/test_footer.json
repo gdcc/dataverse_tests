@@ -1,0 +1,124 @@
+{
+  "footer": {
+    "privacy-policy": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "": ""
+          }
+        ]
+      ]
+    },
+    "policy": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "": ""
+          }
+        ]
+      ]
+    },
+    "imprint": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "": ""
+          }
+        ]
+      ]
+    },
+    "terms-of-service": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "": ""
+          }
+        ]
+      ]
+    },
+    "cessda": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "": ""
+          }
+        ]
+      ]
+    },
+    "coretrustseal": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "": ""
+          }
+        ]
+      ]
+    },
+    "website": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "": ""
+          }
+        ]
+      ]
+    },
+    "twitter": {
+      "users": [
+        "dataverseAdmin",
+        "TestUser_NormalLogin",
+        "froehlichs65"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "": ""
+          }
+        ]
+      ]
+    }
+  }
+}

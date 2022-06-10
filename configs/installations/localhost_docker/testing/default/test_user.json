@@ -1,0 +1,37 @@
+{
+  "api": {
+    "valid": {
+      "users": [
+        "dataverseAdmin"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "url": "data.aussda.at"
+          }
+        ]
+      ]
+    }
+  },
+  "user-profile": {
+    "navigate": [
+      [
+        {
+          "user-handle": "dataverseAdmin"
+        },
+        {
+          "title": "Account - AUSSDA"
+        }
+      ],
+      [
+        {
+          "user-handle": "TestUser_NormalLogin"
+        },
+        {
+          "title": "Account - AUSSDA"
+        }
+      ]
+    ]
+  }
+}

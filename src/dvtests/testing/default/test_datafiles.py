@@ -6,19 +6,20 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from ..conftest import CONFIG
+from ..conftest import INSTALLATION_TESTING_CONFIG_DIR
 from ..conftest import read_json
-from ..conftest import TESTING_CONFIG_DIR
 from ..conftest import UTILS_DATA_DIR
 
 
 testdata = read_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_DATAFILES))
 test_config = read_json(
-    os.path.join(TESTING_CONFIG_DIR, "default/system/test-config_datafiles.json",)
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_datafiles.json",)
 )
 
 
 class TestAccess:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.parametrize("datafiles", testdata)
     def test_fileid_url_not_logged_in(self, config, session, datafiles):
@@ -34,6 +35,7 @@ class TestAccess:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize("datafiles", testdata)
@@ -57,24 +59,23 @@ class TestAccess:
 
 class TestSidebar:
     @pytest.mark.v4_20
+    @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.selenium
     @pytest.mark.parametrize(
         "test_input,expected",
         test_config["sidebar"]["facet-not-logged-in"]["input-expected"],
     )
-    def test_facet_not_logged_in(self, config, selenium, test_input, expected):
+    def test_facet_not_logged_in(self, config, selenium, xpaths, test_input, expected):
         """Test all Datafiles in facet as not-logged-in user."""
         # Arrange
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
         # Act
         selenium.get(config.BASE_URL)
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
-        wait.until(
-            EC.visibility_of_element_located((By.XPATH, "//div[@id='dv-sidebar']"))
-        )
+        wait.until(EC.visibility_of_element_located((By.XPATH, xpaths["div-sidebar"])))
         facet_datafile = selenium.find_element(
-            By.XPATH, "//span[@class='facetTypeFile']"
+            By.XPATH, xpaths["sidebar-facet-datafile"]
         )
         # Assert
         assert facet_datafile.text == f"Files ({expected['num-datafiles']})"
