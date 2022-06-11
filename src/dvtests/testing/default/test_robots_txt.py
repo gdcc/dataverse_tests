@@ -12,9 +12,11 @@ test_config = read_json(
 
 
 class TestRobotsTxt:
+    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.v5_2
     @pytest.mark.v5_6
+    @pytest.mark.v5_7
     @pytest.mark.parametrize(
         "test_input,expected", test_config["robots-txt"]["valid"]["input-expected"]
     )

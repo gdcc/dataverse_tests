@@ -21,11 +21,10 @@ if os.getenv("ENV_FILE"):
     CONFIG = UtilsSettings(_env_file=os.getenv("ENV_FILE"))
 else:
     CONFIG = UtilsSettings()
-
 ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
-UTILS_DATA_DIR = os.path.join(ROOT_DIR, "data/utils", CONFIG.INSTANCE,)
+UTILS_DATA_DIR = os.path.join(ROOT_DIR, "data", CONFIG.INSTANCE)
 with open(os.path.join(ROOT_DIR, CONFIG.USER_FILENAME), "r", encoding="utf-8") as f:
     USERS = load(f)
 
@@ -105,7 +104,9 @@ def generate_data(tree: dict, user_handle: str, filename: str = "tree.json") -> 
         "datasets": len(datasets),
         "datafiles": len(datafiles),
     }
-    write_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_METADATA), metadata)
+    write_json(
+        os.path.join(UTILS_DATA_DIR, user_handle, CONFIG.FILENAME_METADATA), metadata
+    )
     print(f"- Dataverses: {len(dataverses)}")
     print(f"- Datasets: {len(datasets)}")
     print(f"- Datafiles: {len(datafiles)}")
@@ -146,7 +147,7 @@ def create_testdata(config_file: str, force: bool) -> None:
                 for key, val in action["metadata"]["update"].items():
                     kwargs = {key: val}
                     dv.set(kwargs)
-            dv_alias = dv.get()["alias"]
+            # dv_alias = dv.get()["alias"]
             resp = api.create_dataverse(action["parent-id"], dv.json(validate=False))
 
         # Publish Dataverse
@@ -247,7 +248,7 @@ def remove_testdata(
     if parent_data_type == "dataverse" and remove_parent:
         dataverses.append({"dataverse_alias": parent})
     for ds in datasets:
-        resp = api.destroy_dataset(ds["pid"])
+        api.destroy_dataset(ds["pid"])
     for dv in dataverses:
         api.delete_dataverse(dv["dataverse_alias"])
 

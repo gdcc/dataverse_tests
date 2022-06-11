@@ -12,8 +12,10 @@ test_config = read_json(
 
 
 class TestEndpoint:
+    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.v5_6
+    @pytest.mark.v5_7
     @pytest.mark.parametrize(
         "test_input,expected", test_config["endpoint"]["valid"]["input-expected"]
     )

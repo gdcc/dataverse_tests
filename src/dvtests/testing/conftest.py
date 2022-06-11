@@ -29,7 +29,7 @@ INSTALLATION_UTILS_CONFIG_DIR = os.path.join(
     ROOT_DIR, "configs/installations", CONFIG.INSTANCE, "utils"
 )
 TESTDATA_METADATA_JSON_DIR = os.path.join(ROOT_DIR, "dataverse_testdata/metadata/json")
-UTILS_DATA_DIR = os.path.join(ROOT_DIR, "data", CONFIG.INSTANCE, CONFIG.DATA_COLLECTOR)
+UTILS_DATA_DIR = os.path.join(ROOT_DIR, "data", CONFIG.INSTANCE)
 
 
 @pytest.fixture()
@@ -201,6 +201,7 @@ def homepage_logged_in(request, homepage, config, users):
 def search_navbar(selenium, config, xpaths, query):
     """Search via navbar."""
     wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
+    sleep(3)
     navbar_search = wait.until(
         EC.element_to_be_clickable((By.XPATH, xpaths["search-navbar-link"]))
     )

@@ -1,756 +1,921 @@
-{
-  "dataverses": [
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
-        "parent": ":root",
-        "update": {
-          "alias": "test_create_testdata",
-          "name": "Test Create Testdata"
-        }
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+[
+  {
+    "id": "full-1",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/dataverse/dataverse_metadata.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/dataverseno/dataverseno.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": ":root",
+    "parent-type": "alias",
+    "id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "full-1",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "dataverseno",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/dataverseno/dataverseno.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/king/king.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "dataverseno",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "king",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/king/king.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/ubiquity-press/ubiquity-press.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "king",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "ubiquity-press",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/ubiquity-press.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/jopd.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "ubiquity-press",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "jopd",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/jopd.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/scholcommlab/scholcommlab.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "jopd",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "scholcommlab",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/scholcommlab/scholcommlab.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/dataverses/dataverse-project/dataverse-project.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "scholcommlab",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "iqss",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/dataverses/dataverse-project/dataverse-project.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/this-is-my-test-dataset.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "iqss",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "ecastro",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/this-is-my-test-dataset.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/HCPDS/HCPDS.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "ecastro",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "hcpds",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/HCPDS/HCPDS.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/cms/cms.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "hcpds",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "cms",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/cms.json"
     },
-    {
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/manchester/manchester.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "cms",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "manchester",
+    "data-type": "dataverse",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/manchester.json"
+    },
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "manchester",
+    "id-type": "alias",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "irc",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/dataverses/dataverse-project/datasets/dataverse-irc-metrics/dataverse-irc-metrics.json"
     }
-  ],
-  "datasets": [
-    {
-      "id": 0,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/dataverses/dataverse-project/datasets/dataverse-irc-metrics/dataverse-irc-metrics.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 1,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/reproductive-health-laws-around-the-world.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 2,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/this-is-my-test-dataset.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 3,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/cmssampledata.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 4,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/scholcommlab/datasets/diabeticconnect/diabeticconnect.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 5,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/flynn-effect-in-estonia/flynn-effect-in-estonia.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 6,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/bafacalo/bafacalo.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 7,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/open-source-at-harvard.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 8,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/king/datasets/cause-of-death/cause-of-death.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 9,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/test-dataset.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 10,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/dataverseno/datasets/tabular-sample-data/tabular-sample-data.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
-    },
-    {
-      "id": 11,
-      "create": {
-        "user-handle": "dataverseAdmin",
-        "metadata-filename": "dataverse-sample-data/data/dataverses/scholcommlab/datasets/diabeticconnect/diabeticconnect.json",
-        "parent": "test_create_testdata"
-      },
-      "publish": {
-        "user-handle": "dataverseAdmin"
-      }
+  },
+  {
+    "id": "reproductive-health-laws",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/reproductive-health-laws-around-the-world.json"
     }
-  ],
-  "datafiles": {
-    "1": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/Chrysanthemum.jpg"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/Desert.jpg"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/gss.dta"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "2": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/DatasetDiagram.png"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/L.fits"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/L_over_M.fits"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/M.fits"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/M_err.fits"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/N.fits"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/N_err.fits"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/T.fits"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/T_err.fits"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/test.pdf"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/triad-data-5466.sav"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "3": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/data users document.pdf"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_Beneficiary_Summary_File_Sample_1.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_Beneficiary_Summary_File_Sample_2.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_Beneficiary_Summary_File_Sample_3.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_to_2010_Inpatient_Claims_Sample_1.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_to_2010_Inpatient_Claims_Sample_2.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2009_Beneficiary_Summary_File_Sample_1.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2009_Beneficiary_Summary_File_Sample_2.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2010_Beneficiary_Summary_File_Sample_1.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2010_Beneficiary_Summary_File_Sample_2.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2010_Beneficiary_Summary_File_Sample_3.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/SynPUF_Codebook.pdf"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "5": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/flynn-effect-in-estonia/files/FE_1933_2006_data_subset.csv"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/flynn-effect-in-estonia/files/FE_1933_2006_data_subset.sav"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "6": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/bafacalo/files/bafacalo_dataset_subset.sav"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "7": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/language-count.sh.json",
-          "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/code/language-count.sh"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/2019-02-25.tsv.json",
-          "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/data/2019-02-25.tsv"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/README_private.txt.json",
-          "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/doc/README_private.txt"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/language-count.tsv.json",
-          "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/results/language-count.tsv"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/run.sh.json",
-          "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/run.sh"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "8": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/king/datasets/cause-of-death/files/adjacency_subset.sav"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/king/datasets/cause-of-death/files/allc_subset.sav"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "9": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/50by1000.tab"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/00169Fiske-Longitudinal-BoxCoverSheets.pdf"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/20150610_091644_dataversecommunitymeeting2015-1668.jpg"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/ak_2016.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/co_2016.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/dataverse_project_logo_1.png"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/de_2016.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/hi_2016.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/IMG_0166.PNG"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/IMG_2199.JPG"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/Intersections_(Census).zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/ma_2016.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/ri_2016.zip"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "10": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/dataverseno/datasets/tabular-sample-data/files/Tabular_Sample_Data.txt"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/dataverseno/datasets/tabular-sample-data/files/Tabular_Sample_Data.xlsx"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ],
-    "11": [
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/scholcommlab/datasets/diabeticconnect/files/DiabeticConnect_titles_tags_content_subset25percent.sav"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      },
-      {
-        "upload": {
-          "user-handle": "dataverseAdmin",
-          "filename": "dataverse-sample-data/data/dataverses/scholcommlab/datasets/diabeticconnect/files/DiabeticConnect_titles_tags_content_subset50percent.sav"
-        },
-        "publish-dataset": {
-          "user-handle": "dataverseAdmin"
-        }
-      }
-    ]
+  },
+  {
+    "id": "best",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/this-is-my-test-dataset.json"
+    }
+  },
+  {
+    "id": "cms",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/cmssampledata.json"
+    }
+  },
+  {
+    "id": "diabeticconnect-1",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/scholcommlab/datasets/diabeticconnect/diabeticconnect.json"
+    }
+  },
+  {
+    "id": "flynn-effect",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/flynn-effect-in-estonia/flynn-effect-in-estonia.json"
+    }
+  },
+  {
+    "id": "bafacalo",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/bafacalo/bafacalo.json"
+    }
+  },
+  {
+    "id": "open-source",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/open-source-at-harvard.json"
+    }
+  },
+  {
+    "id": "death",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/king/datasets/cause-of-death/cause-of-death.json"
+    }
+  },
+  {
+    "id": "test",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/test-dataset.json"
+    }
+  },
+  {
+    "id": "tabular",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/dataverseno/datasets/tabular-sample-data/tabular-sample-data.json"
+    }
+  },
+  {
+    "id": "diabeticconnect-2",
+    "data-type": "dataset",
+    "action": "create",
+    "parent-id": "test_create_testdata",
+    "parent-type": "alias",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/scholcommlab/datasets/diabeticconnect/diabeticconnect.json"
+    }
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/Chrysanthemum.jpg"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "hcpds",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/Desert.jpg"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "hcpds",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/gss.dta"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "hcpds",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/DatasetDiagram.png"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/L.fits"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/L_over_M.fits"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/M.fits"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/M_err.fits"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/N.fits"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/N_err.fits"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/T.fits"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/T_err.fits"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/test.pdf"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ecastro/datasets/this-is-my-test-dataset/files/triad-data-5466.sav"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "ecastro",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/data users document.pdf"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_Beneficiary_Summary_File_Sample_1.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_Beneficiary_Summary_File_Sample_2.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_Beneficiary_Summary_File_Sample_3.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_to_2010_Inpatient_Claims_Sample_1.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2008_to_2010_Inpatient_Claims_Sample_2.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2009_Beneficiary_Summary_File_Sample_1.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2009_Beneficiary_Summary_File_Sample_2.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2010_Beneficiary_Summary_File_Sample_1.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2010_Beneficiary_Summary_File_Sample_2.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/DE1_0_2010_Beneficiary_Summary_File_Sample_3.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/cms/datasets/cmssampledata/files/SynPUF_Codebook.pdf"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "cms",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/flynn-effect-in-estonia/files/FE_1933_2006_data_subset.csv"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "jopd",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/flynn-effect-in-estonia/files/FE_1933_2006_data_subset.sav"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "jopd",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/ubiquity-press/dataverses/jopd/datasets/bafacalo/files/bafacalo_dataset_subset.sav"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "bafacalo",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/language-count.sh.json"
+    },
+    "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/code/language-count.sh",
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "open-source",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/2019-02-25.tsv.json"
+    },
+    "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/data/2019-02-25.tsv",
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "open-source",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/README_private.txt.json"
+    },
+    "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/doc/README_private.txt",
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "open-source",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/language-count.tsv.json",
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/results/language-count.tsv",
+      "data-type": "datafile",
+      "action": "upload",
+      "id-type": "dvtests",
+      "parent-id": "open-source",
+      "parent-type": "dataset",
+      "user-handle": "dataverseAdmin"
+    }
+  },
+  {
+    "metadata": {
+      "metadata-filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/.filemetadata/run.sh.json",
+      "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/datasets/open-source-at-harvard/files/run.sh",
+      "data-type": "datafile",
+      "action": "upload",
+      "id-type": "dvtests",
+      "parent-id": "open-source",
+      "parent-type": "dataset",
+      "user-handle": "dataverseAdmin"
+    }
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/king/datasets/cause-of-death/files/adjacency_subset.sav"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "king",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/king/datasets/cause-of-death/files/allc_subset.sav"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "king",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/50by1000.tab"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/00169Fiske-Longitudinal-BoxCoverSheets.pdf"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/20150610_091644_dataversecommunitymeeting2015-1668.jpg"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/ak_2016.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/co_2016.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/dataverse_project_logo_1.png"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/de_2016.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/hi_2016.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/IMG_0166.PNG"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/IMG_2199.JPG"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/Intersections_(Census).zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/ma_2016.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/ri_2016.zip"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "manchester",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/dataverseno/datasets/tabular-sample-data/files/Tabular_Sample_Data.txt"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "dataverseno",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/dataverseno/datasets/tabular-sample-data/files/Tabular_Sample_Data.xlsx"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "dataverseno",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/scholcommlab/datasets/diabeticconnect/files/DiabeticConnect_titles_tags_content_subset25percent.sav"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "scholcommlab",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "metadata": {
+      "filename": "dataverse-sample-data/data/dataverses/scholcommlab/datasets/diabeticconnect/files/DiabeticConnect_titles_tags_content_subset50percent.sav"
+    },
+    "data-type": "datafile",
+    "action": "upload",
+    "id-type": "dvtests",
+    "parent-id": "scholcommlab",
+    "parent-type": "dataset",
+    "user-handle": "dataverseAdmin"
   }
-}
+]

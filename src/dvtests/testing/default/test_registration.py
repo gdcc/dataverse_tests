@@ -18,6 +18,7 @@ test_config = read_json(
 
 
 class TestTerms:
+    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.v5_6
     @pytest.mark.parametrize(

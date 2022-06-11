@@ -56,7 +56,6 @@ class TestSettings(BaseSettings):
     * `SHIBBOLETH_INSTITUTION`: name of Shibboleth institution for login purpose
     * `SHIBBOLETH_LOGIN_PAGE_TITLE`: title of Shibboleth Login page
     * `BUILTIN_USER_KEY`: Builtin user key to create users
-    * `DATA_COLLECTOR`: descriptor for data collector. It is ether 1. the user handle of dataverse user, which collected the data or 2. "public" for publicly accessible data
 
     """
 
@@ -77,4 +76,3 @@ class TestSettings(BaseSettings):
     SHIBBOLETH_INSTITUTION: str = None
     SHIBBOLETH_LOGIN_PAGE_TITLE: str = None
     BUILTIN_USER_KEY: str = None
-    DATA_COLLECTOR: str = None

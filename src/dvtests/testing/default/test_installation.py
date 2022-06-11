@@ -12,6 +12,7 @@ test_config = read_json(
 
 
 class TestVersion:
+    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.v5_2
     @pytest.mark.v5_6
@@ -32,6 +33,7 @@ class TestVersion:
 
 
 class TestServer:
+    @pytest.mark.v4_18_1
     @pytest.mark.v4_20
     @pytest.mark.v5_2
     @pytest.mark.v5_6
@@ -44,6 +46,7 @@ class TestServer:
         # Act
         resp = native_api.get_info_server()
         r_data = resp.json()["data"]
+        print(r_data)
         # Assert
         assert r_data["message"] == expected["url"]
         # Cleanup
