@@ -180,7 +180,7 @@ def homepage_logged_in(request, homepage, config, users):
 
         btn_select_institution = wait.until(
             EC.element_to_be_clickable(
-                (By.XPATH, installation_config["button-select-institution"])
+                (By.XPATH, installation_config["login-institution-select-button"])
             )
         )
         btn_select_institution.click()
@@ -248,6 +248,8 @@ def custom_shibboleth_institution_login(
     input_user_id = wait.until(
         EC.element_to_be_clickable((By.XPATH, "//input[@id='userid']"))
     )
+    print(user_handle)
+    print(user_pwd)
     input_user_id.send_keys(user_handle)
 
     input_user_pwd = wait.until(

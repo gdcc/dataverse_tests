@@ -141,6 +141,9 @@ cython_debug/
 
 __pycache__/
 project/
+configs/installations/
+!configs/installations/aussda_production
+!configs/installations/localhost_docker
 Pipfile.lock
 browserengines
 data/

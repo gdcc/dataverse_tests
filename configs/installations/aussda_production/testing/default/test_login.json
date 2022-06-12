@@ -1,9 +1,10 @@
 {
-  "normal": {
+  "login": {
     "valid": {
       "users": [
         "dataverseAdmin",
-        "TestUser_NormalLogin"
+        "TestUser_NormalLogin",
+        "froehlichs65"
       ],
       "input-expected": [
         [

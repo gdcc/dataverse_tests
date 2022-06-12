@@ -10,20 +10,20 @@ from ..conftest import read_json
 
 
 test_config = read_json(
-    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_login-normal.json",)
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_login.json",)
 )
 
 
-class TestNormal:
+class TestLogin:
     @pytest.mark.v4_20
     @pytest.mark.v5_2
     @pytest.mark.v5_6
     @pytest.mark.selenium
     @pytest.mark.parametrize(
-        "homepage_logged_in", test_config["normal"]["valid"]["users"], indirect=True,
+        "homepage_logged_in", test_config["login"]["valid"]["users"], indirect=True,
     )
     @pytest.mark.parametrize(
-        "test_input,expected", test_config["normal"]["valid"]["input-expected"],
+        "test_input,expected", test_config["login"]["valid"]["input-expected"],
     )
     def test_valid(
         self, config, homepage_logged_in, xpaths, users, test_input, expected
