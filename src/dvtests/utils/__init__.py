@@ -25,6 +25,7 @@ ROOT_DIR = os.path.dirname(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 )
 UTILS_DATA_DIR = os.path.join(ROOT_DIR, "data", CONFIG.INSTANCE)
+INSTALLATION_DATA_DIR = os.path.join(ROOT_DIR, "data", CONFIG.INSTANCE)
 with open(os.path.join(ROOT_DIR, CONFIG.USER_FILENAME), "r", encoding="utf-8") as f:
     USERS = load(f)
 
@@ -57,16 +58,18 @@ def collect_data(
     tree = api.get_children(parent, children_types=data_types)
     if not os.path.isdir(os.path.join(ROOT_DIR, "data")):
         os.makedirs(os.path.join(ROOT_DIR, "data"))
-        if not os.path.isdir(os.path.join(ROOT_DIR, "data", "utils")):
-            os.makedirs(os.path.join(ROOT_DIR, "data", "utils"))
-            if not os.path.isdir(os.path.join(ROOT_DIR, "data", "utils", user_handle)):
-                os.makedirs(os.path.join(ROOT_DIR, "data", "utils", user_handle))
+    if not os.path.isdir(os.path.join(INSTALLATION_DATA_DIR)):
+        os.makedirs(os.path.join(INSTALLATION_DATA_DIR))
+    if not os.path.isdir(os.path.join(INSTALLATION_DATA_DIR, user_handle)):
+        os.makedirs(os.path.join(INSTALLATION_DATA_DIR, user_handle))
+    if not os.path.isdir(os.path.join(ROOT_DIR, "data", user_handle, "utils")):
+        os.makedirs(os.path.join(ROOT_DIR, "data", user_handle, "utils"))
     write_json(os.path.join(UTILS_DATA_DIR, user_handle, filename), tree)
     if create_json:
-        generate_data(tree, user_handle, filename)
+        generate_data(user_handle, filename)
 
 
-def generate_data(tree: dict, user_handle: str, filename: str = "tree.json") -> None:
+def generate_data(user_handle: str = "public", filename: str = "tree.json") -> None:
     """Pre-process data coming from collect data.
 
     Generates lists of Dataverses (`dataverses.json`),
@@ -245,6 +248,7 @@ def remove_testdata(
         parent, parent_type=parent_data_type, children_types=data_types
     )
     dataverses, datasets, datafiles, = dataverse_tree_walker(data)
+    dataverses.reverse()
     if parent_data_type == "dataverse" and remove_parent:
         dataverses.append({"dataverse_alias": parent})
     for ds in datasets:

@@ -10,19 +10,20 @@ from ..conftest import read_json
 
 
 test_config = read_json(
-    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_authentication.json",)
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_login-normal.json",)
 )
 
 
 class TestNormal:
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
     @pytest.mark.v5_6
     @pytest.mark.selenium
     @pytest.mark.parametrize(
-        "homepage_logged_in", test_config["login"]["valid"]["users"], indirect=True,
+        "homepage_logged_in", test_config["normal"]["valid"]["users"], indirect=True,
     )
     @pytest.mark.parametrize(
-        "test_input,expected", test_config["login"]["valid"]["input-expected"],
+        "test_input,expected", test_config["normal"]["valid"]["input-expected"],
     )
     def test_valid(
         self, config, homepage_logged_in, xpaths, users, test_input, expected
@@ -45,24 +46,4 @@ class TestNormal:
             + " "
             + users[user_handle]["family-name"]
         )
-        # Cleanup
-
-
-class TestShibboleth:
-    @pytest.mark.v4_20
-    @pytest.mark.v5_6
-    @pytest.mark.parametrize(
-        "test_input,expected",
-        test_config["shibboleth"]["interface-valid"]["input-expected"],
-    )
-    def test_interface_valid(self, config, session, test_input, expected):
-        """Test Shibboleth interface."""
-        # Arrange
-        url = f'{config.BASE_URL}{test_input["url"]}'
-        # Act
-        resp = session.get(url)
-        # Assert
-        assert resp.url == url
-        assert resp.status_code == 200
-        assert resp.headers["Content-Type"] == expected["content-type"]
         # Cleanup

@@ -1,7 +1,6 @@
 from typing import List
 
 import typer
-
 from utils import collect_data
 from utils import create_testdata
 from utils import create_user
@@ -14,7 +13,7 @@ app = typer.Typer()
 
 @app.command("collect")
 def collect_command(
-    user_handle: str,
+    user_handle: str = "public",
     parent: str = ":root",
     data_types: List[str] = ["dataverses", "datasets", "datafiles"],
     filename: str = "tree.json",
@@ -25,8 +24,8 @@ def collect_command(
 
 
 @app.command("generate")
-def generate_command() -> None:
-    generate_data()
+def generate_command(user_handle: str = "public", filename: str = "tree.json") -> None:
+    generate_data(user_handle, filename)
     typer.echo("Data generated")
 
 

@@ -1,0 +1,17 @@
+{
+  "normal": {
+    "valid": {
+      "users": [
+        "dataverseAdmin"
+      ],
+      "input-expected": [
+        [
+          {},
+          {
+            "title": "Root"
+          }
+        ]
+      ]
+    }
+  }
+}

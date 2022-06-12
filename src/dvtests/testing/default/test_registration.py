@@ -20,6 +20,7 @@ test_config = read_json(
 class TestTerms:
     @pytest.mark.v4_18_1
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
     @pytest.mark.v5_6
     @pytest.mark.parametrize(
         "test_input,expected", test_config["terms"]["valid"]["input-expected"],

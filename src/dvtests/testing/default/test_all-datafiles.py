@@ -11,14 +11,15 @@ from ..conftest import read_json
 from ..conftest import UTILS_DATA_DIR
 
 
-testdata = read_json(os.path.join(UTILS_DATA_DIR, CONFIG.FILENAME_DATAFILES))
+testdata = read_json(os.path.join(UTILS_DATA_DIR, "public", CONFIG.FILENAME_DATAFILES))
 test_config = read_json(
-    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_datafiles.json",)
+    os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "default/test_all-datafiles.json",)
 )
 
 
 class TestAccess:
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
     @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.parametrize("datafiles", testdata)
@@ -35,6 +36,7 @@ class TestAccess:
         # Cleanup
 
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
     @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.selenium
@@ -59,6 +61,7 @@ class TestAccess:
 
 class TestSidebar:
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
     @pytest.mark.v5_6
     @pytest.mark.utils
     @pytest.mark.selenium

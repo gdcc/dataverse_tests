@@ -13,6 +13,7 @@ test_config = read_json(
 
 class TestSitemap:
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
     @pytest.mark.v5_6
     @pytest.mark.parametrize(
         "test_input,expected", test_config["sitemap"]["valid"]["input-expected"]

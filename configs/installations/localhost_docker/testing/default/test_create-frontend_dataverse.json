@@ -1,16 +1,4 @@
 {
-  "sidebar": {
-    "facet-not-logged-in": {
-      "input-expected": [
-        [
-          {},
-          {
-            "num-dataverses": 17
-          }
-        ]
-      ]
-    }
-  },
   "create-frontend": {
     "valid": {
       "users": [

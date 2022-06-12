@@ -16,6 +16,7 @@ test_config = read_json(
 class TestSearch:
     @pytest.mark.v4_18_1
     @pytest.mark.v4_20
+    @pytest.mark.v5_2
     @pytest.mark.v5_6
     @pytest.mark.v5_7
     @pytest.mark.selenium
