@@ -53,7 +53,9 @@
     "data-type": "datafile",
     "action": "upload",
     "filename": "dataverse_testdata/files/jpeg/10000_image.jpeg",
-    "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json"
+    },
     "id-type": "dvtests",
     "parent-id": "full-1",
     "parent-type": "dataset",
@@ -65,7 +67,9 @@
   {
     "data-type": "datafile",
     "action": "upload",
-    "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json"
+    },
     "filename": "dataverse_testdata/files/png/10000_image.png",
     "id-type": "dvtests",
     "parent-id": "full-1",
@@ -78,7 +82,9 @@
   {
     "data-type": "datafile",
     "action": "upload",
-    "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json"
+    },
     "filename": "dataverse_testdata/files/do/10002_data_checks.do",
     "id-type": "dvtests",
     "parent-id": "min-1",
@@ -91,7 +97,9 @@
   {
     "data-type": "datafile",
     "action": "upload",
-    "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json"
+    },
     "filename": "dataverse_testdata/files/dta/10002_da_de_v0_9.dta",
     "id-type": "dvtests",
     "parent-id": "min-1",
