@@ -2,6 +2,7 @@ import os
 import sys
 from json import load
 from time import sleep
+from typing import Dict
 from typing import List
 
 import requests
@@ -136,70 +137,89 @@ def create_testdata(config_file: str, force: bool) -> None:
         sys.exit()
     users = read_json(CONFIG.USER_FILENAME)
     workflow = read_json(os.path.join(ROOT_DIR, config_file))
-    ds_id_pid = {}
+    dv_dvtests_id_2_alias: Dict = {}
+    ds_dvtests_id_2_pid: Dict = {}
 
     for count, action in enumerate(workflow):
         # Create Dataverse
         if action["data-type"] == "dataverse" and action["action"] == "create":
-            pass
             api = NativeApi(CONFIG.BASE_URL, users[action["user-handle"]]["api-token"])
             dv = Dataverse()
-            dv_filename = os.path.join(ROOT_DIR, action["metadata"]["filename"])
-            dv.from_json(read_file(dv_filename), validate=False)
+            dv_metadata_filename = os.path.join(
+                ROOT_DIR, action["metadata"]["filename"]
+            )
+            dv.from_json(read_file(dv_metadata_filename), validate=False)
             if "update" in action["metadata"]:
                 for key, val in action["metadata"]["update"].items():
                     kwargs = {key: val}
                     dv.set(kwargs)
-            # dv_alias = dv.get()["alias"]
-            resp = api.create_dataverse(action["parent-id"], dv.json(validate=False))
+            parent_id = action["parent-id"]
+            if "parent-id-type" in action:
+                if "parent-id" in action:
+                    if action["parent-id-type"] == "dvtests":
+                        parent_id = dv_dvtests_id_2_alias[action["parent-id"]]
+            resp = api.create_dataverse(parent_id, dv.json(validate=False))
+            if "id-type" in action:
+                if "id" in action:
+                    if action["id-type"] == "dvtests":
+                        dv_dvtests_id_2_alias[action["id"]] = dv.get()["alias"]
 
         # Publish Dataverse
         if action["data-type"] == "dataverse" and action["action"] == "publish":
             api = NativeApi(CONFIG.BASE_URL, users[action["user-handle"]]["api-token"])
-            resp = api.publish_dataverse(action["id"])
+            dv_id = action["id"]
+            if "id-type" in action:
+                if "id" in action:
+                    if action["id-type"] == "dvtests":
+                        dv_id = dv_dvtests_id_2_alias[action["id"]]
+            resp = api.publish_dataverse(dv_id)
 
         # Create Dataset
         if action["data-type"] == "dataset" and action["action"] == "create":
             api = NativeApi(CONFIG.BASE_URL, users[action["user-handle"]]["api-token"])
             ds = Dataset()
-            ds_filename = os.path.join(ROOT_DIR, action["metadata"]["filename"])
-            ds.from_json(read_file(ds_filename), validate=False)
+            ds_metadata_filename = os.path.join(
+                ROOT_DIR, action["metadata"]["filename"]
+            )
+            ds.from_json(read_file(ds_metadata_filename), validate=False)
             if "update" in action["metadata"]:
                 for key, val in action["metadata"]["update"].items():
                     kwargs = {key: val}
                     ds.set(kwargs)
-            resp = api.create_dataset(action["parent-id"], ds.json(validate=False))
-            if "parent-type" == "alias":
-                pass
-            elif "parent-type" == "dataverse-id":
-                pass
+            if "parent-id-type" in action:
+                if "parent-id" in action:
+                    if action["parent-id-type"] == "dvtests":
+                        parent_id = dv_dvtests_id_2_alias[action["parent-id"]]
+            else:
+                parent_id = action["parent-id"]
+            resp = api.create_dataset(parent_id, ds.json(validate=False))
             pid = resp.json()["data"]["persistentId"]
-            ds_id_pid[action["id"]] = pid
+            if "id-type" in action:
+                if "id" in action:
+                    if action["id-type"] == "dvtests":
+                        ds_dvtests_id_2_pid[action["id"]] = pid
 
         # Publish Dataset
         if action["data-type"] == "dataset" and action["action"] == "publish":
             api = NativeApi(CONFIG.BASE_URL, users[action["user-handle"]]["api-token"])
-            pid = ds_id_pid[action["id"]]
+            pid = action["id"]
+            if "id-type" in action:
+                if "id" in action:
+                    if action["id-type"] == "dvtests":
+                        pid = ds_dvtests_id_2_pid[action["id"]]
+            check_dataset_lock(api, pid)
             resp = api.publish_dataset(pid, release_type=action["release-type"])
-
-        # Create Dataset Private URL
-        if (
-            action["data-type"] == "dataset"
-            and action["action"] == "create-private-url"
-        ):
-            pass
 
         # Upload Datafile
         if action["data-type"] == "datafile" and action["action"] == "upload":
             api = NativeApi(CONFIG.BASE_URL, users[action["user-handle"]]["api-token"])
             filename = action["filename"]
-            if action["id-type"] == "dvtests":
-                pid = ds_id_pid[action["parent-id"]]
-            elif action["id-type"] == "pid":
-                pid = action["id"]
-            elif action["id-type"] == "dataset-id":
-                pid = action["id"]
-            check_dataset_lock(api, pid)
+            parent_pid = action["parent-id"]
+            if "parent-id-type" in action:
+                if "parent-id" in action:
+                    if action["parent-id-type"] == "dvtests":
+                        parent_pid = ds_dvtests_id_2_pid[action["parent-id"]]
+            check_dataset_lock(api, parent_pid)
             if "metadata" in action:
                 if "filename" in action["metadata"]:
                     metadata = read_json(action["metadata"]["filename"])
@@ -209,10 +229,14 @@ def create_testdata(config_file: str, force: bool) -> None:
                         for key, val in action["metadata"]["update"].items():
                             kwargs = {key: val}
                             df.set(kwargs)
-                    df.set({"pid": pid})
-                    resp = api.upload_datafile(pid, filename, df.json(validate=False))
+                    df.set({"pid": parent_pid})
+                    resp = api.upload_datafile(
+                        parent_pid, filename, df.json(validate=False)
+                    )
+                else:
+                    resp = api.upload_datafile(parent_pid, filename)
             else:
-                resp = api.upload_datafile(pid, filename)
+                resp = api.upload_datafile(parent_pid, filename)
 
 
 def remove_testdata(
