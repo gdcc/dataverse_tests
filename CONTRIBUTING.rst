@@ -13,7 +13,7 @@ All contributions, bug reports, bug fixes, documentation improvements,
 enhancements, and ideas are welcome!
 
 If you are new to open-source development or Dataverse Tests, we recommend going
-through the `GitHub issues <https://github.com/aussda/dataverse_tests/issues>`_,
+through the `GitHub issues <https://github.com/gdcc/dataverse_tests/issues>`_,
 to find issues that interest you. Once you've found an interesting issue, you can return here to
 get your development environment setup.
 
@@ -32,7 +32,7 @@ is assigned, feel free to kindly ask the current assignee if you can take it
 discontinued).
 
 This project and everyone participating in it is governed by the Dataverse Tests
-`Code of Conduct <https://github.com/aussda/dataverse_tests/blob/master/CODE_OF_CONDUCT.md>`_.
+`Code of Conduct <https://github.com/gdcc/dataverse_tests/blob/master/CODE_OF_CONDUCT.md>`_.
 By participating, you are expected to uphold this code. Please report
 unacceptable behaviour.
 
@@ -60,15 +60,15 @@ Other reasons to create an issue could be:
 
 Please check some things before creating an issue:
 
-* Your issue may already be reported! Please search on the `issue tracker <https://github.com/aussda/dataverse_tests/issues>`_ before creating one.
+* Your issue may already be reported! Please search on the `issue tracker <https://github.com/gdcc/dataverse_tests/issues>`_ before creating one.
 * Is this something you can **develop**? Send a pull request!
 
-Once you have clicked `New issue <https://github.com/aussda/dataverse_tests/issues>`_,
+Once you have clicked `New issue <https://github.com/gdcc/dataverse_tests/issues>`_,
 you have to choose one of the issue templates:
 
-* Bug report (`template <https://github.com/aussda/dataverse_tests/blob/master/.github/ISSUE_TEMPLATE/bug-template.md>`_)
-* Feature request (`template <https://github.com/aussda/dataverse_tests/blob/master/.github/ISSUE_TEMPLATE/feature-template.md>`_)
-* Issue: all other issues, except bug reports and feature requests (`template  <https://github.com/aussda/dataverse_tests/blob/master/.github/ISSUE_TEMPLATE/issue-template.md>`_)
+* Bug report (`template <https://github.com/gdcc/dataverse_tests/blob/master/.github/ISSUE_TEMPLATE/bug-template.md>`_)
+* Feature request (`template <https://github.com/gdcc/dataverse_tests/blob/master/.github/ISSUE_TEMPLATE/feature-template.md>`_)
+* Issue: all other issues, except bug reports and feature requests (`template  <https://github.com/gdcc/dataverse_tests/blob/master/.github/ISSUE_TEMPLATE/issue-template.md>`_)
 
 After selecting the appropriate template, you will see some explanatory text. Follow it
 step-by-step. After clicking `Submit new issue`, the issue will then show up
@@ -77,7 +77,7 @@ to the Dataverse Tests community and be open to comments/ideas from others.
 Besides creating an issue, you also can contribute in many other ways by:
 
 * sharing your knowledge in Issues and Pull Requests
-* reviewing `pull requests <https://github.com/aussda/dataverse_tests/pulls>`_
+* reviewing `pull requests <https://github.com/gdcc/dataverse_tests/pulls>`_
 * talking about Dataverse Tests and sharing it with others
 
 
@@ -131,14 +131,14 @@ Forking
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You will need your own fork to work on the code. Go to the
-`Dataverse Tests project page <https://github.com/aussda/dataverse_tests/>`_ and hit
+`Dataverse Tests project page <https://github.com/gdcc/dataverse_tests/>`_ and hit
 the Fork button. You will want to clone your fork to your machine:
 
 .. code-block:: shell
 
   git clone https://github.com/YOUR_USER_NAME/dataverse_tests.git
   cd dataverse_tests
-  git remote add upstream https://github.com/aussda/dataverse_tests.git
+  git remote add upstream https://github.com/gdcc/dataverse_tests.git
 
 This creates the directory `dataverse_tests` and connects your repository
 to the upstream (main project) Dataverse Tests repository.
@@ -223,22 +223,21 @@ Add tests
 
 JSON filenaming convention:
 
-* ``testdata_`` as prefix.
+* ``test_`` as prefix.
 * descriptive test name
-* e. g. ``testdata_oaipmh.json``
+* e. g. ``test_oaipmh.json``
 
-**Markers**
+**Add missing Dataverse versions**
+
+* Check out ``configs/default/`` for existing Dataverse version configs. Copy and adapt them as a starting point.
+* Run tests on your Dataverse installation, which runs a Dataverse version which is still missing
+* Add new marker
 
 **Custom testing functions**
 
-If you want to add a custom test function in src/dvtests/testing/conftest.py
+If you want to add a custom test function in ``src/dvtests/testing/conftest.py``
 , use ``custom_`` as prefix for the function name.
 
-
-.. _contributing_code_utils:
-
-Add utils functionality
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. _contributing_code_standards:
 
@@ -360,7 +359,7 @@ the relevant GitHub issues in your commit message using #1234.
 - Optionally, a commit message body.
 
 Dataverse Tests uses a
-`commit message template <https://github.com/aussda/dataverse_tests/blob/master/.github/.gitmessage.txt>`_
+`commit message template <https://github.com/gdcc/dataverse_tests/blob/master/.github/.gitmessage.txt>`_
 to pre-fill the commit message, once you create a commit. We recommend,
 using it for your commit message.
 
@@ -396,8 +395,8 @@ If you added the upstream repository as described above you will see something l
 
   origin  git@github.com:YOUR_USER_NAME/dataverse_tests.git (fetch)
   origin  git@github.com:YOUR_USER_NAME/dataverse_tests.git (push)
-  upstream        git://github.com/aussda/dataverse_tests.git (fetch)
-  upstream        git://github.com/aussda/dataverse_tests.git (push)
+  upstream        git://github.com/gdcc/dataverse_tests.git (fetch)
+  upstream        git://github.com/gdcc/dataverse_tests.git (push)
 
 Now your code is on GitHub, but it is not yet a part of the Dataverse Tests project.
 For that to happen, a pull request needs to be submitted on GitHub.
@@ -434,7 +433,7 @@ the next release. To submit a pull request:
 - Navigate to your repository on GitHub
 - Click on the ``Pull Request`` button
 - You can then click on ``Commits`` and ``Files Changed`` to make sure everything looks okay one last time
-- Write a description of your changes in the ``Preview Discussion`` tab. A `pull request template <https://github.com/aussda/dataverse_tests/blob/master/.github/PULL_REQUEST_TEMPLATE.md>`_ is used to pre-fill the description. Follow the explainationi in it.
+- Write a description of your changes in the ``Preview Discussion`` tab. A `pull request template <https://github.com/gdcc/dataverse_tests/blob/master/.github/PULL_REQUEST_TEMPLATE.md>`_ is used to pre-fill the description. Follow the explainationi in it.
 - Click ``Send Pull Request``.
 
 This request then goes to the repository maintainers, and they will review the code.
@@ -565,9 +564,9 @@ Reviewing the Pull request
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Once a new issue is created, a maintainer adds
-`labels <https://github.com/aussda/dataverse_tests/labels>`_
+`labels <https://github.com/gdcc/dataverse_tests/labels>`_
 , an assignee and a
-`milestone <https://github.com/aussda/dataverse_tests/milestones>`_
+`milestone <https://github.com/gdcc/dataverse_tests/milestones>`_
 to it. Labels are used to separate between issue types and the
 status of it, show effected module(s) and to prioritize tasks.
 Also at least one responsible person for the next steps is assigned
@@ -604,7 +603,7 @@ related to release activities), the release can be created. This includes:
 - tag release name to commit (e. g. ``0.3.2``), push branch and create pull request
 
 You can find the full release history at :ref:`community_history` and on
-`GitHub <https://github.com/aussda/dataverse_tests/releases>`_.
+`GitHub <https://github.com/gdcc/dataverse_tests/releases>`_.
 
 **Versioning**
 

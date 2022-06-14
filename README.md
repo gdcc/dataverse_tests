@@ -81,11 +81,13 @@ pipenv shell
 
 Before you can start with ether `testing` or `utils`, you have to configure the settings management. You need to create an `.env`-file for each Dataverse installation, and set the needed variables in it. Start by using the `env-config/example.env` template. The `.env` file filename is your central identifier for works done with your Dataverse installation and then later on used for other naming purposes, so use a descriptive one (e. g. `ORGANISATION_INSTALLATION.env` =>  `aussda_production.env`). Once setup, you have to set the `ENV_FILE` environment variable in your terminal to your absolute path of your `.env`-file.
 
+Note: To not track testing activities with you web-analytics service (e. g. Matomo or Google Analytics), you should set the user agent and exclude calls from it in you web-analytics service.
+
 Note: Environment variables set via command line will overwrite the ones defined in an `.env`-file.
 
 Find the used environment variables documented in `src/dvtests/settings.py`.
 
-## 2. Create user JSON**
+## 2. Create user JSON
 
 For some tests and utils functions, you need at least one user who has proper rights to do API requests, create Datasets, to login or do other stuff. These user credentials are stored inside a JSON file under `user/`.
 
@@ -176,6 +178,8 @@ python utils FUNCTION_NAME
 
 Create testdata uses a JSON file to know, which data should be created how, in which order and by whom.
 
+Note: The `:root` Dataverse is not published on a fresh installation and often the superuser (`dataverseAdmin`) account is not verified. This can lead to problems related to attaching new data.
+
 **Call**
 
 ```shell
@@ -192,23 +196,28 @@ python src/dvtests create-testdata configs/installations/localhost_docker/utils/
 
 Actions are executed in sequential order.
 
-* `action`: defines, which kind of action should be done (`create`,`publish`, `upload`)
-* `user-handle`: defines by which user it should be done (user must be defined in users JSON)
-* `parent-id`: id of the parent to wich the data should be attached
-* `parent-type`: data type of the parent (`dataverse`,`dataset` or `datafile`)
+* `id`: id of data related to the action
+* `id-type`: id type of the parent `dvtests` if defined by user in JSON file, `alias` if Dataverse alias, `pid` if Dataset PID.
+* `action`: defines, which kind of action should be done (`create` Dataverse or Dataset,`publish` Dataverse or Dataset, `upload` Datafile)
+* `user-handle`: defines by which user the action should be executed (user must be defined in the users JSON)
+* `parent-id`: id of the parent to wich the data should be attached to.
+* `parent-id-type`: same as `id-type`
 * `metadata`: data related to the metadata
   * `update`: list of metadata attributes from the metadata file, which should be updated before further steps.
+  * `filename`: metadata filename
+* `filename`: Datafile filename
 
 See how the named actions differ in detail:
 
 Create Dataverse:
+
+* If `parent-id-type` or `id-type` is not set, it assumes the `id` to be the alias.
 
 ```json
 {
   "data-type": "dataverse",
   "action": "create",
   "parent-id": ":root",
-  "parent-type": "alias",
   "user-handle": "dataverseAdmin",
   "metadata": {
     "filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
@@ -225,7 +234,6 @@ Publish Dataverse:
 ```json
 {
   "id": "test_create_testdata",
-  "id-type": "alias",
   "data-type": "dataverse",
   "action": "publish",
   "user-handle": "dataverseAdmin"
@@ -234,21 +242,27 @@ Publish Dataverse:
 
 Create Dataset:
 
+* If `id-type` is not set, it assumes `id` is the PID.
+* `id` is set by ourselves, so `id-type` must be set to `dvtests` (name of the module).
+
 ```json
 {
   "id": "harvard-open-source-1",
+  "id-type": "dvtests",
   "data-type": "dataset",
   "action": "create",
   "metadata": {
-    "filename": "dataverse-sample-data/data/dataverses/open-source-at-harvard/dataverses/dataverse-project/datasets/dataverse-irc-metrics/dataverse-irc-metrics.json"
+    "filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_full_01.json"
   },
-  "parent-id": "dataverse-project",
-  "parent-type": "alias",
+  "parent-id": "test_create_testdata",
   "user-handle": "dataverseAdmin"
 },
 ```
 
 Publish Dataset:
+
+* `id`: The identifier used before to create the data at first or a pid.
+* `id-type`: `dvtests` if the identifier is the one from the creation before or `pid` if a pid should be used
 
 ```json
 {
@@ -267,17 +281,13 @@ Upload Datafile:
 {
   "data-type": "datafile",
   "action": "upload",
+  "filename": "dataverse_testdata/files/dta/10002_da_de_v0_9.dta",
   "metadata": {
     "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json"
   },
-  "filename": "dataverse_testdata/files/dta/10002_da_de_v0_9.dta",
-  "id-type": "dvtests",
   "parent-id": "harvard-open-source-1",
-  "parent-type": "dataset",
-  "user-handle": "dataverseAdmin",
-  "update": {
-    "filename": "10002_da_de_v0_9.dta"
-  }
+  "parent-id-type": "dvtests",
+  "user-handle": "dataverseAdmin"
 },
 ```
 
@@ -289,6 +299,42 @@ To get all information for the CLI integration, add `--help`. It lists all comma
 
 We recommend using the JSON files `configs/installations/aussda_production/utils/` to find out how it works and adapt it to your needs.
 
+#### 4.b. Remove testdata
+
+Remove testdata cleans up your Dataverse installation after the usage of testdata.
+
+**Call**
+
+```shell
+python src/dvtests remove-testdata USER_HANDLE PARENT
+```
+
+`USER_HANDLE` must be present in user JSON and `PARENT` must be the top node of the data tree, which should be removed.
+
+```shell
+python src/dvtests create-testdata --remove-parent configs/installations/aussda_production/utils/create_testdata_01.json
+```
+
+#### 4.c. Collect data
+
+Collect data collects all metadata from a top-node down. This can be used to collect all data necessary to make a complete data check during an upgrade or migration.
+
+The data is stored under `data/`, in a sub-directory named after the .env-file and another sub-directory named after the `USER_HANDLE`.
+
+Note: The tests automatically look after data inside `data/DATAVERSE_INSTALLATION/public`, where `DATAVERSE_INSTALLATION` is the name of the .env-file.
+
+**Call**
+
+```shell
+python src/dvtests collect --parent PARENT --create-json
+```
+
+`USER_HANDLE` must be present in the related user JSON and `PARENT` must be the top node of the data tree, which should be removed.
+
+```shell
+python src/dvtests collect --parent test_create_testdata --create-json
+```
+
 ## Roadmap
 
 The next steps for the project are:
@@ -298,26 +344,13 @@ The next steps for the project are:
 3. Extend existing tests
 4. Add new tests
 
-**Financial Sustainability**
+**Sustainability**
 
 As for now, there is no ongoing, steady funding available, so no actual developments are planned. If you have feature requests or other ideas or concerns regarding the future of dataverse_tests, please contact GDCC.
 
 ## Contributor Guide
 
-See [CONTRIBUTING.rst](CONTRIBUTING.rst).
-
-**Possible Contributions**
-
-Please have a look at the [issues](https://github.com/gdcc/dataverse_tests/issues) to already submitted requests.
-
-Helpful tests to be developed by the community could be:
-
-* Verify Metadata of a Dataverse via API
-* Create a Dataset via Frontend
-* Verify Metadata of a Dataset via API
-* Upload a Datafile via Frontend
-* Verify Metadata of a Datafile via API
-* Verify access of a Datafile
+Please see at [CONTRIBUTING.rst](CONTRIBUTING.rst).
 
 ## Resources
 
