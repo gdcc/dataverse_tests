@@ -3,7 +3,6 @@
     "data-type": "dataverse",
     "action": "create",
     "parent-id": ":root",
-    "parent-type": "alias",
     "user-handle": "dataverseAdmin",
     "metadata": {
       "filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
@@ -17,7 +16,6 @@
     "data-type": "dataverse",
     "action": "create",
     "parent-id": "test_create_testdata",
-    "parent-type": "alias",
     "user-handle": "dataverseAdmin",
     "metadata": {
       "filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
@@ -29,24 +27,24 @@
   },
   {
     "id": "full-1",
+    "id-type": "dvtests",
     "data-type": "dataset",
     "action": "create",
     "metadata": {
       "filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_full_01.json"
     },
     "parent-id": "test_create_testdata",
-    "parent-type": "alias",
     "user-handle": "dataverseAdmin"
   },
   {
     "id": "min-1",
+    "id-type": "dvtests",
     "data-type": "dataset",
     "action": "create",
     "metadata": {
       "filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_min_01.json"
     },
     "parent-id": "DataverseName1",
-    "parent-type": "alias",
     "user-handle": "dataverseAdmin"
   },
   {
@@ -54,59 +52,71 @@
     "action": "upload",
     "filename": "dataverse_testdata/files/jpeg/10000_image.jpeg",
     "metadata": {
-      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json"
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
+      "update": {
+        "filename": "10000_image.jpeg"
+      }
     },
-    "id-type": "dvtests",
     "parent-id": "full-1",
-    "parent-type": "dataset",
-    "user-handle": "dataverseAdmin",
-    "update": {
-      "filename": "10000_image.jpeg"
-    }
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
   },
   {
     "data-type": "datafile",
     "action": "upload",
-    "metadata": {
-      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json"
-    },
     "filename": "dataverse_testdata/files/png/10000_image.png",
-    "id-type": "dvtests",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json",
+      "update": {
+        "filename": "10000_image.png"
+      }
+    },
     "parent-id": "full-1",
-    "parent-type": "dataset",
-    "user-handle": "dataverseAdmin",
-    "update": {
-      "filename": "10000_image.png"
-    }
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
   },
   {
     "data-type": "datafile",
     "action": "upload",
-    "metadata": {
-      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json"
-    },
     "filename": "dataverse_testdata/files/do/10002_data_checks.do",
-    "id-type": "dvtests",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_min_01.json",
+      "update": {
+        "filename": "10002_data_checks.do"
+      }
+    },
     "parent-id": "min-1",
-    "parent-type": "dataset",
-    "user-handle": "dataverseAdmin",
-    "update": {
-      "filename": "10002_data_checks.do"
-    }
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
   },
   {
     "data-type": "datafile",
     "action": "upload",
-    "metadata": {
-      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json"
-    },
     "filename": "dataverse_testdata/files/dta/10002_da_de_v0_9.dta",
-    "id-type": "dvtests",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
+      "update": {
+        "filename": "10002_da_de_v0_9.dta"
+      }
+    },
     "parent-id": "min-1",
-    "parent-type": "dataset",
-    "user-handle": "dataverseAdmin",
-    "update": {
-      "filename": "10002_da_de_v0_9.dta"
-    }
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "full-1",
+    "id-type": "dvtests",
+    "data-type": "dataset",
+    "action": "publish",
+    "release-type": "major",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "min-1",
+    "id-type": "dvtests",
+    "data-type": "dataset",
+    "action": "publish",
+    "release-type": "major",
+    "user-handle": "dataverseAdmin"
   }
 ]
