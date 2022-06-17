@@ -22,6 +22,26 @@
     "user-handle": "dataverseAdmin"
   },
   {
+    "data-type": "dataverse",
+    "action": "create",
+    "parent-id": "test-dv",
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_min_01.json",
+      "update": {
+        "alias": "min1",
+        "name": "Min Dataverse"
+      }
+    }
+  },
+  {
+    "id": "min1",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
     "id": "full-1",
     "id-type": "dvtests",
     "data-type": "dataset",
@@ -37,6 +57,20 @@
     "user-handle": "dataverseAdmin"
   },
   {
+    "id": "min-1",
+    "id-type": "dvtests",
+    "data-type": "dataset",
+    "action": "create",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_min_01.json",
+      "update": {
+        "title": "min"
+      }
+    },
+    "parent-id": "min1",
+    "user-handle": "dataverseAdmin"
+  },
+  {
     "data-type": "datafile",
     "action": "upload",
     "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/20150610_091644_dataversecommunitymeeting2015-1668.jpg",
@@ -48,7 +82,44 @@
     "user-handle": "dataverseAdmin"
   },
   {
+    "data-type": "datafile",
+    "action": "upload",
+    "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/50by1000.tab",
+    "metadata": {
+      "update": {
+        "filename": "my-dataset.tab"
+      }
+    },
+    "parent-id": "full-1",
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "data-type": "datafile",
+    "action": "upload",
+    "filename": "dataverse-sample-data/data/dataverses/king/datasets/cause-of-death/files/adjacency_subset.sav",
+    "parent-id": "min-1",
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "data-type": "datafile",
+    "action": "upload",
+    "filename": "dataverse-sample-data/data/dataverses/HCPDS/datasets/reproductive-health-laws-around-the-world/files/gss.dta",
+    "parent-id": "min-1",
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
+  },
+  {
     "id": "full-1",
+    "id-type": "dvtests",
+    "data-type": "dataset",
+    "action": "publish",
+    "release-type": "major",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "min-1",
     "id-type": "dvtests",
     "data-type": "dataset",
     "action": "publish",
