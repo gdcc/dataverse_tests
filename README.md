@@ -351,6 +351,36 @@ python src/dvtests collect --parent PARENT --create-json
 python src/dvtests collect --parent test_create_testdata --create-json
 ```
 
+#### 4.d. Create user
+
+**JSON Format**
+
+* `USER_FILENAME`: filename to the user JSON (e. g. `dataverse_testdata/metadata/json/user/user_01.json`)
+* `PASSWORD` -> ATTENTION: do not share the password!
+
+```json
+{
+  "data-type": "user",
+  "action": "create",
+  "filename": "USER_FILENAME",
+  "update": {
+    "password": "PASSWORD"
+  }
+}
+```
+
+**Call**
+
+```shell
+python src/dvtests create-user CONFIG_FILE
+```
+
+`CONFIG_FILENAME` must be a filename where actions are defined. Have a look at `configs/utils/create_user_01.json`.
+
+```shell
+python src/dvtests create-user configs/utils/create_user_01.json
+```
+
 ## Roadmap
 
 The next steps for the project are:
