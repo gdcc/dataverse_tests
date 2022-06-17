@@ -221,15 +221,24 @@ Add tests
 
 **Create new test**
 
-JSON filenaming convention:
-
-* ``test_`` as prefix.
-* descriptive test name
-* e. g. ``test_oaipmh.json``
+* ``test_`` as filename prefix.
+  * descriptive test name, e. g. ``test_oaipmh.json``
+* Class name:
+  * ``Test`` as prefix
+  * Name should be descriptive for the type of tests clustered inside the Class, e. g. ``TestAccess``
+* Method name:
+  * ``test_```as prefix
+  * descriptive name, which should tell what the test is doing by reading it (e. g. ``test_pid_url_not_logged_in``)
+* Markers: see in ``setup.cfg``
+* ``users``: list of user dicts loaded from ``user/DATAVERSE_INSTALLATION.json``
+* ``input-expected``: input data and expected results loaded from the configs JSON.
 
 **Add missing Dataverse versions**
 
-* Check out ``configs/default/`` for existing Dataverse version configs. Copy and adapt them as a starting point.
+* Check out ``configs/default/`` for existing Dataverse version configuration. Copy and adapt them as a starting point.
+  * ``xpaths.json``: Dataverse version specific xpaths used in the tests.
+  * ``form-data_create-dataverse.json``: xpaths for the create dataverse form.
+  * ``terms-of-use.html``: default html for terms of use
 * Run tests on your Dataverse installation, which runs a Dataverse version which is still missing
 * Add new marker
 

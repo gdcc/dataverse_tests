@@ -6,6 +6,10 @@ Tests are written in Python with pytest, requests and Selenium. They are easy to
 
 In addition to the tests, `utils` helps you with your test preparation.
 
+Funded by:
+
+<a href="<https://www.sshopencloud.eu/>"><img src="docs/img/sshoc-logo.png" alt="SSHOC Logo" width="200"/></a><a href="https://www.aussda.at/"><img src="docs/img/aussda-logo.jpg" alt="AUSSDA Logo" width="200"/></a>
+
 **Features**
 
 Tests (`testing/`)
@@ -27,7 +31,7 @@ General
 
 * Settings management
 * Flexible and easy to use for your own Dataverse instance
-* Integration of [dataverse_testdata](https://github.com/AUSSDA/dataverse_testdata/)
+* Integration of [dataverse_testdata](https://github.com/gdcc/dataverse_testdata/)
 * Integration of [dataverse-sample-data](https://github.com/IQSS/dataverse-sample-data/)
 * Open Source (MIT)
 
@@ -36,6 +40,13 @@ General
 * Installation: Test a fresh, customized Dataverse installation
 * Upgrade: Test configuration and data completeness after upgrade
 * Monitoring: Frequent testing during operation
+
+**Demos**
+
+Video
+
+* [Frontend Test: Login with Shibboleth](https://raw.githubusercontent.com/AUSSDA/dataverse2021_automation-with-pydataverse/master/demos/login.mp4)
+* [Utils workflow: Create testdata, collect data from Dataverse and clean up](https://zenodo.org/record/6643488)
 
 ## Install
 
@@ -116,7 +127,8 @@ Note: The browserengine file must be executable
 
 A test normally works like this: You define the test input and the expected result and the test resolves to true if the actual result equals the expected one.
 
-As the test input and expected results differ from installation to installation, you need to define them before you can execute the tests. These test-configs can be found in the `config/installations/` directory, inside a sub-directory named after your .env-file (e. g. `aussda_production/`). Inside this must be a directory named `testing/`, in which all the core tests are placed inside the `default/` folder. Example path: `configs/installations/aussda_production/testing/default/`.
+As the test input and expected results differ from installation to installation, you need to define them before you can execute the tests. These test-configs can be found in the `config/installations/` directory, inside a sub-directory named after your .env-file (e. g. `aussda_production/`). For each installations, you now have to create a `settings.json` inside it. Use the `config/installations/TEMPLATE_testing-settings.json` template for it.
+Inside the dataverse installation folder must be a directory named `testing/`, in which all the core tests are placed inside the `default/` folder. Example path: `configs/installations/aussda_production/testing/default/`.
 
 Inside there, you then have to place for each test a config file. They all have the `test_` prefix and are written in JSON. If you want to find out how the configs work, you best check out first the tests and/or other test-configs.
 
@@ -291,6 +303,10 @@ Upload Datafile:
 },
 ```
 
+**JSON files**
+
+* `configs/utils/create_testdata_03.json`: small data collection (2DV, 2DS, 2DF)
+
 **Help**
 
 To get all information for the CLI integration, add `--help`. It lists all commands.
@@ -356,7 +372,7 @@ Please see at [CONTRIBUTING.rst](CONTRIBUTING.rst).
 
 * [pyDataverse](https://github.com/gdcc/pyDataverse)
 * Testdata
-  * [Dataverse Testdata @ AUSSDA](https://github.com/AUSSDA/dataverse_testdata)
+  * [Dataverse Testdata @ GDCC](https://github.com/gdcc/dataverse_testdata)
   * [Dataverse Sample Data @ IQSS](https://github.com/IQSS/dataverse-sample-data)
 
 ## Thanks
@@ -368,6 +384,10 @@ Open Source projects live from the cooperation of the many and Dataverse Tests i
 Special thanks to all Slava Tykhonov from DANS and all the people who do an amazing job by developing Dataverse at IQSS.
 
 Dataverse Tests is funded by [AUSSDA - The Austrian Social Science Data Archive](https://aussda.at/) and through the EU Horizon2020 programme [SSHOC - Social Sciences & Humanities Open Cloud (T5.2)](https://www.sshopencloud.eu/about-sshoc).
+
+[![SSHOC Logo](docs/img/sshoc-logo.png)](https://www.sshopencloud.eu/)
+
+[![AUSSDA Logo](docs/img/aussda-logo.jpg)](https://www.aussda.at/)
 
 ## License
 
