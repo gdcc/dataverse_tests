@@ -1,9 +1,10 @@
 [
   {
+    "id": "test-dv",
+    "id-type": "dvtests",
     "data-type": "dataverse",
     "action": "create",
     "parent-id": ":root",
-    "parent-type": "alias",
     "user-handle": "dataverseAdmin",
     "metadata": {
       "filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_full_01.json",
@@ -14,27 +15,44 @@
     }
   },
   {
+    "id": "test-dv",
+    "id-type": "dvtests",
+    "data-type": "dataverse",
+    "action": "publish",
+    "user-handle": "dataverseAdmin"
+  },
+  {
     "id": "full-1",
+    "id-type": "dvtests",
     "data-type": "dataset",
     "action": "create",
     "metadata": {
-      "filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_full_01.json"
+      "filename": "dataverse_testdata/metadata/json/dataset/dataset_upload_default_full_01.json",
+      "update": {
+        "title": "full"
+      }
     },
-    "parent-id": "test_create_testdata",
-    "parent-type": "alias",
+    "parent-id": "test-dv",
+    "parent-id-type": "dvtests",
     "user-handle": "dataverseAdmin"
   },
   {
     "data-type": "datafile",
     "action": "upload",
-    "filename": "dataverse_testdata/files/jpeg/10000_image.jpeg",
-    "metadata-filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json",
-    "id-type": "dvtests",
+    "filename": "dataverse-sample-data/data/dataverses/manchester/datasets/test-dataset/files/20150610_091644_dataversecommunitymeeting2015-1668.jpg",
+    "metadata": {
+      "filename": "dataverse_testdata/metadata/json/datafile/datafile_upload_full_01.json"
+    },
     "parent-id": "full-1",
-    "parent-type": "dataset",
-    "user-handle": "dataverseAdmin",
-    "update": {
-      "filename": "10000_image.jpeg"
-    }
+    "parent-id-type": "dvtests",
+    "user-handle": "dataverseAdmin"
+  },
+  {
+    "id": "full-1",
+    "id-type": "dvtests",
+    "data-type": "dataset",
+    "action": "publish",
+    "release-type": "major",
+    "user-handle": "dataverseAdmin"
   }
 ]
