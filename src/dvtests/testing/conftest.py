@@ -47,7 +47,7 @@ def users(config):
 
 
 @pytest.fixture
-def xpaths(config):
+def xpaths():
     """Load XPATH JSON file."""
     filename = os.path.join(DEFAULT_DATAVERSE_CONFIG_DIR, "xpaths.json")
     with open(filename, "r", encoding="utf-8") as f:
@@ -55,7 +55,7 @@ def xpaths(config):
 
 
 @pytest.fixture
-def installation_settings(config):
+def installation_settings():
     """Load XPATH JSON file."""
     filename = os.path.join(INSTALLATION_TESTING_CONFIG_DIR, "settings.json")
     with open(filename, "r", encoding="utf-8") as f:

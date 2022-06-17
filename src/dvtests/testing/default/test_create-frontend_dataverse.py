@@ -43,6 +43,7 @@ class TestCreateFrontend:
         self,
         config,
         homepage_logged_in,
+        xpaths,
         users,
         native_api,
         testdata,
@@ -56,7 +57,7 @@ class TestCreateFrontend:
         wait = WebDriverWait(selenium, config.MAX_WAIT_TIME)
         dv = Dataverse()
         dv.set(testdata)
-        installation_cfg = read_json(
+        form_cfg = read_json(
             os.path.join(
                 DEFAULT_DATAVERSE_CONFIG_DIR, "form-data_create-dataverse.json",
             )
@@ -71,18 +72,14 @@ class TestCreateFrontend:
         # dv.set({"hostdataverse": test_input["host-dataverse"]})
         # Act
         wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, "//form[@id='addDataForm']/div[1]/button")
-            )
+            EC.element_to_be_clickable((By.XPATH, xpaths["add-data-button"]))
         ).click()
         wait.until(
-            EC.element_to_be_clickable(
-                (By.XPATH, "//form[@id='addDataForm']/div[1]/ul/li[1]/a")
-            )
+            EC.element_to_be_clickable((By.XPATH, xpaths["add-data-button-dataverse"]))
         ).click()
 
         for attr in test_input["clean-default-values"]:
-            md_form_mapping = installation_cfg[attr]
+            md_form_mapping = form_cfg[attr]
             input_field = wait.until(
                 EC.visibility_of_element_located((By.XPATH, md_form_mapping["xpath"]))
             )
@@ -90,7 +87,7 @@ class TestCreateFrontend:
             input_field.clear()
 
         for attr, pdv_data in dv.get().items():
-            md_form_mapping = installation_cfg[attr]
+            md_form_mapping = form_cfg[attr]
             # prepare form_data
             if type(pdv_data) == list:
                 form_data = []
@@ -155,24 +152,23 @@ class TestCreateFrontend:
         try:
             wait.until(
                 EC.element_to_be_clickable(
-                    (By.XPATH, "//button[@id='dataverseForm:save']")
+                    (By.XPATH, xpaths["create-dataverse-button-save"])
                 )
             ).click()
             is_created = True
             wait.until(
                 EC.visibility_of_element_located(
-                    (By.XPATH, "//div[contains(@class, 'alert-success')]")
+                    (By.XPATH, xpaths["create-dataverse-note-alert-success"])
                 )
             )
             alert = selenium.find_element(
-                By.XPATH, "//div[contains(@class, 'alert-success')]"
+                By.XPATH, xpaths["create-dataverse-note-alert-success"]
             )
             # Assert
             # verify alert box
             assert "Success!" in alert.text
             assert selenium.find_element(
-                By.XPATH,
-                "//div[contains(@class, 'alert-success')]/strong[text()='Success!']",
+                By.XPATH, xpaths["create-dataverse-note-alert-success-text"],
             )
 
             url = f'{config.BASE_URL}/dataverse/{dv.get()["alias"]}'
@@ -182,27 +178,21 @@ class TestCreateFrontend:
             # verify header title
             dv_header_unpublished = wait.until(
                 EC.visibility_of_element_located(
-                    (By.XPATH, "//span[contains(@class, 'label-unpublished')]")
+                    (By.XPATH, xpaths["dataverse-header-unpublished"])
                 )
             )
             assert dv_header_unpublished.text == "Unpublished"
             if "name" in dv.get():
                 dv_header_name = wait.until(
                     EC.visibility_of_element_located(
-                        (
-                            By.XPATH,
-                            "//a[contains(@class, 'dataverseHeaderDataverseName')]",
-                        )
+                        (By.XPATH, xpaths["dataverse-header-name"],)
                     )
                 )
                 assert dv_header_name.text == dv.get()["name"]
             if "affiliation" in dv.get():
                 dv_header_affiliation = wait.until(
                     EC.visibility_of_element_located(
-                        (
-                            By.XPATH,
-                            "//div[contains(@class, 'dataverseHeaderName')]/span[1]",
-                        )
+                        (By.XPATH, xpaths["dataverse-header-affiliation"],)
                     )
                 )
                 assert dv_header_affiliation.text == f'({dv.get()["affiliation"]})'
@@ -216,12 +206,12 @@ class TestCreateFrontend:
                 dict_multiple[attr] = []
                 for ele in dv_api[attr]:
                     dict_multiple[attr].append(
-                        ele[installation_cfg[attr]["metadata-child-name"]]
+                        ele[form_cfg[attr]["metadata-child-name"]]
                     )
             for attr in attr_multiple:
                 for ele in dv.get()[attr]:
                     assert (
-                        ele[installation_cfg[attr]["metadata-child-name"]]
+                        ele[form_cfg[attr]["metadata-child-name"]]
                         in dict_multiple[attr]
                     )
         finally:

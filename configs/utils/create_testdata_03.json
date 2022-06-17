@@ -1,5 +1,7 @@
 [
   {
+    "id": "test-dv",
+    "id-type": "dvtests",
     "data-type": "dataverse",
     "action": "create",
     "parent-id": ":root",
@@ -13,7 +15,8 @@
     }
   },
   {
-    "id": "test_create_testdata",
+    "id": "test-dv",
+    "id-type": "dvtests",
     "data-type": "dataverse",
     "action": "publish",
     "user-handle": "dataverseAdmin"
@@ -21,7 +24,8 @@
   {
     "data-type": "dataverse",
     "action": "create",
-    "parent-id": "test_create_testdata",
+    "parent-id": "test-dv",
+    "parent-id-type": "dvtests",
     "user-handle": "dataverseAdmin",
     "metadata": {
       "filename": "dataverse_testdata/metadata/json/dataverse/dataverse_upload_min_01.json",
@@ -48,7 +52,8 @@
         "title": "full"
       }
     },
-    "parent-id": "test_create_testdata",
+    "parent-id": "test-dv",
+    "parent-id-type": "dvtests",
     "user-handle": "dataverseAdmin"
   },
   {
