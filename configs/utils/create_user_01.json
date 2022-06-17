@@ -1,4 +1,10 @@
 [
-  "dataverseAdmin",
-  "TestUser_NormalLogin"
+  {
+    "data-type": "user",
+    "action": "create",
+    "filename": "dataverse_testdata/metadata/json/user/user_01.json",
+    "update": {
+      "password": "fibc1DDrjE01u3jc"
+    }
+  }
 ]

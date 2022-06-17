@@ -281,7 +281,7 @@ def remove_testdata(
         api.delete_dataverse(dv["dataverse_alias"])
 
 
-def create_user(user_handle: str, config_file: str, force: bool) -> None:
+def create_user(config_file: str, force: bool) -> None:
     """Create user.
 
     Create user defined in config_file and users JSON file.
@@ -292,21 +292,20 @@ def create_user(user_handle: str, config_file: str, force: bool) -> None:
             "Create user on a PRODUCTION instance not allowed. Use --force to force it."
         )
         sys.exit()
-    users = read_json(CONFIG.USER_FILENAME)
-    workflow = read_json(os.path.join(ROOT_DIR, config_file))
+    actions = read_json(os.path.join(ROOT_DIR, config_file))
 
     # Users
-    for user in workflow["users"]:
-        if "create" in user:
-            filename = os.path.join(ROOT_DIR, user["create"]["filename"])
-            data = read_json(filename)
-            if "update" in user["create"]:
-                for key, val in user["create"]["update"].items():
-                    data[key] = val
-            requests.post(
-                f'{CONFIG.BASE_URL}/api/builtin-users?password={users[user_handle]["password"]}&key={CONFIG.BUILTIN_USER_KEY}',
-                json=data,
-            )
+    for action in actions:
+        if "action" in action:
+            if action["action"] == "create":
+                data = read_json(os.path.join(ROOT_DIR, action["filename"]))
+                if "update" in action:
+                    for key, val in action["update"].items():
+                        data[key] = val
+                requests.post(
+                    f'{CONFIG.BASE_URL}/api/builtin-users?password={data["password"]}&key={CONFIG.BUILTIN_USER_KEY}',
+                    json=data,
+                )
 
 
 def check_dataset_lock(api, pid, is_pid=True):

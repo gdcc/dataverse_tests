@@ -1,17 +1,25 @@
 {
   "USER_HANDLE": {
-    "given-name": "GIVEN_NAME",
-    "family-name": "FAMILY_NAME",
+    "firstName": "GIVEN_NAME",
+    "lastName": "FAMILY_NAME",
+    "userName": "USER_NAME",
+    "affiliation": "AFFILIATION",
+    "position": "POSITION",
+    "email": "EMAIL",
     "password": "SECRET",
     "api-token": "SECRET",
     "role": "ROLE",
     "authentication": "AUTH_MODE"
   },
   "dataverseAdmin": {
-    "given-name": "Dataverse",
-    "family-name": "Admin",
-    "password": "1234567890!",
-    "api-token": "00000-11111-222222-333333",
+    "firstName": "Dataverse",
+    "lastName": "Admin",
+    "userName": "dataverseAdmin",
+    "affiliation": "University of Vienna",
+    "position": "Student",
+    "email": "dataverseAdmin@univie.ac.at",
+    "password": "Sz2aW294hXbGi3m",
+    "api-token": "ef43bd58-5e4c-41d1-a543-d1f9bde71489",
     "role": "superuser",
     "authentication": "normal"
   }

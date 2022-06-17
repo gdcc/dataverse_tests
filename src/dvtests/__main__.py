@@ -35,12 +35,6 @@ def create_testdata_command(config_file: str, force: bool = False) -> None:
     typer.echo("Testdata created")
 
 
-@app.command("create-user")
-def create_user_command(config_file: str, force: bool = False) -> None:
-    create_user(config_file, force)
-    typer.echo("User created")
-
-
 @app.command("remove-testdata")
 def remove_testdata_command(
     user_handle: str,
@@ -54,6 +48,12 @@ def remove_testdata_command(
         user_handle, parent, data_types, force, parent_data_type, remove_parent
     )
     typer.echo("Testdata removed")
+
+
+@app.command("create-user")
+def create_user_command(config_file: str, force: bool = False,) -> None:
+    create_user(config_file, force)
+    typer.echo("User created")
 
 
 if __name__ == "__main__":
