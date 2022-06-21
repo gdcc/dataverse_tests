@@ -33,15 +33,15 @@ setuptools.setup(
     name="dvtests",  # Replace with your own username
     version=find_version("src", "dataverse_tests", "__init__.py"),
     author="Stefan Kasberger",
-    author_email="stefan.kasberger@univie.ac.at",
+    author_email="mail@stefankasberger.at",
     description="Dataverse tests",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/AUSSDA/dataverse_tests",
+    url="https://github.com/gdcc/dataverse_tests",
     project_urls={
-        "Issue Tracker": "https://github.com/AUSSDA/dataverse_tests/issues",
-        "Changelog": "https://github.com/AUSSDA/dataverse_tests/CHANGELOG.rst",
-        "Source": "https://github.com/AUSSDA/dataverse_tests/",
+        "Issue Tracker": "https://github.com/gdcc/dataverse_tests/issues",
+        "Changelog": "https://github.com/gdcc/dataverse_tests/CHANGELOG.rst",
+        "Source": "https://github.com/gdcc/dataverse_tests/",
     },
     classifiers=[
         # How mature is this project? Common values are
