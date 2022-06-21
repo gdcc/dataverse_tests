@@ -20,17 +20,7 @@ def find_version(*file_paths):
     raise RuntimeError("Unable to find version string.")
 
 
-INSTALL_REQUIREMENTS = [
-    # A string or list of strings specifying what other distributions need to
-    # be installed when this one is.
-    "pydantic[dotenv]==1.7.2",
-    "pyDataverse==0.3.1",
-    "pytest-selenium==2.0.1",
-    "typer==0.3.2",
-]
-
 setuptools.setup(
-    name="dvtests",  # Replace with your own username
     version=find_version("src", "dataverse_tests", "__init__.py"),
     author="Stefan Kasberger",
     author_email="mail@stefankasberger.at",
@@ -66,8 +56,4 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     python_requires=">=3.6",
     keywords=["dataverse", "testing", "selenium", "pyDataverse"],
-    install_requires=INSTALL_REQUIREMENTS,
-    # entry_points = {
-    #     'console_scripts': ['utils=dvtests.utils:main'],
-    # }
 )
