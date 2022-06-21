@@ -29,4 +29,3 @@ autopep8 = "*"
 dvtests = {editable = true, path = "."}
 
 [requires]
-python_version = "3.6"
