@@ -20,7 +20,6 @@ tox = "*"
 twine = "*"
 build = "*"
 flake8 = "*"
-
 flake8-builtins = "*"
 flake8-breakpoint = "*"
 flake8-bugbear = "*"

@@ -67,10 +67,10 @@ Browser engine(s) (optional for Selenium-based tests):
 * Geckodriver (Firefox)
 * Chromedriver
 
-**Clone repository**
+**Clone repository + init submodules**
 
 ```shell
-git clone https://github.com/gdcc/dataverse_tests.git
+git clone --recurse-submodules https://github.com/gdcc/dataverse_tests.git
 cd dataverse_tests/
 ```
 
