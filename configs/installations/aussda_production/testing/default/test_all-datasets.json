@@ -10,5 +10,11 @@
         ]
       ]
     }
+  },
+  "test-pid-url-not-logged-in": {
+    "header-content-type": "text/html;charset=UTF-8"
+  },
+  "test-doiorg-url": {
+    "header-content-type": "text/html;charset=UTF-8"
   }
 }
