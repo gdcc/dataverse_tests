@@ -11,7 +11,7 @@
   "search-navbar-link": "//ul[contains(@class, 'navbar-nav')]/li/a[text()='Search ']",
   "search-navbar-input": "//input[@id='navbarsearch']",
   "search-header-input": "//input[contains(@class, 'search-input')]",
-  "search-sidebar-result": "//input[@id='j_idt425:searchBasic']",
+  "search-sidebar-result": "//input[@id='j_idt429:searchBasic']",
   "create-dataverse-button-save": "//button[@id='dataverseForm:save']",
   "create-dataverse-note-alert-success": "//div[contains(@class, 'alert-success')]",
   "create-dataverse-note-alert-success-text": "//div[contains(@class, 'alert-success')]/strong[text()='Success!']",
