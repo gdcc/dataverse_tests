@@ -93,6 +93,10 @@ pipenv shell
 
 Before you can start with ether `testing` or `utils`, you have to configure the settings management. You need to create an `.env`-file for each Dataverse installation, and set the needed variables in it. Start by using the `env-config/example.env` template. The `.env` file filename is your central identifier for works done with your Dataverse installation and then later on used for other naming purposes, so use a descriptive one (e. g. `ORGANISATION_INSTALLATION.env` =>  `aussda_production.env`). Once setup, you have to set the `ENV_FILE` environment variable in your terminal to your absolute path of your `.env`-file.
 
+```shell
+export ENV_FILE="/ABSOLUTE/FILE/PATH/TO/ENV/FILE.env"
+```
+
 Note: To not track testing activities with you web-analytics service (e. g. Matomo or Google Analytics), you should set the user agent and exclude calls from it in you web-analytics service.
 
 Note: Environment variables set via command line will overwrite the ones defined in an `.env`-file.
@@ -120,7 +124,12 @@ The tests can be found inside `src/dvtests/testing/`. They are seperated into:
 
 To run selenium tests, you have to have at least one browser engine running and be callable by [pytest-selenium](<https://pytest-selenium.readthedocs.io/>).
 
-For this, set the `PATH` environment variable in the terminal. You have to add the directories for all the browserengines you want to use (e. g. geckodriver,  [chromedriver](https://chromedriver.chromium.org/)) to your path. Check out [pytest-selenium](https://pytest-selenium.readthedocs.io/en/latest/) for supported browserengines. Example: `export PATH=$PATH:/folder/to/your/browser/engine/`
+For this, set the `PATH` environment variable in the terminal. You have to add the directories for all the browserengines you want to use (e. g. geckodriver,  [chromedriver](https://chromedriver.chromium.org/)) to your path. Check out [pytest-selenium](https://pytest-selenium.readthedocs.io/en/latest/) for supported browserengines.
+
+Example:
+```shell
+export PATH=$PATH:/folder/to/your/browser/engine/`
+```
 
 Note: The browserengine file must be executable
 
