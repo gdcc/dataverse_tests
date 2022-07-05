@@ -120,9 +120,7 @@ def homepage_logged_in(request, homepage, config, users):
     selenium = homepage
     user_handle = request.param
     user_pwd = users[user_handle]["password"]
-    user_name = (
-        users[user_handle]["given-name"] + " " + users[user_handle]["family-name"]
-    )
+    user_name = users[user_handle]["firstName"] + " " + users[user_handle]["lastName"]
     user_auth = users[user_handle]["authentication"]
     installation_config = read_json(
         os.path.join(DEFAULT_DATAVERSE_CONFIG_DIR, "xpaths.json")

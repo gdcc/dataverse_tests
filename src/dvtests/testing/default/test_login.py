@@ -42,8 +42,6 @@ class TestLogin:
         assert selenium.title == expected["title"]
         assert (
             navbar_user.text
-            == users[user_handle]["given-name"]
-            + " "
-            + users[user_handle]["family-name"]
+            == users[user_handle]["firstName"] + " " + users[user_handle]["lastName"]
         )
         # Cleanup
