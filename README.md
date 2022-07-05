@@ -87,6 +87,11 @@ pipenv install
 pipenv shell
 ```
 
+**Install dataverse_tests**
+
+```bash
+pip install .
+```
 ## Basic Usage
 
 ### 1. Set up .env-file
@@ -192,8 +197,7 @@ Find out more about the functionalities in the docstrings inside `src/dvtests/ut
 Generally, you can call them like this
 
 ```shell
-cd src/dvtests
-python utils FUNCTION_NAME
+python src/dvtests FUNCTION_NAME [FUNCTION_VARIABLES]
 ```
 
 #### 4.a. Create testdata
@@ -205,13 +209,13 @@ Note: The `:root` Dataverse is not published on a fresh installation and often t
 **Call**
 
 ```shell
-python src/dvtests create-testdata FILENAME
+python src/dvtests create-testdata CONFIG_FILENAME
 ```
 
 `FILENAME` is the path to the JSON file with the orders, e. g.:
 
 ```shell
-python src/dvtests create-testdata configs/installations/localhost_docker/utils/create_testdata_01.json
+python src/dvtests create-testdata configs/utils/create_testdata_01.json
 ```
 
 **JSON format**
@@ -332,13 +336,13 @@ Remove testdata cleans up your Dataverse installation after the usage of testdat
 **Call**
 
 ```shell
-python src/dvtests remove-testdata USER_HANDLE PARENT
+python src/dvtests remove-testdata USER_HANDLE PARENT [OPTION]
 ```
 
 `USER_HANDLE` must be present in user JSON and `PARENT` must be the top node of the data tree, which should be removed.
 
 ```shell
-python src/dvtests create-testdata --remove-parent configs/installations/aussda_production/utils/create_testdata_01.json
+python src/dvtests remove-testdata dataverseAdmin test_create_testdata --remove-parent
 ```
 
 #### 4.c. Collect data
@@ -352,7 +356,7 @@ Note: The tests automatically look after data inside `data/DATAVERSE_INSTALLATIO
 **Call**
 
 ```shell
-python src/dvtests collect --parent PARENT --create-json
+python src/dvtests collect --parent PARENT [OPTION]
 ```
 
 `USER_HANDLE` must be present in the related user JSON and `PARENT` must be the top node of the data tree, which should be removed.
