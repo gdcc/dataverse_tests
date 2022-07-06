@@ -10,7 +10,7 @@ In addition to the tests, `utils` offers a CLI of common workflow actions to hel
 
 Funded by:
 
-<a href="<https://www.sshopencloud.eu/>"><img src="docs/img/sshoc-logo.png" alt="SSHOC Logo" width="200"/></a><a href="https://www.aussda.at/"><img src="docs/img/aussda-logo.jpg" alt="AUSSDA Logo" width="200"/></a>
+<a href="https://www.sshopencloud.eu/"><img src="docs/img/sshoc-logo.png" alt="SSHOC Logo" width="200"/></a><a href="https://www.aussda.at/"><img src="docs/img/aussda-logo.jpg" alt="AUSSDA Logo" width="200"/></a>
 
 **Features**
 
@@ -44,10 +44,13 @@ Helper functions (`utils/`)
 
 **Demos**
 
-Video
+Login testing:
 
-* [Frontend Test: Login with Shibboleth](https://raw.githubusercontent.com/AUSSDA/dataverse2021_automation-with-pydataverse/master/demos/login.mp4)
-* [Utils workflow: Create testdata, collect data from Dataverse and clean up](https://zenodo.org/record/6643488)
+<a href="http://pydataverse.stefankasberger.at/dataverse_tests/tests_login.mp4"><img src="docs/img/test_login.png" alt="Frontend Test: Login with Shibboleth" width="100%"/></a>
+
+Using utils for your data workflow:
+
+<a href="http://pydataverse.stefankasberger.at/dataverse_tests/utils_workflow.mp4"><img src="docs/img/utils_workflow.jpg" alt="Utils workflow: Create testdata, collect data from Dataverse and clean up" width="100%"/></a>
 
 ## Install
 
@@ -429,9 +432,7 @@ Special thanks to all Slava Tykhonov from DANS and all the people who do an amaz
 
 Dataverse Tests is funded by [AUSSDA - The Austrian Social Science Data Archive](https://aussda.at/) and through the EU Horizon2020 programme [SSHOC - Social Sciences & Humanities Open Cloud (T5.2)](https://www.sshopencloud.eu/about-sshoc).
 
-[![SSHOC Logo](docs/img/sshoc-logo.png)](https://www.sshopencloud.eu/)
-
-[![AUSSDA Logo](docs/img/aussda-logo.jpg)](https://www.aussda.at/)
+<a href="https://www.sshopencloud.eu/"><img src="docs/img/sshoc-logo.png" alt="SSHOC Logo" width="200"/></a><a href="https://www.aussda.at/"><img src="docs/img/aussda-logo.jpg" alt="AUSSDA Logo" width="200"/></a>
 
 ## License
 
