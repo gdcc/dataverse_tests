@@ -144,9 +144,10 @@ project/
 configs/installations/
 !configs/installations/aussda_production
 !configs/installations/localhost_docker
-Pipfile.lock
-browserengines
 data/
 user/
+dataverse_resources/
+Pipfile.lock
+browserengines
 env-config/
 dendron.yml
