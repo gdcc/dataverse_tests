@@ -1,12 +1,10 @@
 # Dataverse Tests
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/gdcc/dataverse_testdata) ![Python version](https://img.shields.io/static/v1?label=Python&message=3.6|3.7|3.8&color=blue) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6802981.svg)](https://doi.org/10.5281/zenodo.6802981) [![GitHub](https://img.shields.io/github/license/gdcc/pydataverse.svg)](https://opensource.org/licenses/MIT) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/gdcc/dataverse_tests) ![Python version](https://img.shields.io/static/v1?label=Python&message=3.6|3.7|3.8&color=blue) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6802981.svg)](https://doi.org/10.5281/zenodo.6802981) [![GitHub](https://img.shields.io/github/license/gdcc/pydataverse.svg)](https://opensource.org/licenses/MIT) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Dataverse tests helps you to test the operational requirements of your [Dataverse](dataverse.org/) installation to maintane stability and low risk. It offers tests for integration, system and risk-based testing.
+Dataverse tests helps you to test the operational requirements of your [Dataverse](dataverse.org/) installation to maintane stability and low risk. It offers tests for integration, system and risk-based testing. In addition to the tests, `utils` offers a CLI of common workflow actions to help you with your testing activities.
 
 Tests are written in Python with pytest, requests and Selenium. They are easy to adapt and extend. They are Open Source and well documented. The tests do not contain common frontend or backend unit tests, which are part of Dataverse development itself.
-
-In addition to the tests, `utils` offers a CLI of common workflow actions to help you with your testing activitites.
 
 Funded by:
 
